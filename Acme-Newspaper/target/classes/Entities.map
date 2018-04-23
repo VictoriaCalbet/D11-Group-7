@@ -1,5 +1,5 @@
 #./src/main/resources/Entities.map
-#Mon Apr 23 19:51:29 CEST 2018
+#Mon Apr 23 20:11:35 CEST 2018
 chirp2=107
 chirp1=106
 followUp1=113
@@ -7,8 +7,8 @@ article4=112
 article3=111
 article2=110
 article1=109
-subscription1=105
 userAccount6=95
+newspaperSubscription1=105
 userAccount5=94
 userAccount4=93
 userAccount3=92

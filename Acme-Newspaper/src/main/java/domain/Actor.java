@@ -8,9 +8,11 @@ import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -92,7 +94,10 @@ public abstract class Actor extends DomainEntity {
 
 	// Relationships ----------------------------------------------------------
 
-	private UserAccount	userAccount;
+	private UserAccount			userAccount;
+	private Collection<Folder>	folders;
+	private Collection<Message>	messagesSent;
+	private Collection<Message>	messageReceived;
 
 
 	@Valid
@@ -104,6 +109,40 @@ public abstract class Actor extends DomainEntity {
 
 	public void setUserAccount(final UserAccount userAccount) {
 		this.userAccount = userAccount;
+	}
+
+	@Valid
+	@NotNull
+	@OneToMany(mappedBy = "actor")
+	@Size(min = 5)
+	public Collection<Folder> getFolders() {
+		return this.folders;
+	}
+
+	public void setFolders(final Collection<Folder> folders) {
+		this.folders = folders;
+	}
+
+	@Valid
+	@NotNull
+	@OneToMany(mappedBy = "sent")
+	public Collection<Message> getMessagesSent() {
+		return this.messagesSent;
+	}
+
+	public void setMessagesSent(final Collection<Message> messagesSent) {
+		this.messagesSent = messagesSent;
+	}
+
+	@Valid
+	@NotNull
+	@OneToMany(mappedBy = "recipient")
+	public Collection<Message> getMessageReceived() {
+		return this.messageReceived;
+	}
+
+	public void setMessageReceived(final Collection<Message> messageReceived) {
+		this.messageReceived = messageReceived;
 	}
 
 }

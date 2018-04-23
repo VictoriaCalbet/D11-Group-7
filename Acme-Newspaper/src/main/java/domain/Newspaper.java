@@ -9,6 +9,7 @@ import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Index;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -91,6 +92,8 @@ public class Newspaper extends DomainEntity {
 	private User								publisher;
 	private Collection<Article>					articles;
 	private Collection<NewspaperSubscription>	newspaperSubscriptions;
+	private Collection<Advertisement>			advertisements;
+	private Collection<Volume>					volumes;
 
 
 	@Valid
@@ -123,5 +126,25 @@ public class Newspaper extends DomainEntity {
 
 	public void setNewspaperSubscriptions(final Collection<NewspaperSubscription> newspaperSubscriptions) {
 		this.newspaperSubscriptions = newspaperSubscriptions;
+	}
+
+	@NotNull
+	@Valid
+	@OneToMany(mappedBy = "advertisement", cascade = CascadeType.REMOVE)
+	public Collection<Advertisement> getAdvertisements() {
+		return this.advertisements;
+	}
+	public void setAdvertisements(final Collection<Advertisement> advertisements) {
+		this.advertisements = advertisements;
+	}
+
+	@NotNull
+	@Valid
+	@ManyToMany(mappedBy = "newspapers")
+	public Collection<Volume> getVolumes() {
+		return this.volumes;
+	}
+	public void setVolumes(final Collection<Volume> volumes) {
+		this.volumes = volumes;
 	}
 }

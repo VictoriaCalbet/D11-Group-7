@@ -30,14 +30,19 @@
 		<value>/views/actor/tiles.xml</value>
 		<value>/views/actorForm/tiles.xml</value>
 		<value>/views/administrator/tiles.xml</value>
+		<value>/views/advertisement/tiles.xml</value>
 		<value>/views/article/tiles.xml</value>
 		<value>/views/chirp/tiles.xml</value>
 		<value>/views/customer/tiles.xml</value>
+		<value>/views/folder/tiles.xml</value>
 		<value>/views/follow-up/tiles.xml</value>
+		<value>/views/message/tiles.xml</value>
 		<value>/views/newspaper/tiles.xml</value>
 		<value>/views/newspaperSubscription/tiles.xml</value>
 		<value>/views/system-configuration/tiles.xml</value>
 		<value>/views/user/tiles.xml</value>
+		<value>/views/volume/tiles.xml</value>
+		<value>/views/volumeSubscription/tiles.xml</value>
 	</util:list>
 
 </beans>
