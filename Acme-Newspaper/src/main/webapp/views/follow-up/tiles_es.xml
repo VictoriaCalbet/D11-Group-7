@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- 
+ * tiles_es.xml
+ *
+ * Copyright (C) 2017 Universidad de Sevilla
+ * 
+ * The use of this project is hereby constrained to the conditions of the 
+ * TDG Licence, a copy of which you may download from 
+ * http://www.tdg-seville.info/License.html
+ -->
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+      
+<tiles-definitions>
+
+	<definition name="follow-up/list" extends="master.page">	
+		<put-attribute name="title" value="Listado de seguimientos" />
+		<put-attribute name="body" value="/views/follow-up/list.jsp" />
+	</definition>
+	
+	<definition name="follow-up/display" extends="master.page">	
+		<put-attribute name="title" value="Mostrar seguimiento" />
+		<put-attribute name="body" value="/views/follow-up/display.jsp" />
+	</definition>
+	
+	<definition name="follow-up/create" extends="master.page">	
+		<put-attribute name="title" value="Crear seguimiento" />
+		<put-attribute name="body" value="/views/follow-up/edit.jsp" />
+	</definition>
+	
+	<definition name="follow-up/edit" extends="master.page">	
+		<put-attribute name="title" value="Editar un seguimiento" />
+		<put-attribute name="body" value="/views/follow-up/edit.jsp" />
+	</definition>
+	
+</tiles-definitions>
