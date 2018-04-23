@@ -15,7 +15,7 @@ import domain.Actor;
 import domain.Article;
 import domain.Customer;
 import domain.Newspaper;
-import domain.Subscription;
+import domain.NewspaperSubscription;
 import domain.User;
 
 @Service
@@ -53,11 +53,11 @@ public class NewspaperService {
 		final User u = this.userService.findByPrincipal();
 
 		final Collection<Article> articles = new ArrayList<Article>();
-		final Collection<Subscription> subscriptions = new ArrayList<Subscription>();
+		final Collection<NewspaperSubscription> subscriptions = new ArrayList<NewspaperSubscription>();
 
 		result.setArticles(articles);
 		result.setPublisher(u);
-		result.setSubscriptions(subscriptions);
+		result.setNewspaperSubscriptions(subscriptions);
 
 		return result;
 	}

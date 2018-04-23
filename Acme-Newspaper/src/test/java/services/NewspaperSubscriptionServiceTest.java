@@ -11,25 +11,25 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import utilities.AbstractTest;
 import domain.CreditCard;
-import domain.Subscription;
+import domain.NewspaperSubscription;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class SubscriptionServiceTest extends AbstractTest {
+public class NewspaperSubscriptionServiceTest extends AbstractTest {
 
 	// System under test ------------------------------------------------------
 
 	@Autowired
-	private SubscriptionService	subscriptionService;
+	private NewspaperSubscriptionService	newspaperSubscriptionService;
 
 	@Autowired
-	private CustomerService		customerService;
+	private CustomerService					customerService;
 
 	@Autowired
-	private NewspaperService	newspaperService;
+	private NewspaperService				newspaperService;
 
 
 	// Tests ------------------------------------------------------------------
@@ -76,13 +76,13 @@ public class SubscriptionServiceTest extends AbstractTest {
 		final Class<?> expectedException) {
 
 		Class<?> caught = null;
-		Subscription subscription = null;
+		NewspaperSubscription subscription = null;
 		CreditCard creditCard = null;
 
 		try {
 			this.authenticate(actor);
 
-			subscription = this.subscriptionService.create();
+			subscription = this.newspaperSubscriptionService.create();
 
 			creditCard = new CreditCard();
 
@@ -97,8 +97,8 @@ public class SubscriptionServiceTest extends AbstractTest {
 			subscription.setNewspaper(this.newspaperService.findOne(this.getEntityId(newspaper)));
 			subscription.setCustomer(this.customerService.findByPrincipal());
 
-			this.subscriptionService.saveFromCreate(subscription);
-			this.subscriptionService.flush();
+			this.newspaperSubscriptionService.saveFromCreate(subscription);
+			this.newspaperSubscriptionService.flush();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		} finally {

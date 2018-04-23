@@ -85,7 +85,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li>
-						<a href="subscription/customer/list.do">
+						<a href="newspaperSubscription/customer/list.do">
 							<spring:message code="master.page.subscription.mySubscriptions"/>
 						</a>
 					</li>

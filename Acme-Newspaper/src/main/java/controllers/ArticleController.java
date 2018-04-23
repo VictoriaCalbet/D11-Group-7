@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.ArticleService;
 import services.NewspaperService;
-import services.SubscriptionService;
+import services.NewspaperSubscriptionService;
 import domain.Actor;
 import domain.Article;
 import domain.Newspaper;
@@ -30,16 +30,16 @@ public class ArticleController extends AbstractController {
 	//Services
 
 	@Autowired
-	private NewspaperService	newsPaperService;
+	private NewspaperService				newsPaperService;
 
 	@Autowired
-	private ArticleService		articleService;
+	private ArticleService					articleService;
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService					actorService;
 
 	@Autowired
-	private SubscriptionService	subscriptionService;
+	private NewspaperSubscriptionService	newspaperSubscriptionService;
 
 
 	//Constructor
@@ -84,7 +84,7 @@ public class ArticleController extends AbstractController {
 			} else if (this.actorService.checkAuthority(actor, "CUSTOMER") && newspaperId != 0) {
 				newspaper = this.newsPaperService.findOne(newspaperId);
 				if (newspaper != null && newspaper.getIsPrivate()) {
-					showFollowUps = this.subscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId);
+					showFollowUps = this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId);
 					Assert.isTrue(showFollowUps);	// Si es false, significa que no está suscrito
 				}
 			}

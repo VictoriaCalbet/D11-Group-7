@@ -14,7 +14,7 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.Customer;
-import domain.Subscription;
+import domain.NewspaperSubscription;
 
 @Service
 @Transactional
@@ -52,7 +52,7 @@ public class CustomerService {
 		result.setPhoneNumbers(new HashSet<String>());
 		result.setPostalAddresses(new HashSet<String>());
 
-		result.setSubscriptions(new HashSet<Subscription>());
+		result.setNewspaperSubscriptions(new HashSet<NewspaperSubscription>());
 
 		userAccount = this.userAccountService.create("CUSTOMER");
 		result.setUserAccount(userAccount);

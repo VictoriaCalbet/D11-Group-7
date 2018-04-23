@@ -87,9 +87,9 @@
 		<security:intercept-url pattern="/newspaper/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/newspaper/**" access="permitAll" />
 		
-		<!-- Subscription -->
-		<security:intercept-url pattern="/subscription/customer/**" access="hasRole('CUSTOMER')" />
-		<security:intercept-url pattern="/subscription/**" access="permitAll" />
+		<!-- NewspaperSubscription -->
+		<security:intercept-url pattern="/newspaperSubscription/customer/**" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/newspaperSubscription/**" access="permitAll" />
 		
 		<!-- User -->
 		<security:intercept-url pattern="/user/administrator/**" access="hasRole('ADMIN')" />

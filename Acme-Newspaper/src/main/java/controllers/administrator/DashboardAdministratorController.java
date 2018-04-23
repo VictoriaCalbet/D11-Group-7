@@ -13,7 +13,7 @@ import services.ArticleService;
 import services.ChirpService;
 import services.FollowUpService;
 import services.NewspaperService;
-import services.SubscriptionService;
+import services.NewspaperSubscriptionService;
 import services.UserService;
 import controllers.AbstractController;
 import domain.Newspaper;
@@ -25,22 +25,22 @@ public class DashboardAdministratorController extends AbstractController {
 	// Services -------------------------------------------------------------
 
 	@Autowired
-	private NewspaperService	newspaperService;
+	private NewspaperService				newspaperService;
 
 	@Autowired
-	private ArticleService		articleService;
+	private ArticleService					articleService;
 
 	@Autowired
-	private UserService			userService;
+	private UserService						userService;
 
 	@Autowired
-	private FollowUpService		followUpService;
+	private FollowUpService					followUpService;
 
 	@Autowired
-	private ChirpService		chirpService;
+	private ChirpService					chirpService;
 
 	@Autowired
-	private SubscriptionService	subscriptionService;
+	private NewspaperSubscriptionService	newspaperSubscriptionService;
 
 
 	// Constructors ---------------------------------------------------------
@@ -127,7 +127,7 @@ public class DashboardAdministratorController extends AbstractController {
 		result.addObject("avgNoArticlesPerPublicNewspapers", avgNoArticlesPerPublicNewspapers);
 
 		// Requisito 24.1.4 - OK
-		final Double ratioOfSubscribersPerPrivateNewspaperVsTotalNumberOfCustomers = this.subscriptionService.ratioOfSubscribersPerPrivateNewspaperVsTotalNumberOfCustomers();
+		final Double ratioOfSubscribersPerPrivateNewspaperVsTotalNumberOfCustomers = this.newspaperSubscriptionService.ratioOfSubscribersPerPrivateNewspaperVsTotalNumberOfCustomers();
 		result.addObject("ratioOfSubscribersPerPrivateNewspaperVsTotalNumberOfCustomers", ratioOfSubscribersPerPrivateNewspaperVsTotalNumberOfCustomers);
 
 		// Requisito 24.1.5 - OK

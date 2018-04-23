@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ArticleService;
 import services.CustomerService;
 import services.FollowUpService;
-import services.SubscriptionService;
+import services.NewspaperSubscriptionService;
 import controllers.AbstractController;
 import domain.Article;
 import domain.Customer;
@@ -27,16 +27,16 @@ public class FollowUpCustomerController extends AbstractController {
 	// Services -------------------------------------------------------------
 
 	@Autowired
-	private FollowUpService		followUpService;
+	private FollowUpService					followUpService;
 
 	@Autowired
-	private CustomerService		customerService;
+	private CustomerService					customerService;
 
 	@Autowired
-	private ArticleService		articleService;
+	private ArticleService					articleService;
 
 	@Autowired
-	private SubscriptionService	subscriptionService;
+	private NewspaperSubscriptionService	newspaperSubscriptionService;
 
 
 	// Constructors ---------------------------------------------------------
@@ -66,7 +66,7 @@ public class FollowUpCustomerController extends AbstractController {
 		Assert.isTrue(article.getNewspaper().getPublicationDate() != null && article.getIsDraft() == false);
 
 		if (article.getNewspaper().getIsPrivate())
-			Assert.isTrue(this.subscriptionService.thisCustomerCanSeeThisNewspaper(customer.getId(), article.getNewspaper().getId()));
+			Assert.isTrue(this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(customer.getId(), article.getNewspaper().getId()));
 
 		requestURI = "follow-up/customer/list.do";
 		displayURI = "follow-up/customer/display.do?followUpId=";

@@ -47,8 +47,8 @@
 		<bean class="converters.NewspaperToStringConverter" /> 
 		<bean class="converters.StringToNewspaperConverter" /> 
 		
-		<bean class="converters.SubscriptionToStringConverter" /> 
-		<bean class="converters.StringToSubscriptionConverter" /> 
+		<bean class="converters.NewspaperSubscriptionToStringConverter" /> 
+		<bean class="converters.StringToNewspaperSubscriptionConverter" /> 
 		
 		<bean class="converters.SystemConfigurationToStringConverter" />
 		 <bean class="converters.StringToSystemConfigurationConverter" /> 

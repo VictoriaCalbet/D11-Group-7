@@ -5,14 +5,14 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import domain.Subscription;
+import domain.NewspaperSubscription;
 
 @Component
 @Transactional
-public class SubscriptionToStringConverter implements Converter<Subscription, String> {
+public class NewspaperSubscriptionToStringConverter implements Converter<NewspaperSubscription, String> {
 
 	@Override
-	public String convert(final Subscription subscription) {
+	public String convert(final NewspaperSubscription subscription) {
 		String result;
 
 		if (subscription == null)

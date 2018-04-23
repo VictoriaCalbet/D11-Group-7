@@ -283,9 +283,9 @@
 			</list>
 		</property>
 		<property name="userAccount" ref="userAccount5"/>
-		<property name="subscriptions">
+		<property name="newspaperSubscriptions">
 			<list>
-				<ref bean="subscription1"/>
+				<ref bean="newspaperSubscription1"/>
 			</list>
 		</property>
 		
@@ -310,7 +310,7 @@
 			</list>
 		</property>
 		<property name="userAccount" ref="userAccount6"/>
-		<property name="subscriptions">
+		<property name="newspaperSubscriptions">
 			<list>
 			</list>
 		</property>
@@ -422,7 +422,7 @@
 				<ref bean="article2"/>
 			</list>
 		</property>
-		<property name="subscriptions">
+		<property name="newspaperSubscriptions">
 			<list>
 			</list>
 		</property> 
@@ -440,9 +440,9 @@
 				<ref bean="article3"/>
 			</list>
 		</property>
-		<property name="subscriptions">
+		<property name="newspaperSubscriptions">
 			<list>
-				<ref bean="subscription1"/>
+				<ref bean="newspaperSubscription1"/>
 			</list>
 		</property> 
 	</bean>
@@ -460,14 +460,14 @@
 				<ref bean="article4"/>
 			</list>
 		</property>
-		<property name="subscriptions">
+		<property name="newspaperSubscriptions">
 			<list>
 			</list>
 		</property> 
 	</bean>
 	<!-- #Subscriptions Subcriptions -->
 	
-	<bean id="subscription1" class="domain.Subscription">
+	<bean id="newspaperSubscription1" class="domain.NewspaperSubscription">
 		<property name="customer" ref="customer1"/>
 		<property name="newspaper" ref="newspaper2"/>
 		<property name="creditCard" ref="creditCard1"/>

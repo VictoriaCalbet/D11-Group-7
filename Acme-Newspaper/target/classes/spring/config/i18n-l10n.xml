@@ -35,7 +35,7 @@
 		<value>/views/customer/messages</value>
 		<value>/views/follow-up/messages</value>
 		<value>/views/newspaper/messages</value>
-		<value>/views/subscription/messages</value>
+		<value>/views/newspaperSubscription/messages</value>
 		<value>/views/system-configuration/messages</value>
 		<value>/views/user/messages</value>
 		

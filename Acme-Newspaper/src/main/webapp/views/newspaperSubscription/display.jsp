@@ -66,4 +66,4 @@
 	</table>
 </fieldset>
 <br/>
-<acme:cancel url="subscription/customer/list.do" code="subscription.cancel"/>
+<acme:cancel url="newspaperSubscription/customer/list.do" code="subscription.cancel"/>

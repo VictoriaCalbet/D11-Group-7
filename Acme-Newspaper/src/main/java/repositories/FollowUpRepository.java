@@ -29,7 +29,7 @@ public interface FollowUpRepository extends JpaRepository<FollowUp, Integer> {
 	@Query("select fol from FollowUp fol where fol.article.isDraft is false and fol.article.newspaper.isPrivate is false and fol.article.newspaper.publicationDate is not null")
 	Collection<FollowUp> findPublicFollowUps();
 
-	@Query("select case when (count(news) > 0) then true else false end from Subscription subs where subs.newspaper.id = ?1 and subs.customer.id = ?2")
+	@Query("select case when (count(news) > 0) then true else false end from NewspaperSubscription subs where subs.newspaper.id = ?1 and subs.customer.id = ?2")
 	boolean canISeeDisplayThisFollowUp(int newspaperId, int customerId);
 
 }

@@ -17,17 +17,17 @@ public class Customer extends Actor {
 	// Attributes -------------------------------------------------------------
 
 	// Relationships ----------------------------------------------------------
-	private Collection<Subscription>	subscriptions;
+	private Collection<NewspaperSubscription>	newspaperSubscriptions;
 
 
 	@Valid
 	@NotNull
 	@OneToMany(mappedBy = "customer")
-	public Collection<Subscription> getSubscriptions() {
-		return this.subscriptions;
+	public Collection<NewspaperSubscription> getNewspaperSubscriptions() {
+		return this.newspaperSubscriptions;
 	}
 
-	public void setSubscriptions(final Collection<Subscription> subscriptions) {
-		this.subscriptions = subscriptions;
+	public void setNewspaperSubscriptions(final Collection<NewspaperSubscription> newspaperSubscriptions) {
+		this.newspaperSubscriptions = newspaperSubscriptions;
 	}
 }

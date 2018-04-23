@@ -16,31 +16,31 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.CustomerService;
 import services.NewspaperService;
-import services.SubscriptionService;
+import services.NewspaperSubscriptionService;
 import controllers.AbstractController;
 import domain.Customer;
 import domain.Newspaper;
-import domain.Subscription;
+import domain.NewspaperSubscription;
 
 @Controller
-@RequestMapping("/subscription/customer")
-public class SubscriptionCustomerController extends AbstractController {
+@RequestMapping("/newspaperSubscription/customer")
+public class NewspaperSubscriptionCustomerController extends AbstractController {
 
 	// Services -------------------------------------------------------------
 
 	@Autowired
-	private SubscriptionService	subscriptionService;
+	private NewspaperSubscriptionService	newspaperSubscriptionService;
 
 	@Autowired
-	private CustomerService		customerService;
+	private CustomerService					customerService;
 
 	@Autowired
-	private NewspaperService	newspaperService;
+	private NewspaperService				newspaperService;
 
 
 	// Constructors ---------------------------------------------------------
 
-	public SubscriptionCustomerController() {
+	public NewspaperSubscriptionCustomerController() {
 		super();
 	}
 
@@ -50,17 +50,17 @@ public class SubscriptionCustomerController extends AbstractController {
 	public ModelAndView list() {
 		ModelAndView result = null;
 		Customer customer = null;
-		Collection<Subscription> subscriptions = null;
+		Collection<NewspaperSubscription> subscriptions = null;
 		String requestURI = null;
 		String displayURI = null;
 		boolean existsAvailablesNewspapers = false;
 
 		customer = this.customerService.findByPrincipal();
-		subscriptions = customer.getSubscriptions();
-		requestURI = "subscription/customer/list.do";
-		displayURI = "subscription/customer/display.do?subscriptionId=";
+		subscriptions = customer.getNewspaperSubscriptions();
+		requestURI = "newspaperSubscription/customer/list.do";
+		displayURI = "newspaperSubscription/customer/display.do?subscriptionId=";
 
-		result = new ModelAndView("subscription/list");
+		result = new ModelAndView("newspaperSubscription/list");
 		result.addObject("subscriptions", subscriptions);
 		result.addObject("requestURI", requestURI);
 		result.addObject("displayURI", displayURI);
@@ -78,9 +78,9 @@ public class SubscriptionCustomerController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result = null;
-		Subscription subscription = null;
+		NewspaperSubscription subscription = null;
 
-		subscription = this.subscriptionService.create();
+		subscription = this.newspaperSubscriptionService.create();
 		result = this.createModelAndView(subscription);
 
 		return result;
@@ -91,15 +91,15 @@ public class SubscriptionCustomerController extends AbstractController {
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int subscriptionId) {
 		ModelAndView result = null;
-		Subscription subscription = null;
+		NewspaperSubscription subscription = null;
 
-		subscription = this.subscriptionService.findOne(subscriptionId);
+		subscription = this.newspaperSubscriptionService.findOne(subscriptionId);
 
 		Assert.notNull(subscription);
 
-		result = new ModelAndView("subscription/display");
+		result = new ModelAndView("newspaperSubscription/display");
 		result.addObject("subscription", subscription);
-		result.addObject("cancelURI", "/subscription/customer/list.do");
+		result.addObject("cancelURI", "/newspaperSubscription/customer/list.do");
 
 		return result;
 	}
@@ -107,15 +107,15 @@ public class SubscriptionCustomerController extends AbstractController {
 	// Edition    -----------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Subscription subscription, final BindingResult bindingResult) {
+	public ModelAndView save(@Valid final NewspaperSubscription subscription, final BindingResult bindingResult) {
 		ModelAndView result = null;
 
 		if (bindingResult.hasErrors())
 			result = this.createModelAndView(subscription);
 		else
 			try {
-				this.subscriptionService.saveFromCreate(subscription);
-				result = new ModelAndView("redirect:/subscription/customer/list.do");
+				this.newspaperSubscriptionService.saveFromCreate(subscription);
+				result = new ModelAndView("redirect:/newspaperSubscription/customer/list.do");
 			} catch (final Throwable oops) {
 				String messageError = "subscription.commit.error";
 				if (oops.getMessage().contains("message.error"))
@@ -128,7 +128,7 @@ public class SubscriptionCustomerController extends AbstractController {
 
 	// Other actions --------------------------------------------------------
 
-	protected ModelAndView createModelAndView(final Subscription subscription) {
+	protected ModelAndView createModelAndView(final NewspaperSubscription subscription) {
 		ModelAndView result = null;
 
 		result = this.createModelAndView(subscription, null);
@@ -136,18 +136,18 @@ public class SubscriptionCustomerController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createModelAndView(final Subscription subscription, final String message) {
+	protected ModelAndView createModelAndView(final NewspaperSubscription subscription, final String message) {
 		ModelAndView result = null;
 		String actionURI = null;
 		Collection<Newspaper> availableNewspapers = null;
 		Customer customer = null;
 
-		actionURI = "subscription/customer/edit.do";
+		actionURI = "newspaperSubscription/customer/edit.do";
 
 		customer = this.customerService.findByPrincipal();
 		availableNewspapers = this.newspaperService.findAvailableNewspapersByCustomerId(customer.getId());
 
-		result = new ModelAndView("subscription/create");
+		result = new ModelAndView("newspaperSubscription/create");
 		result.addObject("customer", customer);
 		result.addObject("subscription", subscription);
 		result.addObject("actionURI", actionURI);

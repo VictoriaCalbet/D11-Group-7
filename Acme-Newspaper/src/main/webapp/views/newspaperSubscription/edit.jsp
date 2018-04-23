@@ -41,7 +41,7 @@
 			
 			<br/>
 			<acme:submit name="save" code="subscription.subscribe"/> &nbsp;
-			<acme:cancel url="subscription/customer/list.do" code="subscription.cancel"/>
+			<acme:cancel url="newspaperSubscription/customer/list.do" code="subscription.cancel"/>
 		</form:form>
 	</jstl:when>
 	<jstl:otherwise>

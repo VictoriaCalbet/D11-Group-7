@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Subscription extends DomainEntity {
+public class NewspaperSubscription extends DomainEntity {
 
 	// Attributes -------------------------------------------------------------
 

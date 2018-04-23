@@ -37,7 +37,7 @@
 <security:authorize access="hasRole('CUSTOMER')">
 	<jstl:if test="${existsAvailablesNewspapers eq true}">
 		<spring:message code="subscription.createANewspaper" var="subscriptionCreateLink"/>
-		<a href="subscription/customer/create.do"><jstl:out value="${subscriptionCreateLink}"/></a>
+		<a href="newspaperSubscription/customer/create.do"><jstl:out value="${subscriptionCreateLink}"/></a>
 		<br/>
 		<br/>
 	</jstl:if>

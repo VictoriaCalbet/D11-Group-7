@@ -35,7 +35,7 @@
 		<value>/views/customer/tiles.xml</value>
 		<value>/views/follow-up/tiles.xml</value>
 		<value>/views/newspaper/tiles.xml</value>
-		<value>/views/subscription/tiles.xml</value>
+		<value>/views/newspaperSubscription/tiles.xml</value>
 		<value>/views/system-configuration/tiles.xml</value>
 		<value>/views/user/tiles.xml</value>
 	</util:list>
