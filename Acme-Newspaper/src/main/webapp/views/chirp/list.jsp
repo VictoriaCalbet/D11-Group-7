@@ -30,13 +30,13 @@
 	</security:authorize>
 
 	<spring:message code="chirp.title" var="title" />
-	<display:column property="title" title="${title}" />
+	<display:column title="${title}"><jstl:out value="${row.title}"></jstl:out></display:column>
 	
 	<spring:message code="chirp.description" var="descrip" />
-	<display:column property="description" title="${descrip}"/>
+	<display:column title="${descrip}"><jstl:out value="${row.description}"></jstl:out></display:column>
 	
 	<spring:message code="chirp.user" var="user" />
-	<display:column property="user.name" title="${user}" />
+	<display:column title="${user}"><jstl:out value="${row.user.name}"></jstl:out></display:column>
 
 </display:table>
 

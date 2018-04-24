@@ -130,7 +130,7 @@ public class Newspaper extends DomainEntity {
 
 	@NotNull
 	@Valid
-	@OneToMany(mappedBy = "advertisement", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "newspaper", cascade = CascadeType.REMOVE)
 	public Collection<Advertisement> getAdvertisements() {
 		return this.advertisements;
 	}
