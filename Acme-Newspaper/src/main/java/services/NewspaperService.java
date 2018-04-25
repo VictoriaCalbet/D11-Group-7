@@ -103,6 +103,12 @@ public class NewspaperService {
 		return result;
 	}
 
+	public Collection<Newspaper> findPrivateNewspapersToThisVolumeThatNotSubscribeYet(final int volumeId, final int customerId) {
+		Collection<Newspaper> result = null;
+		result = this.newspaperRepository.findPrivateNewspapersToThisVolumeThatNotSubscribeYet(volumeId, customerId);
+		return result;
+	}
+
 	public Collection<Newspaper> findPublicated() {
 		return this.newspaperRepository.findPublicated();
 	}
