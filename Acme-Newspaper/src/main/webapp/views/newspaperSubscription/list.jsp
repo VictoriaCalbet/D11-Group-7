@@ -21,26 +21,26 @@
 
 <security:authentication property="principal" var="loggedactor"/>
 
-<display:table name="subscriptions" id="row" requestURI="${requestURI}" pagesize="5">
+<display:table name="newspaperSubscriptions" id="row" requestURI="${requestURI}" pagesize="5">
 	<display:column>
-		<spring:message code="subscription.display" var="subscriptionDisplayLink"/>
-		<a href="${displayURI}${row.id}"><jstl:out value="${subscriptionDisplayLink}"/></a>
+		<spring:message code="newspaperSubscription.display" var="newspaperSubscriptionDisplayLink"/>
+		<a href="${displayURI}${row.id}"><jstl:out value="${newspaperSubscriptionDisplayLink}"/></a>
 	</display:column>
 
-	<spring:message code="subscription.newspaper.title" var="subscriptionNewspaperTitleHeader"/>
-	<display:column property="newspaper.title" title="${subscriptionNewspaperTitleHeader}"/>
+	<spring:message code="newspaperSubscription.newspaper.title" var="newspaperSubscriptionNewspaperTitleHeader"/>
+	<display:column property="newspaper.title" title="${newspaperSubscriptionNewspaperTitleHeader}"/>
 	
-	<spring:message code="subscription.creditCard.number" var="subscriptionCreditCardNumberHeader"/>
-	<display:column property="creditCard.number" title="${subscriptionCreditCardNumberHeader}"/>
+	<spring:message code="newspaperSubscription.creditCard.number" var="newspaperSubscriptionCreditCardNumberHeader"/>
+	<display:column property="creditCard.number" title="${newspaperSubscriptionCreditCardNumberHeader}"/>
 </display:table>
 
 <security:authorize access="hasRole('CUSTOMER')">
 	<jstl:if test="${existsAvailablesNewspapers eq true}">
-		<spring:message code="subscription.createANewspaper" var="subscriptionCreateLink"/>
-		<a href="newspaperSubscription/customer/create.do"><jstl:out value="${subscriptionCreateLink}"/></a>
+		<spring:message code="newspaperSubscription.createANewspaper" var="newspaperSubscriptionCreateLink"/>
+		<a href="newspaperSubscription/customer/create.do"><jstl:out value="${newspaperSubscriptionCreateLink}"/></a>
 		<br/>
 		<br/>
 	</jstl:if>
 </security:authorize>
 
-<acme:cancel url="welcome/index.do" code="subscription.cancel"/>
+<acme:cancel url="welcome/index.do" code="newspaperSubscription.cancel"/>

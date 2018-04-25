@@ -21,49 +21,49 @@
 
 <fieldset>
 	<legend>
-		<spring:message code="subscription.newspaper" var="subscriptionNewspaperLabel"/>
-		<h2><b><jstl:out value="${subscriptionNewspaperLabel}"/>:&nbsp;</b> <jstl:out value="${subscription.newspaper.title}"/></h2>
+		<spring:message code="newspaperSubscription.newspaper" var="newspaperSubscriptionNewspaperLabel"/>
+		<h2><b><jstl:out value="${newspaperSubscriptionNewspaperLabel}"/>:&nbsp;</b> <jstl:out value="${newspaperSubscription.newspaper.title}"/></h2>
 	</legend>
 	
 	<table>
 		<tr>
 			<td>
-				<spring:message code="subscription.creditCard.holderName" var="subscriptionCreditCardHolderNameLabel"/>
-				<b><jstl:out value="${subscriptionCreditCardHolderNameLabel}"/>:&nbsp;</b> <jstl:out value="${subscription.creditCard.holderName}"/>
+				<spring:message code="newspaperSubscription.creditCard.holderName" var="newspaperSubscriptionCreditCardHolderNameLabel"/>
+				<b><jstl:out value="${newspaperSubscriptionCreditCardHolderNameLabel}"/>:&nbsp;</b> <jstl:out value="${newspaperSubscription.creditCard.holderName}"/>
 				
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<spring:message code="subscription.creditCard.brandName" var="subscriptionCreditCardBrandNameLabel"/>
-				<b><jstl:out value="${subscriptionCreditCardBrandNameLabel}"/>:&nbsp;</b> <jstl:out value="${subscription.creditCard.brandName}"/>
+				<spring:message code="newspaperSubscription.creditCard.brandName" var="newspaperSubscriptionCreditCardBrandNameLabel"/>
+				<b><jstl:out value="${newspaperSubscriptionCreditCardBrandNameLabel}"/>:&nbsp;</b> <jstl:out value="${newspaperSubscription.creditCard.brandName}"/>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<spring:message code="subscription.creditCard.number" var="subscriptionCreditCardNumberLabel"/>
-				<b><jstl:out value="${subscriptionCreditCardNumberLabel}"/>:&nbsp;</b> <jstl:out value="${subscription.creditCard.number}"/>
+				<spring:message code="newspaperSubscription.creditCard.number" var="newspaperSubscriptionCreditCardNumberLabel"/>
+				<b><jstl:out value="${newspaperSubscriptionCreditCardNumberLabel}"/>:&nbsp;</b> <jstl:out value="${newspaperSubscription.creditCard.number}"/>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<spring:message code="subscription.creditCard.expirationMonth" var="subscriptionExpirationMonthLabel"/>
-				<b><jstl:out value="${subscriptionExpirationMonthLabel}"/>:&nbsp;</b> <jstl:out value="${subscription.creditCard.expirationMonth}"/>
+				<spring:message code="newspaperSubscription.creditCard.expirationMonth" var="newspaperSubscriptionExpirationMonthLabel"/>
+				<b><jstl:out value="${newspaperSubscriptionExpirationMonthLabel}"/>:&nbsp;</b> <jstl:out value="${newspaperSubscription.creditCard.expirationMonth}"/>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<spring:message code="subscription.creditCard.expirationYear" var="subscriptionExpirationYearLabel"/>
-				<b><jstl:out value="${subscriptionExpirationYearLabel}"/>:&nbsp;</b> <jstl:out value="${subscription.creditCard.expirationYear}"/>
+				<spring:message code="newspaperSubscription.creditCard.expirationYear" var="newspaperSubscriptionExpirationYearLabel"/>
+				<b><jstl:out value="${newspaperSubscriptionExpirationYearLabel}"/>:&nbsp;</b> <jstl:out value="${newspaperSubscription.creditCard.expirationYear}"/>
 			</td>
 		</tr>
 		<tr>
 			<td>
-				<spring:message code="subscription.creditCard.cvv" var="subscriptionCvvLabel"/>
-				<b><jstl:out value="${subscriptionCvvLabel}"/>:&nbsp;</b> <jstl:out value="${subscription.creditCard.cvv}"/>
+				<spring:message code="newspaperSubscription.creditCard.cvv" var="newspaperSubscriptionCvvLabel"/>
+				<b><jstl:out value="${newspaperSubscriptionCvvLabel}"/>:&nbsp;</b> <jstl:out value="${newspaperSubscription.creditCard.cvv}"/>
 			</td>
 		</tr>
 	</table>
 </fieldset>
 <br/>
-<acme:cancel url="newspaperSubscription/customer/list.do" code="subscription.cancel"/>
+<acme:cancel url="newspaperSubscription/customer/list.do" code="newspaperSubscription.cancel"/>

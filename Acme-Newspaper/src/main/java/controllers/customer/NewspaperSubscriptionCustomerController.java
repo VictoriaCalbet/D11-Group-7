@@ -50,18 +50,18 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 	public ModelAndView list() {
 		ModelAndView result = null;
 		Customer customer = null;
-		Collection<NewspaperSubscription> subscriptions = null;
+		Collection<NewspaperSubscription> newspaperSubscriptions = null;
 		String requestURI = null;
 		String displayURI = null;
 		boolean existsAvailablesNewspapers = false;
 
 		customer = this.customerService.findByPrincipal();
-		subscriptions = customer.getNewspaperSubscriptions();
+		newspaperSubscriptions = customer.getNewspaperSubscriptions();
 		requestURI = "newspaperSubscription/customer/list.do";
 		displayURI = "newspaperSubscription/customer/display.do?subscriptionId=";
 
 		result = new ModelAndView("newspaperSubscription/list");
-		result.addObject("subscriptions", subscriptions);
+		result.addObject("newspaperSubscriptions", newspaperSubscriptions);
 		result.addObject("requestURI", requestURI);
 		result.addObject("displayURI", displayURI);
 
@@ -91,14 +91,14 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int subscriptionId) {
 		ModelAndView result = null;
-		NewspaperSubscription subscription = null;
+		NewspaperSubscription newspaperSubscription = null;
 
-		subscription = this.newspaperSubscriptionService.findOne(subscriptionId);
+		newspaperSubscription = this.newspaperSubscriptionService.findOne(subscriptionId);
 
-		Assert.notNull(subscription);
+		Assert.notNull(newspaperSubscription);
 
 		result = new ModelAndView("newspaperSubscription/display");
-		result.addObject("subscription", subscription);
+		result.addObject("newspaperSubscription", newspaperSubscription);
 		result.addObject("cancelURI", "/newspaperSubscription/customer/list.do");
 
 		return result;
@@ -117,7 +117,7 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 				this.newspaperSubscriptionService.saveFromCreate(subscription);
 				result = new ModelAndView("redirect:/newspaperSubscription/customer/list.do");
 			} catch (final Throwable oops) {
-				String messageError = "subscription.commit.error";
+				String messageError = "newspaperSubscription.commit.error";
 				if (oops.getMessage().contains("message.error"))
 					messageError = oops.getMessage();
 				result = this.createModelAndView(subscription, messageError);
@@ -149,7 +149,7 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 
 		result = new ModelAndView("newspaperSubscription/create");
 		result.addObject("customer", customer);
-		result.addObject("subscription", subscription);
+		result.addObject("newspaperSubscription", subscription);
 		result.addObject("actionURI", actionURI);
 		result.addObject("availableNewspapers", availableNewspapers);
 		result.addObject("message", message);

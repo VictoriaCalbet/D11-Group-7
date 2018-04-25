@@ -21,32 +21,32 @@
 
 <jstl:choose>
 	<jstl:when test="${not empty availableNewspapers}">
-		<form:form action="${actionURI}" modelAttribute="subscription">
+		<form:form action="${actionURI}" modelAttribute="newspaperSubscription">
 							
 			<form:hidden path="customer"/>
 			
-			<acme:select items="${availableNewspapers}" itemLabel="title" code="subscription.newspaper" path="newspaper"/>
+			<acme:select items="${availableNewspapers}" itemLabel="title" code="newspaperSubscription.newspaper" path="newspaper"/>
 			
 			<fieldset> 
-				<spring:message code="subscription.edit.creditCard.legend" var="subscriptionCreditCardLegend"/>
+				<spring:message code="newspaperSubscription.edit.creditCard.legend" var="subscriptionCreditCardLegend"/>
 				<legend><b><jstl:out value="${subscriptionCreditCardLegend}"/>:&nbsp;</b></legend>
 				
-				<acme:textbox code="subscription.creditCard.brandName" path="creditCard.brandName"/>
-				<acme:textbox code="subscription.creditCard.holderName" path="creditCard.holderName"/>
-				<acme:textbox code="subscription.creditCard.number" path="creditCard.number" maxlength="16"/>
-				<acme:textbox code="subscription.creditCard.expirationMonth" path="creditCard.expirationMonth" maxlength="2"/>
-				<acme:textbox code="subscription.creditCard.expirationYear" path="creditCard.expirationYear" maxlength="4"/>
-				<acme:textbox code="subscription.creditCard.cvv" path="creditCard.cvv" maxlength="3"/>
+				<acme:textbox code="newspaperSubscription.creditCard.brandName" path="creditCard.brandName"/>
+				<acme:textbox code="newspaperSubscription.creditCard.holderName" path="creditCard.holderName"/>
+				<acme:textbox code="newspaperSubscription.creditCard.number" path="creditCard.number" maxlength="16"/>
+				<acme:textbox code="newspaperSubscription.creditCard.expirationMonth" path="creditCard.expirationMonth" maxlength="2"/>
+				<acme:textbox code="newspaperSubscription.creditCard.expirationYear" path="creditCard.expirationYear" maxlength="4"/>
+				<acme:textbox code="newspaperSubscription.creditCard.cvv" path="creditCard.cvv" maxlength="3"/>
 			</fieldset>
 			
 			<br/>
-			<acme:submit name="save" code="subscription.subscribe"/> &nbsp;
-			<acme:cancel url="newspaperSubscription/customer/list.do" code="subscription.cancel"/>
+			<acme:submit name="save" code="newspaperSubscription.subscribe"/> &nbsp;
+			<acme:cancel url="newspaperSubscription/customer/list.do" code="newspaperSubscription.cancel"/>
 		</form:form>
 	</jstl:when>
 	<jstl:otherwise>
-		<spring:message var="subscriptionEditNewspapersNotAvailable" code="service.edit.subscription.newspapers.notAvailable"/>
-		<b><jstl:out value="${subscriptionEditNewspapersNotAvailable}"/></b>
+		<spring:message var="newspaperSubscriptionEditNewspapersNotAvailable" code="service.edit.newspaperSubscription.newspapers.notAvailable"/>
+		<b><jstl:out value="${newspaperSubscriptionEditNewspapersNotAvailable}"/></b>
 		<br/>
 	</jstl:otherwise>
 </jstl:choose>
