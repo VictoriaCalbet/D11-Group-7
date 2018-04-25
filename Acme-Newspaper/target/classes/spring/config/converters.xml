@@ -51,10 +51,13 @@
 		<bean class="converters.StringToNewspaperSubscriptionConverter" /> 
 		
 		<bean class="converters.SystemConfigurationToStringConverter" />
-		 <bean class="converters.StringToSystemConfigurationConverter" /> 
+		<bean class="converters.StringToSystemConfigurationConverter" /> 
 		 
 		<bean class="converters.UserToStringConverter" /> 
 		<bean class="converters.StringToUserConverter" /> 
+		
+		<bean class="converters.VolumeSubscriptionToStringConverter" />
+		<bean class="converters.StringToVolumeSubscriptionConverter" />
 		
 	</util:list>
 	
