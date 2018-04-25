@@ -48,6 +48,7 @@
 		
 		<!-- Actor -->
 		
+		
 		<!-- Administrator -->
 		<security:intercept-url pattern="/administrator/dashboard.do" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/administrator/administrator/**" access="hasRole('ADMIN')" />
@@ -55,7 +56,19 @@
 		<security:intercept-url pattern="/administrator/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/administrator/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/administrator/**" access="permitAll" />
+
+		<!-- Advertisement -->
+		<security:intercept-url pattern="/advertisement/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/advertisement/customer/**" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/advertisement/user/**" access="hasRole('USER')" />
+		<security:intercept-url pattern="/advertisement/**" access="permitAll" />
 		
+		<!-- Agent -->
+		<security:intercept-url pattern="/agent/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/agent/customer/**" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/agent/user/**" access="hasRole('USER')" />
+		<security:intercept-url pattern="/agent/**" access="permitAll" />
+				
 		<!-- Article -->
 		<security:intercept-url pattern="/article/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/article/customer/**" access="hasRole('CUSTOMER')" />
@@ -75,11 +88,23 @@
 		<security:intercept-url pattern="/customer/create.do" access="!isAuthenticated()" />
 		<security:intercept-url pattern="/customer/**" access="permitAll" />
 		
+		<!-- Folder -->
+		<security:intercept-url pattern="/folder/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/folder/customer/**" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/folder/user/**" access="hasRole('USER')" />
+		<security:intercept-url pattern="/folder/**" access="permitAll" />
+		
 		<!-- FollowUp -->
 		<security:intercept-url pattern="/follow-up/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/follow-up/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/follow-up/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/follow-up/**" access="permitAll" />
+		
+		<!-- Message -->
+		<security:intercept-url pattern="/message/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/message/customer/**" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/message/user/**" access="hasRole('USER')" />
+		<security:intercept-url pattern="/message/**" access="permitAll" />
 		
 		<!-- Newspaper -->
 		<security:intercept-url pattern="/newspaper/administrator/**" access="hasRole('ADMIN')" />
@@ -96,6 +121,19 @@
 		<security:intercept-url pattern="/user/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/user/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/user/**" access="permitAll" />
+		
+		<!-- Volume -->
+		<security:intercept-url pattern="/volume/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/volume/customer/**" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/volume/user/**" access="hasRole('USER')" />
+		<security:intercept-url pattern="/volume/**" access="permitAll" />
+		
+		<!-- VolumeSubscription -->
+		<security:intercept-url pattern="/volumeSubscription/administrator/**" access="hasRole('ADMIN')" />
+		<security:intercept-url pattern="/volumeSubscription/customer/**" access="hasRole('CUSTOMER')" />
+		<security:intercept-url pattern="/volumeSubscription/user/**" access="hasRole('USER')" />
+		<security:intercept-url pattern="/volumeSubscription/**" access="permitAll" />
+		
 		
 		<!-- OTHERS -->
 		<security:intercept-url pattern="/systemConfiguration/administrator/**" access="hasRole('ADMIN')" />
