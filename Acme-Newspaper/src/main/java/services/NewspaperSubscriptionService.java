@@ -69,11 +69,11 @@ public class NewspaperSubscriptionService {
 		Assert.isTrue(customer.equals(subscription.getCustomer()));
 		Assert.isTrue(!this.newspaperSubscriptionRepository.isThisCustomerSubscribeOnThisNewspaper(subscription.getCustomer().getId(), subscription.getNewspaper().getId()));
 
-		// Paso 1: realizo la entidad del servicio Subscription
+		// Paso 1: realizo la entidad del servicio NewspaperSubscription
 
 		result = this.save(subscription);
 
-		// Paso 2: persisto el resto de relaciones a las que el objeto Subscription estén relacionadas
+		// Paso 2: persisto el resto de relaciones a las que el objeto NewspaperSubscription estén relacionadas
 		result.getCustomer().getNewspaperSubscriptions().add(result);
 		result.getNewspaper().getNewspaperSubscriptions().add(result);
 
