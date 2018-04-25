@@ -59,6 +59,20 @@
 		<bean class="converters.VolumeSubscriptionToStringConverter" />
 		<bean class="converters.StringToVolumeSubscriptionConverter" />
 		
+		<bean class="converters.VolumeToStringConverter" />
+		<bean class="converters.StringToVolumeConverter" />
+		
+		<bean class="converters.AdvertisementToStringConverter" />
+		<bean class="converters.StringToAdvertisementConverter" />
+		
+		<bean class="converters.AgentToStringConverter" />
+		<bean class="converters.StringToAgentConverter" />
+		
+		<bean class="converters.MessageToStringConverter" />
+		<bean class="converters.StringToMessageConverter" />
+		
+		<bean class="converters.FolderToStringConverter" />
+		<bean class="converters.StringToFolderConverter" />
 	</util:list>
 	
 </beans>
