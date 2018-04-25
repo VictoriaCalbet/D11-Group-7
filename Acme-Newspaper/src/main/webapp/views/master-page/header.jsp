@@ -89,8 +89,15 @@
 							<spring:message code="master.page.newspaperSubscriptions.mySubscriptions"/>
 						</a>
 					</li>
+					<li>
+						<a href="volumeSubscription/customer/list.do">
+							<spring:message code="master.page.volumeSubscriptions.mySubscriptions"/>
+						</a>
+					</li>
 				</ul>
 			</li>
+			
+			
 		</security:authorize>
 
 		<security:authorize access="isAnonymous()">
