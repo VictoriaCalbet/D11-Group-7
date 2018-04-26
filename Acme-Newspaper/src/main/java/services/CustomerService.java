@@ -14,7 +14,10 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.Customer;
+import domain.Folder;
+import domain.Message;
 import domain.NewspaperSubscription;
+import domain.VolumeSubscription;
 
 @Service
 @Transactional
@@ -32,6 +35,9 @@ public class CustomerService {
 
 	@Autowired
 	private UserAccountService	userAccountService;
+
+	@Autowired
+	private FolderService		folderService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -53,13 +59,17 @@ public class CustomerService {
 		result.setPostalAddresses(new HashSet<String>());
 
 		result.setNewspaperSubscriptions(new HashSet<NewspaperSubscription>());
+		result.setVolumeSubscriptions(new HashSet<VolumeSubscription>());
+
+		result.setFolders(new HashSet<Folder>());
+		result.setMessagesSent(new HashSet<Message>());
+		result.setMessagesReceived(new HashSet<Message>());
 
 		userAccount = this.userAccountService.create("CUSTOMER");
 		result.setUserAccount(userAccount);
 
 		return result;
 	}
-
 	// DO NOT MODIFY. ANY OTHER SAVE METHOD MUST BE NAMED DIFFERENT.
 	public Customer save(final Customer customer) {
 		Assert.notNull(customer, "message.error.customer.null");
@@ -75,7 +85,7 @@ public class CustomerService {
 	public Customer saveFromCreate(final Customer customer) {
 		Assert.notNull(customer, "message.error.customer.null");
 
-		final Customer result;
+		Customer result;
 
 		// Check unlogged user
 		Assert.isTrue(!this.actorService.checkLogin(), "message.error.customer.login");
@@ -90,9 +100,13 @@ public class CustomerService {
 		possibleRepeated = this.userAccountService.findByUsername(customer.getUserAccount().getUsername());
 		Assert.isNull(possibleRepeated, "message.error.administrator.username.repeated");
 
-		// TODO: Check @Email and @URL from Collections
-
 		result = this.save(customer);
+
+		// Add system folders
+		final Collection<Folder> systemFolders = this.folderService.initializeFolders(result);
+		result.setFolders(systemFolders);
+
+		result = this.save(result);
 
 		return result;
 	}

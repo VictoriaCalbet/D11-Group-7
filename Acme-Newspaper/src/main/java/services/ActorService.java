@@ -34,6 +34,16 @@ public class ActorService {
 
 	// Simple CRUD methods ----------------------------------------------------
 
+	public Actor save(final Actor actor) {
+		Assert.notNull(actor);
+
+		Actor result;
+
+		result = this.actorRepository.save(actor);
+
+		return result;
+	}
+
 	public Collection<Actor> findAll() {
 		Collection<Actor> result = null;
 		result = this.actorRepository.findAll();
@@ -86,4 +96,5 @@ public class ActorService {
 		}
 		return result;
 	}
+
 }

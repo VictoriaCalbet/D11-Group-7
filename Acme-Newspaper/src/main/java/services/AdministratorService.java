@@ -14,6 +14,8 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.Administrator;
+import domain.Folder;
+import domain.Message;
 
 @Service
 @Transactional
@@ -31,6 +33,9 @@ public class AdministratorService {
 
 	@Autowired
 	private UserAccountService		userAccountService;
+
+	@Autowired
+	private FolderService			folderService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -50,6 +55,10 @@ public class AdministratorService {
 		result.setEmailAddresses(new HashSet<String>());
 		result.setPhoneNumbers(new HashSet<String>());
 		result.setPostalAddresses(new HashSet<String>());
+
+		result.setFolders(new HashSet<Folder>());
+		result.setMessagesSent(new HashSet<Message>());
+		result.setMessagesReceived(new HashSet<Message>());
 
 		userAccount = this.userAccountService.create("ADMIN");
 		result.setUserAccount(userAccount);
@@ -72,7 +81,7 @@ public class AdministratorService {
 	public Administrator saveFromCreate(final Administrator administrator) {
 		Assert.notNull(administrator, "message.error.administrator.null");
 
-		final Administrator result;
+		Administrator result;
 		final Administrator principal;
 
 		// Check admin as principal
@@ -89,9 +98,13 @@ public class AdministratorService {
 		possibleRepeated = this.userAccountService.findByUsername(administrator.getUserAccount().getUsername());
 		Assert.isNull(possibleRepeated, "message.error.administrator.username.repeated");
 
-		// TODO: Check @Email and @URL from Collections
-
 		result = this.save(administrator);
+
+		// Add system folders
+		final Collection<Folder> systemFolders = this.folderService.initializeFolders(result);
+		result.setFolders(systemFolders);
+
+		result = this.save(result);
 
 		return result;
 	}

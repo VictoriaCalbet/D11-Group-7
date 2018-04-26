@@ -15,7 +15,9 @@ import security.UserAccount;
 import security.UserAccountService;
 import domain.Article;
 import domain.Chirp;
+import domain.Folder;
 import domain.FollowUp;
+import domain.Message;
 import domain.Newspaper;
 import domain.User;
 
@@ -61,6 +63,10 @@ public class UserService {
 		result.setChirps(new HashSet<Chirp>());
 		result.setFollowed(new HashSet<User>());
 		result.setFollowers(new HashSet<User>());
+
+		result.setFolders(new HashSet<Folder>());
+		result.setMessagesSent(new HashSet<Message>());
+		result.setMessagesReceived(new HashSet<Message>());
 
 		userAccount = this.userAccountService.create("USER");
 		result.setUserAccount(userAccount);
