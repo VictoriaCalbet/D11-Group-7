@@ -967,7 +967,6 @@
 	<!-- #Volume Volumes -->
 
 	<bean id="volume1" class="domain.Volume">
-
 		<property name="title" value="Volume of Newspapers 1" />
 		<property name="description" value="Description of the Volume 1" />
 		<property name="year" value="2018"></property>
