@@ -973,18 +973,14 @@
 		<property name="year" value="2018"></property>
 		<property name="user" ref="user1"></property>
 		<property name="newspapers">
-
 			<list>
 				<ref bean="newspaper1" />
 			</list>
-
 		</property>
 		<property name="volumeSubscriptions">
-
 			<list>
-
+				<ref bean="volumeSubscription1"/>
 			</list>
-
 		</property>
 	</bean>
 	
@@ -1680,11 +1676,9 @@
 	<!-- #VolumeSuscriptions Volume Suscriptions in the system -->
 
 	<bean id="volumeSubscription1" class="domain.VolumeSubscription">
-	
 		<property name="creditCard" ref="creditCard3"/>
 		<property name="customer" ref="customer1"/>
 		<property name="volume" ref="volume1"/>
-	
 	</bean>
 
 	<!-- #System Configuration SystemConfiguration -->
