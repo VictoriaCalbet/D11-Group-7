@@ -67,5 +67,11 @@ public class VolumeService {
 		return result;
 	}
 
+	public Collection<Volume> findAvailableVolumesByCustomerId(final int customerId) {
+		Collection<Volume> result = null;
+		result = this.volumeRepository.findAvailableVolumesByCustomerId(customerId);
+		return result;
+	}
+
 	// Other business methods -------------------------------------------------
 }
