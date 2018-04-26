@@ -58,7 +58,7 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 		customer = this.customerService.findByPrincipal();
 		newspaperSubscriptions = customer.getNewspaperSubscriptions();
 		requestURI = "newspaperSubscription/customer/list.do";
-		displayURI = "newspaperSubscription/customer/display.do?subscriptionId=";
+		displayURI = "newspaperSubscription/customer/display.do?newspaperSubscriptionId=";
 
 		result = new ModelAndView("newspaperSubscription/list");
 		result.addObject("newspaperSubscriptions", newspaperSubscriptions);
@@ -78,10 +78,10 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result = null;
-		NewspaperSubscription subscription = null;
+		NewspaperSubscription newspaperSubscription = null;
 
-		subscription = this.newspaperSubscriptionService.create();
-		result = this.createModelAndView(subscription);
+		newspaperSubscription = this.newspaperSubscriptionService.create();
+		result = this.createModelAndView(newspaperSubscription);
 
 		return result;
 	}
@@ -89,11 +89,11 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 	// Display --------------------------------------------------------------
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int subscriptionId) {
+	public ModelAndView display(@RequestParam final int newspaperSubscriptionId) {
 		ModelAndView result = null;
 		NewspaperSubscription newspaperSubscription = null;
 
-		newspaperSubscription = this.newspaperSubscriptionService.findOne(subscriptionId);
+		newspaperSubscription = this.newspaperSubscriptionService.findOne(newspaperSubscriptionId);
 
 		Assert.notNull(newspaperSubscription);
 
