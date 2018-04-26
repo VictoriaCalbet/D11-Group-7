@@ -13,10 +13,12 @@ import security.UserAccount;
 import security.UserAccountService;
 import services.ActorService;
 import services.AdministratorService;
+import services.AgentService;
 import services.CustomerService;
 import services.UserService;
 import domain.Actor;
 import domain.Administrator;
+import domain.Agent;
 import domain.Customer;
 import domain.User;
 import domain.forms.ActorForm;
@@ -43,6 +45,9 @@ public class ActorFormService {
 
 	@Autowired
 	private CustomerService			customerService;
+
+	@Autowired
+	private AgentService			agentService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -147,6 +152,25 @@ public class ActorFormService {
 			result = this.customerService.saveFromCreate(customer);
 			return result;
 		}
+		case "AGENT":
+			final Agent result;
+			final Agent agent;
+			final UserAccount userAccount;
+
+			Assert.isTrue(!this.actorService.checkLogin(), "message.error.actorForm.customer.login");
+
+			userAccount = this.userAccountService.createComplete(actorForm.getUsername(), actorForm.getPassword(), "AGENT");
+			agent = this.agentService.create();
+
+			agent.setName(actorForm.getName());
+			agent.setSurname(actorForm.getSurname());
+			agent.setPostalAddresses(actorForm.getPostalAddresses());
+			agent.setPhoneNumbers(actorForm.getPhoneNumbers());
+			agent.setEmailAddresses(actorForm.getEmailAddresses());
+			agent.setUserAccount(userAccount);
+
+			result = this.agentService.saveFromCreate(agent);
+			return result;
 		default:
 			return null;
 		}
@@ -227,6 +251,30 @@ public class ActorFormService {
 			customer.setUserAccount(userAccount);
 
 			result = this.customerService.saveFromEdit(customer);
+			return result;
+		}
+		case "AGENT": {
+			final Actor principal = this.actorService.findByPrincipal();
+			final UserAccount userAccount;
+
+			Assert.isTrue(principal.getId() == actorForm.getId(), "message.error.actorForm.edit.self");
+
+			userAccount = principal.getUserAccount();
+			userAccount.setPassword(actorForm.getPassword());
+
+			final Agent result;
+			final Agent agent;
+
+			agent = this.agentService.findByPrincipal();
+
+			agent.setName(actorForm.getName());
+			agent.setSurname(actorForm.getSurname());
+			agent.setPostalAddresses(actorForm.getPostalAddresses());
+			agent.setPhoneNumbers(actorForm.getPhoneNumbers());
+			agent.setEmailAddresses(actorForm.getEmailAddresses());
+			agent.setUserAccount(userAccount);
+
+			result = this.agentService.saveFromEdit(agent);
 			return result;
 		}
 		default:

@@ -42,6 +42,8 @@
 						<spring:message code="master.page.user" /></a></li>
 					<li><a href="customer/create.do">
 						<spring:message code="master.page.customer" /></a></li>
+					<li><a href="agent/create.do">
+						<spring:message code="master.page.agent" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
