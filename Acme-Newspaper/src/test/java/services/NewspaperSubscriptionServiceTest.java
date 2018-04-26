@@ -93,7 +93,7 @@ public class NewspaperSubscriptionServiceTest extends AbstractTest {
 			creditCard.setExpirationYear(expirationYear);
 			creditCard.setCvv(cvv);
 
-			subscription.setCreditCard(creditCard);
+			subscription.getCreditCards().add(creditCard);
 			subscription.setNewspaper(this.newspaperService.findOne(this.getEntityId(newspaper)));
 			subscription.setCustomer(this.customerService.findByPrincipal());
 

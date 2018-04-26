@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -57,7 +58,7 @@ public class NewspaperSubscriptionService {
 
 	public NewspaperSubscription saveFromCreate(final NewspaperSubscription subscription) {
 		Assert.notNull(subscription);
-		Assert.isTrue(this.checkCreditCard(subscription.getCreditCard()));
+		Assert.isTrue(this.checkCreditCards(subscription));
 		Assert.isTrue(subscription.getNewspaper().getIsPrivate());
 		Assert.notNull(subscription.getNewspaper().getPublicationDate());
 
@@ -104,6 +105,29 @@ public class NewspaperSubscriptionService {
 		return result;
 	}
 
+	private boolean checkCreditCards(final NewspaperSubscription newspaperSubscription) {
+		boolean result = false;
+
+		Collection<CreditCard> creditCardsInDB = new ArrayList<CreditCard>();
+		Collection<CreditCard> creditCardsInObject = new ArrayList<CreditCard>();
+
+		if (newspaperSubscription.getId() != 0) {
+			final NewspaperSubscription newspaperSubscriptionInDB = this.findOne(newspaperSubscription.getId());
+			creditCardsInDB = newspaperSubscriptionInDB.getCreditCards();
+		}
+
+		creditCardsInObject = newspaperSubscription.getCreditCards();
+
+		creditCardsInObject.removeAll(creditCardsInDB);
+
+		CreditCard creditCardToCheck;
+
+		creditCardToCheck = creditCardsInObject.iterator().next();
+
+		result = this.checkCreditCard(creditCardToCheck);
+
+		return result;
+	}
 	private boolean checkCreditCard(final CreditCard creditCard) {
 		Assert.notNull(creditCard);
 		Assert.notNull(creditCard.getHolderName());

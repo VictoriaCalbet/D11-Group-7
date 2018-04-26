@@ -92,7 +92,7 @@ public class VolumeSubscriptionService {
 			NewspaperSubscription subscription = null;
 
 			subscription = this.newspaperSubscriptionService.create();
-			subscription.setCreditCard(volumeSubscription.getCreditCard());
+			subscription.getCreditCards().add(volumeSubscription.getCreditCard());
 			subscription.setNewspaper(newspaper);
 
 			this.newspaperSubscriptionService.saveFromCreate(subscription);
