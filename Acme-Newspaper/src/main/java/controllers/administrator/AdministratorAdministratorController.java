@@ -82,7 +82,7 @@ public class AdministratorAdministratorController extends AbstractController {
 					this.actorFormService.saveFromEdit(actorForm, "ADMIN");
 				else
 					this.actorFormService.saveFromCreate(actorForm, "ADMIN");
-				result = new ModelAndView("redirect:../");
+				result = new ModelAndView("redirect:../../");
 			} catch (final Throwable oops) {
 				String messageError = "admin.commit.error";
 				if (oops.getMessage().contains("message.error"))

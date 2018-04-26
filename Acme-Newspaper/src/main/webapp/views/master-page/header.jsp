@@ -126,6 +126,10 @@
 						<li><a href="administrator/administrator/edit.do"><spring:message
 									code="user.profile" /></a></li>
 					</security:authorize>
+					<security:authorize access="hasRole('AGENT')">
+						<li><a href="agent/agent/edit.do"><spring:message
+									code="user.profile" /></a></li>
+					</security:authorize>
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>
 				</ul></li>

@@ -1,5 +1,5 @@
 
-package controllers.user;
+package controllers.agent;
 
 import javax.validation.Valid;
 
@@ -15,14 +15,14 @@ import controllers.AbstractController;
 import domain.forms.ActorForm;
 
 @Controller
-@RequestMapping("/user/user")
-public class UserUserController extends AbstractController {
+@RequestMapping("/agent/agent")
+public class AgentAgentController extends AbstractController {
 
 	@Autowired
 	private ActorFormService	actorFormService;
 
 
-	public UserUserController() {
+	public AgentAgentController() {
 		super();
 	}
 
@@ -47,12 +47,12 @@ public class UserUserController extends AbstractController {
 		else
 			try {
 				if (actorForm.getId() != 0)
-					this.actorFormService.saveFromEdit(actorForm, "USER");
+					this.actorFormService.saveFromEdit(actorForm, "AGENT");
 				else
-					this.actorFormService.saveFromCreate(actorForm, "USER");
+					this.actorFormService.saveFromCreate(actorForm, "AGENT");
 				result = new ModelAndView("redirect:../../");
 			} catch (final Throwable oops) {
-				String messageError = "user.commit.error";
+				String messageError = "customer.commit.error";
 				if (oops.getMessage().contains("message.error"))
 					messageError = oops.getMessage();
 				result = this.createEditModelAndView(actorForm, messageError);
@@ -77,7 +77,7 @@ public class UserUserController extends AbstractController {
 		result = new ModelAndView("actorForm/edit");
 		result.addObject("actorForm", actorForm);
 		result.addObject("message", message);
-		result.addObject("requestURI", "user/user/edit.do");
+		result.addObject("requestURI", "agent/agent/edit.do");
 
 		return result;
 	}

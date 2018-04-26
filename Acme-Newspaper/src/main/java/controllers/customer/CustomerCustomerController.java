@@ -50,7 +50,7 @@ public class CustomerCustomerController extends AbstractController {
 					this.actorFormService.saveFromEdit(actorForm, "CUSTOMER");
 				else
 					this.actorFormService.saveFromCreate(actorForm, "CUSTOMER");
-				result = new ModelAndView("redirect:../");
+				result = new ModelAndView("redirect:../../");
 			} catch (final Throwable oops) {
 				String messageError = "customer.commit.error";
 				if (oops.getMessage().contains("message.error"))
