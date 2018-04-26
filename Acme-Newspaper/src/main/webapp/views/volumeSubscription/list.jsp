@@ -16,4 +16,31 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<security:authentication property="principal" var="loggedactor"/>
+
+<display:table name="volumeSubscriptions" id="row" requestURI="${requestURI}" pagesize="5">
+	<display:column>
+		<spring:message code="volumeSubscription.display" var="volumeSubscriptionDisplayLink"/>
+		<a href="${displayURI}${row.id}"><jstl:out value="${volumeSubscriptionDisplayLink}"/></a>
+	</display:column>
+
+	<spring:message code="volumeSubscription.title" var="volumeSubscriptionTitle"/>
+	<display:column property="volume.title" title="${volumeSubscriptionTitle}"/>
+
+	<spring:message code="volumeSubscription.creditCard.number" var="volumeSubscriptionCreditCardNumberHeader"/>
+	<display:column property="creditCard.number" title="${volumeSubscriptionCreditCardNumberHeader}"/>
+</display:table>
+
+<security:authorize access="hasRole('CUSTOMER')">
+	<jstl:if test="${existsAvailableVolumes eq true}">
+		<spring:message code="volumeSubscription.createAVolumeSubscription" var="volumeSubscriptionCreateLink"/>
+		<a href="volumeSubscription/customer/create.do"><jstl:out value="${volumeSubscriptionCreateLink}"/></a>
+		<br/>
+		<br/>
+	</jstl:if>
+</security:authorize>
+
+<acme:cancel url="welcome/index.do" code="volumeSubscription.cancel"/>
