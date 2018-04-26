@@ -124,8 +124,6 @@ public class AdministratorService {
 		isAdmin = this.actorService.checkAuthority(administrator, "ADMIN");
 		Assert.isTrue(isAdmin, "message.error.administrator.authority.wrong");
 
-		// TODO: Check @Email and @URL from Collections
-
 		// Encoding password
 		UserAccount userAccount;
 		userAccount = administrator.getUserAccount();

@@ -20,6 +20,7 @@ import domain.FollowUp;
 import domain.Message;
 import domain.Newspaper;
 import domain.User;
+import domain.Volume;
 
 @Service
 @Transactional
@@ -37,6 +38,9 @@ public class UserService {
 
 	@Autowired
 	private UserAccountService	userAccountService;
+
+	@Autowired
+	private FolderService		folderService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -63,6 +67,7 @@ public class UserService {
 		result.setChirps(new HashSet<Chirp>());
 		result.setFollowed(new HashSet<User>());
 		result.setFollowers(new HashSet<User>());
+		result.setVolumes(new HashSet<Volume>());
 
 		result.setFolders(new HashSet<Folder>());
 		result.setMessagesSent(new HashSet<Message>());
@@ -89,7 +94,7 @@ public class UserService {
 	public User saveFromCreate(final User user) {
 		Assert.notNull(user, "message.error.user.null");
 
-		final User result;
+		User result;
 
 		// Check unlogged user
 		Assert.isTrue(!this.actorService.checkLogin(), "message.error.user.login");
@@ -104,9 +109,13 @@ public class UserService {
 		possibleRepeated = this.userAccountService.findByUsername(user.getUserAccount().getUsername());
 		Assert.isNull(possibleRepeated, "message.error.user.username.repeated");
 
-		// TODO: Check @Email and @URL from Collections
-
 		result = this.save(user);
+
+		// Add system folders
+		final Collection<Folder> systemFolders = this.folderService.initializeFolders(result);
+		result.setFolders(systemFolders);
+
+		result = this.save(result);
 
 		return result;
 	}
@@ -125,8 +134,6 @@ public class UserService {
 		final boolean isUser;
 		isUser = this.actorService.checkAuthority(user, "USER");
 		Assert.isTrue(isUser, "message.error.user.authority.wrong");
-
-		// TODO: Check @Email and @URL from Collections
 
 		// Encoding password
 		UserAccount userAccount;

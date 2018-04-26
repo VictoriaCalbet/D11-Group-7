@@ -126,8 +126,6 @@ public class CustomerService {
 		isCustomer = this.actorService.checkAuthority(customer, "CUSTOMER");
 		Assert.isTrue(isCustomer, "message.error.customer.authority.wrong");
 
-		// TODO: Check @Email and @URL from Collections
-
 		// Encoding password
 		UserAccount userAccount;
 		userAccount = customer.getUserAccount();
