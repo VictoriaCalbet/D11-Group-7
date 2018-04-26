@@ -134,7 +134,6 @@
 		<security:intercept-url pattern="/volumeSubscription/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/volumeSubscription/**" access="permitAll" />
 		
-		
 		<!-- OTHERS -->
 		<security:intercept-url pattern="/systemConfiguration/administrator/**" access="hasRole('ADMIN')" />
 	
