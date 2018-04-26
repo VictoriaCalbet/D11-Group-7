@@ -765,12 +765,17 @@
 		
 		</property>
 	</bean>
-	<!-- #Subscriptions Subcriptions -->
+	<!-- #NewspaperSubscription NewspaperSubscription -->
 
 	<bean id="newspaperSubscription1" class="domain.NewspaperSubscription">
+		<property name="creditCards">
+			<list>
+				<ref bean="creditCard1"/>
+			</list>
+		</property>
+		<property name="counter" value="1"/>
 		<property name="customer" ref="customer1" />
 		<property name="newspaper" ref="newspaper2" />
-		<property name="creditCard" ref="creditCard1" />
 	</bean>
 
 	<!-- #Chirps Chirps -->

@@ -1,8 +1,11 @@
 
 package domain;
 
+import java.util.Collection;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
@@ -14,15 +17,25 @@ public class NewspaperSubscription extends DomainEntity {
 
 	// Attributes -------------------------------------------------------------
 
-	private CreditCard	creditCard;
+	private Collection<CreditCard>	creditCards;
+	private int						counter;
 
 
+	@NotNull
 	@Valid
-	public CreditCard getCreditCard() {
-		return this.creditCard;
+	@ElementCollection
+	public Collection<CreditCard> getCreditCards() {
+		return this.creditCards;
 	}
-	public void setCreditCard(final CreditCard creditCard) {
-		this.creditCard = creditCard;
+	public void setCreditCards(final Collection<CreditCard> creditCards) {
+		this.creditCards = creditCards;
+	}
+
+	public int getCounter() {
+		return this.counter;
+	}
+	public void setCounter(final int counter) {
+		this.counter = counter;
 	}
 
 
