@@ -69,8 +69,6 @@ public class NewspaperSubscriptionFormService {
 		newspaperSubscription.setNewspaper(newspaper);
 		newspaperSubscription.getCreditCards().add(newspaperSubscriptionForm.getCreditCard());
 
-		newspaperSubscription.setCounter(1);		// Es el primer newspaperSubscription que se crea
-
 		result = this.newspaperSubscriptionService.saveFromCreate(newspaperSubscription);
 
 		return result;
