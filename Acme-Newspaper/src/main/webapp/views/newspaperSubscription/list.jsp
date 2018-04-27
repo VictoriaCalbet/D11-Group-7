@@ -29,9 +29,6 @@
 
 	<spring:message code="newspaperSubscription.newspaper.title" var="newspaperSubscriptionNewspaperTitleHeader"/>
 	<display:column property="newspaper.title" title="${newspaperSubscriptionNewspaperTitleHeader}"/>
-	
-	<spring:message code="newspaperSubscription.creditCard.number" var="newspaperSubscriptionCreditCardNumberHeader"/>
-	<display:column property="creditCard.number" title="${newspaperSubscriptionCreditCardNumberHeader}"/>
 </display:table>
 
 <security:authorize access="hasRole('CUSTOMER')">
