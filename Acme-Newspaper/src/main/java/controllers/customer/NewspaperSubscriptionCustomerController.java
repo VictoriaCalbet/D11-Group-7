@@ -17,10 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 import services.CustomerService;
 import services.NewspaperService;
 import services.NewspaperSubscriptionService;
+import services.forms.NewspaperSubscriptionFormService;
 import controllers.AbstractController;
 import domain.Customer;
 import domain.Newspaper;
 import domain.NewspaperSubscription;
+import domain.forms.NewspaperSubscriptionForm;
 
 @Controller
 @RequestMapping("/newspaperSubscription/customer")
@@ -29,13 +31,16 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 	// Services -------------------------------------------------------------
 
 	@Autowired
-	private NewspaperSubscriptionService	newspaperSubscriptionService;
+	private NewspaperSubscriptionService		newspaperSubscriptionService;
 
 	@Autowired
-	private CustomerService					customerService;
+	private CustomerService						customerService;
 
 	@Autowired
-	private NewspaperService				newspaperService;
+	private NewspaperService					newspaperService;
+
+	@Autowired
+	private NewspaperSubscriptionFormService	newspaperSubscriptionFormService;
 
 
 	// Constructors ---------------------------------------------------------
@@ -78,10 +83,10 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result = null;
-		NewspaperSubscription newspaperSubscription = null;
+		NewspaperSubscriptionForm newspaperSubscriptionForm = null;
 
-		newspaperSubscription = this.newspaperSubscriptionService.create();
-		result = this.createModelAndView(newspaperSubscription);
+		newspaperSubscriptionForm = this.newspaperSubscriptionFormService.createFromCreate();
+		result = this.createModelAndView(newspaperSubscriptionForm);
 
 		return result;
 	}
@@ -107,20 +112,20 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 	// Edition    -----------------------------------------------------------
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final NewspaperSubscription subscription, final BindingResult bindingResult) {
+	public ModelAndView save(@Valid final NewspaperSubscriptionForm newspaperSubscriptionForm, final BindingResult bindingResult) {
 		ModelAndView result = null;
 
 		if (bindingResult.hasErrors())
-			result = this.createModelAndView(subscription);
+			result = this.createModelAndView(newspaperSubscriptionForm);
 		else
 			try {
-				this.newspaperSubscriptionService.saveFromCreate(subscription);
+				this.newspaperSubscriptionFormService.saveFromCreate(newspaperSubscriptionForm);
 				result = new ModelAndView("redirect:/newspaperSubscription/customer/list.do");
 			} catch (final Throwable oops) {
 				String messageError = "newspaperSubscription.commit.error";
 				if (oops.getMessage().contains("message.error"))
 					messageError = oops.getMessage();
-				result = this.createModelAndView(subscription, messageError);
+				result = this.createModelAndView(newspaperSubscriptionForm, messageError);
 			}
 
 		return result;
@@ -128,15 +133,15 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 
 	// Other actions --------------------------------------------------------
 
-	protected ModelAndView createModelAndView(final NewspaperSubscription subscription) {
+	protected ModelAndView createModelAndView(final NewspaperSubscriptionForm newspaperSubscriptionForm) {
 		ModelAndView result = null;
 
-		result = this.createModelAndView(subscription, null);
+		result = this.createModelAndView(newspaperSubscriptionForm, null);
 
 		return result;
 	}
 
-	protected ModelAndView createModelAndView(final NewspaperSubscription subscription, final String message) {
+	protected ModelAndView createModelAndView(final NewspaperSubscriptionForm newspaperSubscriptionForm, final String message) {
 		ModelAndView result = null;
 		String actionURI = null;
 		Collection<Newspaper> availableNewspapers = null;
@@ -149,7 +154,7 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 
 		result = new ModelAndView("newspaperSubscription/create");
 		result.addObject("customer", customer);
-		result.addObject("newspaperSubscription", subscription);
+		result.addObject("newspaperSubscriptionForm", newspaperSubscriptionForm);
 		result.addObject("actionURI", actionURI);
 		result.addObject("availableNewspapers", availableNewspapers);
 		result.addObject("message", message);
