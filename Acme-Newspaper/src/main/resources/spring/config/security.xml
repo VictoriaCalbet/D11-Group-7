@@ -62,12 +62,14 @@
 		<security:intercept-url pattern="/advertisement/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/advertisement/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/advertisement/**" access="permitAll" />
+		<security:intercept-url pattern="/advertisement/agent/**" access="hasRole('AGENT')" />
 		
 		<!-- Agent -->
 		<security:intercept-url pattern="/agent/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/agent/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/agent/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/agent/**" access="permitAll" />
+	
 				
 		<!-- Article -->
 		<security:intercept-url pattern="/article/administrator/**" access="hasRole('ADMIN')" />

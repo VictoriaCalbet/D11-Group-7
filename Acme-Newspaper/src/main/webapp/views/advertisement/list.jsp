@@ -17,7 +17,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<display:table name="advertisement" id="row" requestURI="${requestURI}" pagesize="5">
+<display:table name="advertisements" id="row" requestURI="${requestURI}" pagesize="5">
 
 	<spring:message code="advertisement.title" var="title" />
 	<display:column title="${title}">
