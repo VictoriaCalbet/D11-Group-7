@@ -18,12 +18,14 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
-<form:form action="${requestURI}" modelAttribute="articleForm">
+<form:form action="${requestURI}" modelAttribute="advertisement">
 
 	<form:hidden path="id"/>
 	<form:hidden path="agent"/>
+	<form:hidden path="version"/>
 	
-	<acme:select code="advertisement.newspaper" path="newspaper" items="${availableNewspapers}" itemLabel="title"/><br/>
+	
+	<acme:select code="advertisement.newspaper" path="newspaper" items="${newspapers}" itemLabel="title"/><br/>
 	<acme:textbox code="advertisement.title" path="title"/>
 	<acme:textbox code="advertisement.banner" path="bannerURL"/>
 	<acme:textbox code="advertisement.target" path="targetPageURL"/>

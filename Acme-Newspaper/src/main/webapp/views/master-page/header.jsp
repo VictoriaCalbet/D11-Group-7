@@ -60,7 +60,11 @@
 			<li><a class="fNiv" href="article/user/listOwnArticles.do"> <spring:message code="master.page.list.ownArticles" /></a>
 		
 		</security:authorize>
+		<security:authorize access="hasRole('AGENT')">
+			
+			<li><a class="fNiv" href="advertisement/agent/list.do"><spring:message code="master.page.advertisement.myadvertisements" /></a></li>
 		
+		</security:authorize>
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
 		<security:authorize access="hasRole('ADMIN')">
 		

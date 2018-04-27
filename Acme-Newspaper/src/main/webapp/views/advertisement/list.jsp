@@ -38,20 +38,28 @@
 		</a>
 	</display:column>
 	
+	<spring:message code="advertisement.newspaper" var="newspaper" />
+	<display:column title="${newspaper}">
+		<jstl:out value="${row.newspaper.title}"></jstl:out>
+	</display:column>
+	
+	<security:authorize access="hasRole('AGENT')">
 	<spring:message code="advertisement.edit" var="edit" />
 	<display:column sortable="false" title="${edit}">
 		<a href="advertisement/agent/edit.do?advertisementId=${row.id}">
 			${edit}
 		</a>
 	</display:column>
+	</security:authorize>
 	
 	<spring:message code="advertisement.delete" var="delete" />
-	<display:column sortable="false" title="${edit}">
-		<a href="advertisement/agent/delete.do?advertisementId=${row.id}">
-			${edit}
+	<display:column sortable="false" title="${delete}">
+		<a href="${deleteURI}${row.id}">
+			${delete}
 		</a>
 	</display:column>
 </display:table>
-
+<security:authorize access="hasRole('AGENT')">
 <spring:message code="advertisement.create" var="create" />
 <a href="advertisement/agent/create.do">${create}</a>
+</security:authorize>

@@ -42,7 +42,10 @@ public class AdvertisementService {
 	// Simple CRUD methods ----------------------------------------------------
 
 	public Advertisement create() {
-		return null;
+		Advertisement advertisement;
+		advertisement = new Advertisement();
+		advertisement.setAgent(this.isAgentAunthenticate());
+		return advertisement;
 	}
 
 	// DO NOT MODIFY. ANY OTHER SAVE METHOD MUST BE NAMED DIFFERENT.
@@ -66,9 +69,9 @@ public class AdvertisementService {
 	}
 
 	public Advertisement saveFromCreate(final Advertisement advertisement) {
-		Assert.notNull(advertisement.getAgent(), "advertisement.error.null.agent");
-		this.isAgentAunthenticate();
+
 		Assert.notNull(advertisement, "advertisement.error.null");
+		this.isAgentAunthenticate();
 		Assert.notNull(advertisement.getBannerURL(), "advertisement.error.null.banner");
 		Assert.notNull(advertisement.getTitle(), "advertisement.error.null.title");
 		Assert.notNull(advertisement.getTargetPageURL(), "advertisement.error.null.target");
@@ -90,8 +93,9 @@ public class AdvertisementService {
 		Assert.notNull(advertisement.getTargetPageURL(), "advertisement.error.null.target");
 		this.checkCreditCard(advertisement.getCreditCard());
 		Assert.notNull(advertisement.getNewspaper(), "advertisement.error.null.newspaper");
-
 		Advertisement advertisementInDB;
+		advertisementInDB = this.findOne(advertisement.getId());
+		Assert.notNull(advertisementInDB);
 		advertisementInDB = this.advertisementRepository.save(advertisement);
 
 		return advertisementInDB;
@@ -136,11 +140,13 @@ public class AdvertisementService {
 
 	private void checkCreditCard(final CreditCard creditCard) {
 		Assert.notNull(creditCard);
-		final int year = Calendar.YEAR;
+		final Calendar calendar = Calendar.getInstance();
+		final int year = calendar.get(Calendar.YEAR);
+		System.out.println(year + "GGGGGGGGGGGGGGGGGGGGGGGG");
 		if (creditCard.getExpirationYear() < year)
 			Assert.isTrue(false, "advertisement.error.creditcard");
 		else if (creditCard.getExpirationYear() == year)
-			Assert.isTrue(!(creditCard.getExpirationMonth() <= Calendar.MONTH), "advertisement.error.creditcard");
+			Assert.isTrue(!(creditCard.getExpirationMonth() <= (calendar.get(Calendar.MONTH)) + 1), "advertisement.error.creditcard");
 	}
 
 	private Agent isAgentAunthenticate() {
