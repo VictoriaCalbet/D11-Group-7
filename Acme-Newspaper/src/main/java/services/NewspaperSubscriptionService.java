@@ -58,18 +58,20 @@ public class NewspaperSubscriptionService {
 	}
 
 	public NewspaperSubscription saveFromCreate(final NewspaperSubscription newspaperSubscription) {
-		Assert.notNull(newspaperSubscription);
-		Assert.isTrue(this.checkCreditCards(newspaperSubscription));
-		Assert.isTrue(newspaperSubscription.getNewspaper().getIsPrivate());
-		Assert.notNull(newspaperSubscription.getNewspaper().getPublicationDate());
+		Assert.notNull(newspaperSubscription, "message.error.newspaperSubscription.null");
+		Assert.isTrue(this.checkCreditCards(newspaperSubscription), "message.error.newspaperSubscription.invalidCreditCard");
+		Assert.isTrue(newspaperSubscription.getNewspaper().getIsPrivate(), "message.error.newspaperSubscription.isPublicNewspaper");
+		Assert.notNull(newspaperSubscription.getNewspaper().getPublicationDate(), "message.error.newspaperSubscription.publicationDateNotDefined");
 
 		NewspaperSubscription result = null;
 		Customer customer = null;
 
 		customer = this.customerService.findByPrincipal();
-		Assert.notNull(customer);
-		Assert.isTrue(customer.equals(newspaperSubscription.getCustomer()));
+		Assert.notNull(customer, "message.error.newspaperSubscription.customer.null");
+		Assert.isTrue(customer.equals(newspaperSubscription.getCustomer()), "message.error.newspaperSubscription.isNotTheSameCustomer");
+		// TODO: creo que hay que quitar esta comprobación
 		Assert.isTrue(!this.newspaperSubscriptionRepository.isThisCustomerSubscribeOnThisNewspaper(newspaperSubscription.getCustomer().getId(), newspaperSubscription.getNewspaper().getId()));
+		newspaperSubscription.setCounter(1);		// Es el primer newspaperSubscription que se crea
 
 		// Paso 1: realizo la entidad del servicio NewspaperSubscription
 
@@ -81,7 +83,6 @@ public class NewspaperSubscriptionService {
 
 		return result;
 	}
-
 	public void flush() {
 		this.newspaperSubscriptionRepository.flush();
 	}
