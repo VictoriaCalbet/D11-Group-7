@@ -62,12 +62,13 @@ public class FolderService {
 	public Folder saveFromCreate(final Folder folder) {
 		Assert.notNull(folder, "message.error.folder.null");
 		Assert.isTrue(!this.checkSystemFolderName(folder), "message.error.folder.name.system");
-		Assert.isTrue(this.checkRepeatedFolderName(folder), "message.error.folder.name.repeated");
+		Assert.isTrue(!this.checkRepeatedFolderName(folder), "message.error.folder.name.repeated");
 
 		Folder result;
 		Actor principal;
 
 		principal = this.actorService.findByPrincipal();
+		folder.setActor(principal);
 
 		result = this.save(folder);
 
@@ -80,7 +81,7 @@ public class FolderService {
 	public Folder saveFromEdit(final Folder folder) {
 		Assert.notNull(folder, "message.error.folder.null");
 		Assert.isTrue(!this.checkSystemFolderName(folder), "message.error.folder.name.system");
-		Assert.isTrue(this.checkRepeatedFolderName(folder), "message.error.folder.name.repeated");
+		Assert.isTrue(!this.checkRepeatedFolderName(folder), "message.error.folder.name.repeated");
 
 		Folder result;
 		final Folder folderInDB;
@@ -93,9 +94,6 @@ public class FolderService {
 		Assert.isTrue(folder.getActor().getId() == principal.getId());
 
 		result = this.save(folder);
-
-		principal.getFolders().add(result);
-		this.actorService.save(principal);
 
 		return result;
 	}
@@ -130,6 +128,30 @@ public class FolderService {
 	public Folder findOne(final int folderId) {
 		Folder result = null;
 		result = this.folderRepository.findOne(folderId);
+		return result;
+	}
+
+	public Collection<Folder> findAllRootFoldersByActor() {
+		Collection<Folder> result = null;
+		final Actor principal = this.actorService.findByPrincipal();
+
+		result = this.folderRepository.findAllRootFoldersByActor(principal.getId());
+
+		return result;
+	}
+
+	public Collection<Folder> findAllChilderFoldersByFolderId(final int folderId) {
+		Collection<Folder> result = null;
+		result = this.folderRepository.findAllChilderFoldersByFolderId(folderId);
+		return result;
+	}
+
+	public Collection<Folder> findAllPossibleParentFolders(final int folderId) {
+		Collection<Folder> result = null;
+		final Actor principal = this.actorService.findByPrincipal();
+
+		result = this.folderRepository.findAllPossibleParentFolders(folderId, principal.getId());
+
 		return result;
 	}
 
