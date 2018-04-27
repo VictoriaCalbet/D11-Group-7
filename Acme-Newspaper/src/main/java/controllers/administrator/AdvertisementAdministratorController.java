@@ -1,14 +1,11 @@
 
-package controllers.agent;
+package controllers.administrator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,8 +19,8 @@ import domain.Advertisement;
 import domain.Agent;
 
 @Controller
-@RequestMapping("/advertisement/agent")
-public class AdvertisementAgentController extends AbstractController {
+@RequestMapping("/advertisement/administrator")
+public class AdvertisementAdministratorController extends AbstractController {
 
 	@Autowired
 	private AdvertisementService	advertisementService;
@@ -38,63 +35,12 @@ public class AdvertisementAgentController extends AbstractController {
 		final ModelAndView result;
 		List<Advertisement> advertisements;
 		advertisements = new ArrayList<Advertisement>();
-		Agent agent;
-		agent = this.agentService.findByPrincipal();
-		advertisements.addAll(agent.getAdvertisements());
+
+		advertisements.addAll(this.advertisementService.findAll());
 		result = new ModelAndView("advertisement/list");
 		result.addObject("advertisements", advertisements);
-		result.addObject("requestURI", "advertisement/agent/list.do");
-		result.addObject("deleteURI", "advertisement/agent/delete.do?advertisementId=");
-		return result;
-	}
-
-	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	public ModelAndView edit(@RequestParam final int advertisementId) {
-		final ModelAndView result;
-		Advertisement advertisement;
-
-		advertisement = this.advertisementService.findOne(advertisementId);
-		result = this.createEditModelAndView(advertisement);
-
-		return result;
-
-	}
-
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create() {
-		final ModelAndView result;
-		Advertisement advertisement;
-
-		advertisement = this.advertisementService.create();
-		result = this.createEditModelAndView(advertisement);
-
-		return result;
-
-	}
-
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Advertisement advertisement, final BindingResult binding) {
-		ModelAndView result;
-
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(advertisement);
-		else
-			try {
-
-				if (advertisement.getId() != 0)
-					this.advertisementService.saveFromEdit(advertisement);
-				else
-					this.advertisementService.saveFromCreate(advertisement);
-				result = new ModelAndView("redirect:/advertisement/agent/list.do");
-			} catch (final Throwable oops) {
-				String messageError = "advertisement.commit.error";
-
-				if (oops.getMessage().contains("message.error"))
-					messageError = oops.getMessage();
-				result = this.createEditModelAndView(advertisement, messageError);
-
-			}
-
+		result.addObject("requestURI", "advertisement/administrator/list.do");
+		result.addObject("deleteURI", "advertisement/administrator/delete.do?advertisementId=");
 		return result;
 	}
 
@@ -104,7 +50,7 @@ public class AdvertisementAgentController extends AbstractController {
 		Advertisement advertisementInDB;
 		advertisementInDB = this.advertisementService.findOne(advertisementId);
 		try {
-			this.advertisementService.deleteByAgent(advertisementInDB);
+			this.advertisementService.delete(advertisementInDB);
 			result = new ModelAndView("redirect:/advertisement/agent/list.do");
 		} catch (final Throwable oops) {
 			List<Advertisement> advertisements;
@@ -114,13 +60,13 @@ public class AdvertisementAgentController extends AbstractController {
 			advertisements.addAll(agent.getAdvertisements());
 			result = new ModelAndView("advertisement/list");
 			result.addObject("advertisements", advertisements);
-			result.addObject("requestURI", "advertisement/agent/list.do");
+			result.addObject("requestURI", "advertisement/administrator/list.do");
 			String messageError = "advertisement.commit.error";
 
 			if (oops.getMessage().contains("message.error"))
 				messageError = oops.getMessage();
 			result.addObject("message", messageError);
-			result.addObject("deleteURI", "advertisement/agent/delete.do?advertisementId=");
+			result.addObject("deleteURI", "advertisement/administrator/delete.do?advertisementId=");
 
 		}
 		return result;

@@ -52,3 +52,22 @@
 
 </security:authorize>
 </div>
+
+<br />
+
+<div>
+	<b><spring:message code="article.advertisement" />: </b>
+</div>
+
+<jstl:if test="${advertisementBanner!=null}">	
+	<spring:url var="advertisementBannerURL" value="${advertisementBanner.bannerURL}"/>
+	<spring:url var="advertisementTargetURL" value="${advertisementBanner.targetPageURL}"/>
+	<spring:message code="article.advertisement" var="advertisement" />
+	<a href="${advertisementTargetURL}">
+	<img src="${advertisementBannerURL}" alt="${advertisement}"/>
+	</a>
+</jstl:if>
+<jstl:if test="${advertisementBanner==null}">
+	<spring:message code="article.advertisement.noBannerUrl"/>
+</jstl:if>
+		

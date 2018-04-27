@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.SystemConfigurationService;
 import controllers.AbstractController;
+import domain.Advertisement;
 import domain.Article;
 import domain.Chirp;
 import domain.Newspaper;
@@ -42,6 +43,7 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 		final Collection<Newspaper> tabooNewspapers = this.systemConfigurationService.getTabooNewspapers();
 		final Collection<Article> tabooArticles = this.systemConfigurationService.getTabooArticles();
 		final Collection<Chirp> tabooChirps = this.systemConfigurationService.getTabooChirps();
+		final Collection<Advertisement> tabooAdvertisements = this.systemConfigurationService.getTabooAdvertisements();
 
 		systemConfiguration = this.systemConfigurationService.findMain();
 
@@ -50,6 +52,7 @@ public class SystemConfigurationAdministratorController extends AbstractControll
 		result.addObject("tabooNewspapers", tabooNewspapers);
 		result.addObject("tabooArticles", tabooArticles);
 		result.addObject("tabooChirps", tabooChirps);
+		result.addObject("tabooAdvertisements", tabooAdvertisements);
 		result.addObject("requestURI", "systemConfiguration/administrator/list.do");
 
 		return result;

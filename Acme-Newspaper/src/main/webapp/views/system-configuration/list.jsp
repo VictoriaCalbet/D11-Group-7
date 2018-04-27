@@ -74,6 +74,38 @@
 		
 </display:table>
 
+<div>
+	<b><spring:message code="systemConfiguration.advertisement.taboo" />: </b>
+</div>
+
+<display:table name="tabooAdvertisements" id="row" requestURI="${requestURI}" pagesize="5">
+
+	<spring:message code="advertisement.title" var="title" />
+	<display:column title="${title}">
+		<jstl:out value="${row.title}"></jstl:out>
+	</display:column>
+	
+	<spring:message code="advertisement.banner" var="banner" />
+	<display:column title="${banner}">
+		<a href="<jstl:url value="${row.bannerURL}"/>">
+			<jstl:url value="${row.bannerURL}"/>
+		</a>
+	</display:column>
+	
+	<spring:message code="advertisement.target" var="target" />
+	<display:column title="${target}">
+		<a href="<jstl:url value="${row.targetPageURL}"/>">
+			<jstl:url value="${row.targetPageURL}"/>
+		</a>
+	</display:column>
+	
+	<spring:message code="advertisement.newspaper" var="newspaper" />
+	<display:column title="${newspaper}">
+		<jstl:out value="${row.newspaper.title}"></jstl:out>
+	</display:column>
+	
+</display:table>
+
 <security:authorize access="hasRole('ADMIN')">
 	<br><a href="systemConfiguration/administrator/edit.do"> <spring:message code="systemConfiguration.edit" /></a>
 </security:authorize>

@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 
 import repositories.SystemConfigurationRepository;
 import domain.Administrator;
+import domain.Advertisement;
 import domain.Article;
 import domain.Chirp;
 import domain.Newspaper;
@@ -36,6 +37,9 @@ public class SystemConfigurationService {
 
 	@Autowired
 	private ChirpService					chirpService;
+
+	@Autowired
+	private AdvertisementService			advertisementService;
 
 
 	// Supporting services ----------------------------------------------------
@@ -142,6 +146,18 @@ public class SystemConfigurationService {
 
 		for (final String tabooWord : systemConfiguration.getTabooWords())
 			result.addAll(this.chirpService.getTabooChirps(tabooWord));
+
+		return result;
+	}
+
+	public Collection<Advertisement> getTabooAdvertisements() {
+		final Collection<Advertisement> result = new HashSet<>();
+		SystemConfiguration systemConfiguration;
+
+		systemConfiguration = this.findMain();
+
+		for (final String tabooWord : systemConfiguration.getTabooWords())
+			result.addAll(this.advertisementService.getTabooAdvertisements(tabooWord));
 
 		return result;
 	}

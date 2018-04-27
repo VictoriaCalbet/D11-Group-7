@@ -135,6 +135,11 @@ public class AdvertisementService {
 
 		return s;
 	}
+	public Collection<Advertisement> getTabooAdvertisements(final String keyWord) {
+		Collection<Advertisement> advertisements;
+		advertisements = this.advertisementRepository.getTabooAdvertisements(keyWord);
+		return advertisements;
+	}
 
 	//Auxiliar method
 
