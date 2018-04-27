@@ -17,3 +17,41 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<display:table name="advertisement" id="row" requestURI="${requestURI}" pagesize="5">
+
+	<spring:message code="advertisement.title" var="title" />
+	<display:column title="${title}">
+		<jstl:out value="${row.title}"></jstl:out>
+	</display:column>
+	
+	<spring:message code="advertisement.banner" var="banner" />
+	<display:column title="${banner}">
+		<a href="<jstl:url value="${row.bannerURL}"/>">
+			<jstl:url value="${row.bannerURL}"/>
+		</a>
+	</display:column>
+	
+	<spring:message code="advertisement.target" var="target" />
+	<display:column title="${target}">
+		<a href="<jstl:url value="${row.targetPageURL}"/>">
+			<jstl:url value="${row.targetPageURL}"/>
+		</a>
+	</display:column>
+	
+	<spring:message code="advertisement.edit" var="edit" />
+	<display:column sortable="false" title="${edit}">
+		<a href="advertisement/agent/edit.do?advertisementId=${row.id}">
+			${edit}
+		</a>
+	</display:column>
+	
+	<spring:message code="advertisement.delete" var="delete" />
+	<display:column sortable="false" title="${edit}">
+		<a href="advertisement/agent/delete.do?advertisementId=${row.id}">
+			${edit}
+		</a>
+	</display:column>
+</display:table>
+
+<spring:message code="advertisement.create" var="create" />
+<a href="advertisement/agent/create.do">${create}</a>

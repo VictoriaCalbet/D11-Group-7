@@ -66,7 +66,7 @@ public class AdvertisementService {
 	}
 
 	public Advertisement saveFromCreate(final Advertisement advertisement) {
-		Assert.notNull(advertisement.getAgent());
+		Assert.notNull(advertisement.getAgent(), "advertisement.error.null.agent");
 		this.isAgentAunthenticate();
 		Assert.notNull(advertisement, "advertisement.error.null");
 		Assert.notNull(advertisement.getBannerURL(), "advertisement.error.null.banner");

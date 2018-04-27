@@ -16,4 +16,29 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
+<form:form action="${requestURI}" modelAttribute="articleForm">
+
+	<form:hidden path="id"/>
+	<form:hidden path="agent"/>
+	
+	<acme:select code="advertisement.newspaper" path="newspaper" items="${availableNewspapers}" itemLabel="title"/><br/>
+	<acme:textbox code="advertisement.title" path="title"/>
+	<acme:textbox code="advertisement.banner" path="bannerURL"/>
+	<acme:textbox code="advertisement.target" path="targetPageURL"/>
+
+	<br/>
+	<h3><strong><spring:message code="advertisement.creditcard"/></strong></h3>
+	<br/>
+	<acme:textbox code="advertisement.creditCard.holder" path="creditCard.holderName"/>
+	<acme:textbox code="advertisement.creditCard.brand" path="creditCard.brandName"/>
+	<acme:textbox code="advertisement.creditCard.number" path="creditCard.number"/>
+	<acme:textbox code="advertisement.creditCard.month" path="creditCard.expirationMonth"/>
+	<acme:textbox code="advertisement.creditCard.year" path="creditCard.expirationYear"/>
+	<acme:textbox code="advertisement.creditCard.cvv" path="creditCard.cvv"/>
+	
+	<br/>
+	<input type="submit" name="save" value="<spring:message code="advertisement.save"/>"/>
+	<acme:cancel url="advertisement/agent/list.do" code="advertisement.cancel" /> <br/>
+</form:form>
