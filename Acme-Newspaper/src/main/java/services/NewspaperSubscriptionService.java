@@ -44,6 +44,7 @@ public class NewspaperSubscriptionService {
 
 		result = new NewspaperSubscription();
 		result.setCustomer(this.customerService.findByPrincipal());
+		result.setCreditCards(new ArrayList<CreditCard>());
 
 		return result;
 	}
@@ -56,23 +57,23 @@ public class NewspaperSubscriptionService {
 		return result;
 	}
 
-	public NewspaperSubscription saveFromCreate(final NewspaperSubscription subscription) {
-		Assert.notNull(subscription);
-		Assert.isTrue(this.checkCreditCards(subscription));
-		Assert.isTrue(subscription.getNewspaper().getIsPrivate());
-		Assert.notNull(subscription.getNewspaper().getPublicationDate());
+	public NewspaperSubscription saveFromCreate(final NewspaperSubscription newspaperSubscription) {
+		Assert.notNull(newspaperSubscription);
+		Assert.isTrue(this.checkCreditCards(newspaperSubscription));
+		Assert.isTrue(newspaperSubscription.getNewspaper().getIsPrivate());
+		Assert.notNull(newspaperSubscription.getNewspaper().getPublicationDate());
 
 		NewspaperSubscription result = null;
 		Customer customer = null;
 
 		customer = this.customerService.findByPrincipal();
 		Assert.notNull(customer);
-		Assert.isTrue(customer.equals(subscription.getCustomer()));
-		Assert.isTrue(!this.newspaperSubscriptionRepository.isThisCustomerSubscribeOnThisNewspaper(subscription.getCustomer().getId(), subscription.getNewspaper().getId()));
+		Assert.isTrue(customer.equals(newspaperSubscription.getCustomer()));
+		Assert.isTrue(!this.newspaperSubscriptionRepository.isThisCustomerSubscribeOnThisNewspaper(newspaperSubscription.getCustomer().getId(), newspaperSubscription.getNewspaper().getId()));
 
 		// Paso 1: realizo la entidad del servicio NewspaperSubscription
 
-		result = this.save(subscription);
+		result = this.save(newspaperSubscription);
 
 		// Paso 2: persisto el resto de relaciones a las que el objeto NewspaperSubscription estén relacionadas
 		result.getCustomer().getNewspaperSubscriptions().add(result);
