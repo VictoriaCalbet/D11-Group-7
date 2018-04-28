@@ -99,11 +99,28 @@ public class FolderActorController extends AbstractController {
 					this.folderFormService.saveFromCreate(folderForm);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
-				String messageError = "admin.commit.error";
+				String messageError = "folder.commit.error";
 				if (oops.getMessage().contains("message.error"))
 					messageError = oops.getMessage();
 				result = this.createEditModelAndView(folderForm, messageError);
 			}
+
+		return result;
+	}
+
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(@Valid final FolderForm folderForm, final BindingResult binding) {
+		ModelAndView result;
+
+		try {
+			this.folderFormService.delete(folderForm);
+			result = new ModelAndView("redirect:list.do");
+		} catch (final Throwable oops) {
+			String messageError = "folder.commit.error";
+			if (oops.getMessage().contains("message.error"))
+				messageError = oops.getMessage();
+			result = this.createEditModelAndView(folderForm, messageError);
+		}
 
 		return result;
 	}

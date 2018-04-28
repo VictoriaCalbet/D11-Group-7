@@ -30,6 +30,11 @@
 	
 	<!-- Action buttons -->
 	<acme:submit name="save" code="folder.save" /> &nbsp;
+	
+	<jstl:if test="${folderForm.id ne 0}">
+		<acme:submit name="delete" code="folder.delete" /> &nbsp;
+	</jstl:if>
+	
 	<acme:cancel url="folder/actor/list.do" code="folder.cancel" /> <br/>	
 
 </form:form>

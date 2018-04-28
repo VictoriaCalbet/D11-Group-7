@@ -28,6 +28,9 @@ public class FolderService {
 	@Autowired
 	private ActorService		actorService;
 
+	@Autowired
+	private MessageService		messageService;
+
 
 	// Constructors -----------------------------------------------------------
 
@@ -107,14 +110,16 @@ public class FolderService {
 		folderInDB = this.folderRepository.findOne(folder.getId());
 		principal = this.actorService.findByPrincipal();
 
-		Assert.isTrue(folder.getActor().getId() == folderInDB.getActor().getId());
-		Assert.isTrue(folder.getActor().getId() == principal.getId());
+		Assert.isTrue(folder.getActor().getId() == folderInDB.getActor().getId(), "message.error.folder.principal.owner");
+		Assert.isTrue(folder.getActor().getId() == principal.getId(), "message.error.folder.principal.owner");
+
+		// Remove messages. TODO
+		for (final Message message : folder.getMessages())
+			this.messageService.delete(message);
 
 		// Remove folder from Actor Collection.
 		principal.getFolders().remove(folder);
 		this.actorService.save(principal);
-
-		// Remove messages. TODO
 
 		this.folderRepository.delete(folder);
 	}
@@ -151,6 +156,15 @@ public class FolderService {
 		final Actor principal = this.actorService.findByPrincipal();
 
 		result = this.folderRepository.findAllPossibleParentFolders(folderId, principal.getId());
+
+		return result;
+	}
+
+	public Folder findOneByActorIdAndFolderName(final int actorId, final String folderName) {
+		Assert.notNull(folderName);
+
+		Folder result = null;
+		result = this.folderRepository.findOneByActorIdAndFolderName(actorId, folderName);
 
 		return result;
 	}
