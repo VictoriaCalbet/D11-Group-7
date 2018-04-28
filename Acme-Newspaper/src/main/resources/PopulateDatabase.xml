@@ -991,7 +991,7 @@
 	<!-- #Folder Folders -->
 	
 	<bean id="folder1" class="domain.Folder">
-		<property name="name" value="inbox" />
+		<property name="name" value="in box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="administrator1"/>
 		<property name="parent">
@@ -1007,7 +1007,7 @@
 	</bean>
 
 	<bean id="folder2" class="domain.Folder">
-		<property name="name" value="outbox" />
+		<property name="name" value="out box" />
 		<property name="system" value="true" />
 		<property name="parent">
 			<null />
@@ -1026,7 +1026,7 @@
 	</bean>
 
 	<bean id="folder3" class="domain.Folder">
-		<property name="name" value="notificationbox" />
+		<property name="name" value="notification box" />
 		<property name="system" value="true" />
 		<property name="parent">
 			<null />
@@ -1042,7 +1042,7 @@
 	</bean>
 
 	<bean id="folder4" class="domain.Folder">
-		<property name="name" value="trashbox" />
+		<property name="name" value="trash box" />
 		<property name="system" value="true" />
 		<property name="parent">
 			<null />
@@ -1058,7 +1058,7 @@
 	</bean>
 
 	<bean id="folder5" class="domain.Folder">
-		<property name="name" value="spambox" />
+		<property name="name" value="spam box" />
 		<property name="system" value="true" />
 		<property name="parent">
 			<null />
@@ -1074,7 +1074,7 @@
 	</bean>
 	
 	<bean id="folder6" class="domain.Folder">
-		<property name="name" value="inbox" />
+		<property name="name" value="in box" />
 		<property name="system" value="true" />
 		<property name="parent">
 			<null />
@@ -1090,7 +1090,7 @@
 	</bean>
 
 	<bean id="folder7" class="domain.Folder">
-		<property name="name" value="outbox" />
+		<property name="name" value="out box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user1"/>
 		<property name="parent">
@@ -1106,7 +1106,7 @@
 	</bean>
 
 	<bean id="folder8" class="domain.Folder">
-		<property name="name" value="notificationbox" />
+		<property name="name" value="notification box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user1"/>
 		<property name="parent">
@@ -1122,7 +1122,7 @@
 	</bean>
 
 	<bean id="folder9" class="domain.Folder">
-		<property name="name" value="trashbox" />
+		<property name="name" value="trash box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user1"/>
 		<property name="parent">
@@ -1138,7 +1138,7 @@
 	</bean>
 
 	<bean id="folder10" class="domain.Folder">
-		<property name="name" value="spambox" />
+		<property name="name" value="spam box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user1"/>
 		<property name="parent">
@@ -1154,7 +1154,7 @@
 	</bean>
 	
 	<bean id="folder11" class="domain.Folder">
-		<property name="name" value="inbox" />
+		<property name="name" value="in box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user2"/>
 		<property name="parent">
@@ -1170,7 +1170,7 @@
 	</bean>
 
 	<bean id="folder12" class="domain.Folder">
-		<property name="name" value="outbox" />
+		<property name="name" value="out box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user2"/>
 		<property name="parent">
@@ -1186,7 +1186,7 @@
 	</bean>
 
 	<bean id="folder13" class="domain.Folder">
-		<property name="name" value="notificationbox" />
+		<property name="name" value="notification box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user2"/>
 		<property name="parent">
@@ -1202,7 +1202,7 @@
 	</bean>
 
 	<bean id="folder14" class="domain.Folder">
-		<property name="name" value="trashbox" />
+		<property name="name" value="trash box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user2"/>
 		<property name="parent">
@@ -1218,7 +1218,7 @@
 	</bean>
 
 	<bean id="folder15" class="domain.Folder">
-		<property name="name" value="spambox" />
+		<property name="name" value="spam box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user2"/>
 		<property name="parent">
@@ -1234,7 +1234,7 @@
 	</bean>
 	
 	<bean id="folder16" class="domain.Folder">
-		<property name="name" value="inbox" />
+		<property name="name" value="in box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user3"/>
 		<property name="parent">
@@ -1250,7 +1250,7 @@
 	</bean>
 
 	<bean id="folder17" class="domain.Folder">
-		<property name="name" value="outbox" />
+		<property name="name" value="out box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user3"/>
 		<property name="parent">
@@ -1266,7 +1266,7 @@
 	</bean>
 
 	<bean id="folder18" class="domain.Folder">
-		<property name="name" value="notificationbox" />
+		<property name="name" value="notification box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user3"/>
 		<property name="parent">
@@ -1282,7 +1282,7 @@
 	</bean>
 
 	<bean id="folder19" class="domain.Folder">
-		<property name="name" value="trashbox" />
+		<property name="name" value="trash box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user3"/>
 		<property name="parent">
@@ -1298,7 +1298,7 @@
 	</bean>
 
 	<bean id="folder20" class="domain.Folder">
-		<property name="name" value="spambox" />
+		<property name="name" value="spam box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="user3"/>
 		<property name="parent">
@@ -1314,7 +1314,7 @@
 	</bean>
 	
 	<bean id="folder21" class="domain.Folder">
-		<property name="name" value="inbox" />
+		<property name="name" value="in box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="customer1"/>
 		<property name="parent">
@@ -1330,7 +1330,7 @@
 	</bean>
 
 	<bean id="folder22" class="domain.Folder">
-		<property name="name" value="outbox" />
+		<property name="name" value="out box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="customer1"/>
 		<property name="parent">
@@ -1346,7 +1346,7 @@
 	</bean>
 
 	<bean id="folder23" class="domain.Folder">
-		<property name="name" value="notificationbox" />
+		<property name="name" value="notification box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="customer1"/>
 		<property name="parent">
@@ -1362,7 +1362,7 @@
 	</bean>
 
 	<bean id="folder24" class="domain.Folder">
-		<property name="name" value="trashbox" />
+		<property name="name" value="trash box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="customer1"/>
 		<property name="parent">
@@ -1378,7 +1378,7 @@
 	</bean>
 
 	<bean id="folder25" class="domain.Folder">
-		<property name="name" value="spambox" />
+		<property name="name" value="spam box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="customer1"/>
 		<property name="parent">
@@ -1394,7 +1394,7 @@
 	</bean>
 	
 	<bean id="folder26" class="domain.Folder">
-		<property name="name" value="inbox" />
+		<property name="name" value="in box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="customer2"/>
 		<property name="parent">
@@ -1410,7 +1410,7 @@
 	</bean>
 
 	<bean id="folder27" class="domain.Folder">
-		<property name="name" value="outbox" />
+		<property name="name" value="out box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="customer2"/>
 		<property name="parent">
@@ -1426,7 +1426,7 @@
 	</bean>
 
 	<bean id="folder28" class="domain.Folder">
-		<property name="name" value="notificationbox" />
+		<property name="name" value="notification box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="customer2"/>
 		<property name="parent">
@@ -1442,7 +1442,7 @@
 	</bean>
 
 	<bean id="folder29" class="domain.Folder">
-		<property name="name" value="trashbox" />
+		<property name="name" value="trash box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="customer2"/>
 		<property name="parent">
@@ -1458,7 +1458,7 @@
 	</bean>
 
 	<bean id="folder30" class="domain.Folder">
-		<property name="name" value="spambox" />
+		<property name="name" value="spam box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="customer2"/>
 		<property name="parent">
@@ -1474,7 +1474,7 @@
 	</bean>
 	
 	<bean id="folder31" class="domain.Folder">
-		<property name="name" value="inbox" />
+		<property name="name" value="in box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="agent1"/>
 		<property name="parent">
@@ -1490,7 +1490,7 @@
 	</bean>
 
 	<bean id="folder32" class="domain.Folder">
-		<property name="name" value="outbox" />
+		<property name="name" value="out box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="agent1"/>
 		<property name="parent">
@@ -1506,7 +1506,7 @@
 	</bean>
 
 	<bean id="folder33" class="domain.Folder">
-		<property name="name" value="notificationbox" />
+		<property name="name" value="notification box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="agent1"/>
 		<property name="parent">
@@ -1522,7 +1522,7 @@
 	</bean>
 
 	<bean id="folder34" class="domain.Folder">
-		<property name="name" value="trashbox" />
+		<property name="name" value="trash box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="agent1"/>
 		<property name="parent">
@@ -1538,7 +1538,7 @@
 	</bean>
 
 	<bean id="folder35" class="domain.Folder">
-		<property name="name" value="spambox" />
+		<property name="name" value="spam box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="agent1"/>
 		<property name="parent">
@@ -1554,7 +1554,7 @@
 	</bean>
 	
 	<bean id="folder36" class="domain.Folder">
-		<property name="name" value="inbox" />
+		<property name="name" value="in box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="agent2"/>
 		<property name="parent">
@@ -1570,7 +1570,7 @@
 	</bean>
 
 	<bean id="folder37" class="domain.Folder">
-		<property name="name" value="outbox" />
+		<property name="name" value="out box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="agent2"/>
 		<property name="parent">
@@ -1586,7 +1586,7 @@
 	</bean>
 
 	<bean id="folder38" class="domain.Folder">
-		<property name="name" value="notificationbox" />
+		<property name="name" value="notification box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="agent2"/>
 		<property name="parent">
@@ -1602,7 +1602,7 @@
 	</bean>
 
 	<bean id="folder39" class="domain.Folder">
-		<property name="name" value="trashbox" />
+		<property name="name" value="trash box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="agent2"/>
 		<property name="parent">
@@ -1618,7 +1618,7 @@
 	</bean>
 
 	<bean id="folder40" class="domain.Folder">
-		<property name="name" value="spambox" />
+		<property name="name" value="spam box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="agent2"/>
 		<property name="parent">

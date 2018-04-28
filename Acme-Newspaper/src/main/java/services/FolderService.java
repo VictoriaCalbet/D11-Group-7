@@ -155,6 +155,15 @@ public class FolderService {
 		return result;
 	}
 
+	public Folder findOneByActorIdAndFolderName(final int actorId, final String folderName) {
+		Assert.notNull(folderName);
+
+		Folder result = null;
+		result = this.folderRepository.findOneByActorIdAndFolderName(actorId, folderName);
+
+		return result;
+	}
+
 	// Other business methods -------------------------------------------------
 
 	public Collection<Folder> initializeFolders(final Actor actor) {

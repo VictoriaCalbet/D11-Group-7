@@ -17,3 +17,28 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<display:table name="messages" id="row" requestURI="${requestURI}" pagesize="5">
+
+	<spring:message code="message.subject" var="subjectHeader" />
+	<display:column property="subject" title="${subjectHeader}" sortable="true" />
+	
+	<spring:message code="message.body" var="bodyHeader" />
+	<display:column property="body" title="${bodyHeader}" sortable="true" />
+	
+	<spring:message code="message.moment" var="momentHeader" />
+	<display:column property="moment" title="${momentHeader}" sortable="true" />
+	
+	<spring:message code="message.sender" var="senderHeader" />
+	<display:column property="sender.userAccount.username" title="${senderHeader}" sortable="true" />
+
+	<spring:message code="message.recipient" var="recipientHeader" />
+	<display:column property="recipient.userAccount.username" title="${recipientHeader}" sortable="true" />
+	
+</display:table>
+
+<security:authorize access="isAuthenticated()">
+		
+		<a href="message/actor/create.do">
+		<spring:message code="message.create" /></a>
+		
+</security:authorize>

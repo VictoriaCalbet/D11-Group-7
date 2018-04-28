@@ -99,7 +99,7 @@ public class FolderActorController extends AbstractController {
 					this.folderFormService.saveFromCreate(folderForm);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
-				String messageError = "admin.commit.error";
+				String messageError = "folder.commit.error";
 				if (oops.getMessage().contains("message.error"))
 					messageError = oops.getMessage();
 				result = this.createEditModelAndView(folderForm, messageError);

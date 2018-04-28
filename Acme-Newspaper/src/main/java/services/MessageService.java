@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.MessageRepository;
+import domain.Actor;
+import domain.Folder;
 import domain.Message;
 
 @Service
@@ -20,8 +22,14 @@ public class MessageService {
 	@Autowired
 	private MessageRepository	messageRepository;
 
-
 	// Supporting services ----------------------------------------------------
+
+	@Autowired
+	private ActorService		actorService;
+
+	@Autowired
+	private FolderService		folderService;
+
 
 	// Constructors -----------------------------------------------------------
 
@@ -32,7 +40,11 @@ public class MessageService {
 	// Simple CRUD methods ----------------------------------------------------
 
 	public Message create() {
-		return null;
+		Message result;
+
+		result = new Message();
+
+		return result;
 	}
 
 	// DO NOT MODIFY. ANY OTHER SAVE METHOD MUST BE NAMED DIFFERENT.
@@ -48,13 +60,27 @@ public class MessageService {
 	}
 
 	public Message saveFromCreate(final Message message) {
-		return null;
-	}
+		Assert.notNull(message, "message.error.message.null");
 
-	public Message saveFromEdit(final Message message) {
-		return null;
-	}
+		Message result;
 
+		final Actor sender = message.getSender();
+		final Actor recipient = message.getRecipient();
+		final Folder folder = message.getFolder();
+
+		result = this.save(message);
+
+		sender.getMessagesSent().add(result);
+		this.actorService.save(sender);
+
+		recipient.getMessagesReceived().add(result);
+		this.actorService.save(recipient);
+
+		folder.getMessages().add(result);
+		this.folderService.save(folder);
+
+		return result;
+	}
 	public Collection<Message> findAll() {
 		Collection<Message> result = null;
 		result = this.messageRepository.findAll();
