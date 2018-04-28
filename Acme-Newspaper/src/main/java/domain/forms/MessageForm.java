@@ -16,6 +16,7 @@ public class MessageForm {
 	private String	body;
 	private String	priority;
 	private int		recipientId;
+	private int		folderId;
 
 
 	public int getId() {
@@ -60,6 +61,14 @@ public class MessageForm {
 
 	public void setRecipientId(final int recipientId) {
 		this.recipientId = recipientId;
+	}
+
+	public int getFolderId() {
+		return folderId;
+	}
+
+	public void setFolderId(int folderId) {
+		this.folderId = folderId;
 	}
 
 }

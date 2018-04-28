@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import services.ActorService;
 import services.FolderService;
+import domain.Actor;
 import domain.Folder;
 import domain.forms.FolderForm;
 
@@ -21,6 +23,9 @@ public class FolderFormService {
 
 	@Autowired
 	private FolderService	folderService;
+
+	@Autowired
+	private ActorService	actorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -90,6 +95,18 @@ public class FolderFormService {
 		result = this.folderService.saveFromEdit(folder);
 
 		return result;
+
+	}
+
+	public void delete(final FolderForm folderForm) {
+		Assert.notNull(folderForm, "message.error.folderForm.null");
+
+		final Folder folder = this.folderService.findOne(folderForm.getId());
+		final Actor principal = this.actorService.findByPrincipal();
+
+		Assert.isTrue(principal.getFolders().contains(folder), "message.error.folder.principal.owner");
+
+		this.folderService.delete(folder);
 
 	}
 }

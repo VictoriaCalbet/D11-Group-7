@@ -85,6 +85,17 @@ public class MessageActorController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit(final int messageId) {
+		final ModelAndView result;
+		MessageForm messageForm;
+
+		messageForm = this.messageFormService.createFromMessage(messageId);
+		result = this.createEditModelAndView(messageForm);
+
+		return result;
+	}
+
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final MessageForm messageForm, final BindingResult binding) {
 		ModelAndView result;
@@ -93,7 +104,10 @@ public class MessageActorController extends AbstractController {
 			result = this.createEditModelAndView(messageForm);
 		else
 			try {
-				this.messageFormService.reconstruct(messageForm);
+				if (messageForm.getId() != 0)
+					this.messageFormService.saveFromEdit(messageForm);
+				else
+					this.messageFormService.saveFromCreate(messageForm);
 				result = new ModelAndView("redirect:../../folder/actor/list.do");
 			} catch (final Throwable oops) {
 				String messageError = "message.commit.error";
@@ -105,6 +119,22 @@ public class MessageActorController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(@Valid final MessageForm messageForm, final BindingResult binding) {
+		ModelAndView result;
+
+		try {
+			this.messageFormService.delete(messageForm);
+			result = new ModelAndView("redirect:../../folder/actor/list.do");
+		} catch (final Throwable oops) {
+			String messageError = "message.commit.error";
+			if (oops.getMessage().contains("message.error"))
+				messageError = oops.getMessage();
+			result = this.createEditModelAndView(messageForm, messageError);
+		}
+
+		return result;
+	}
 	// Ancillary methods ------------------------------------------------------
 
 	public ModelAndView createEditModelAndView(final MessageForm messageForm) {
@@ -119,6 +149,7 @@ public class MessageActorController extends AbstractController {
 		ModelAndView result;
 		final Collection<String> priorities;
 		Collection<Actor> recipients;
+		Collection<Folder> folders;
 		Actor principal;
 
 		priorities = new ArrayList<String>();
@@ -130,11 +161,14 @@ public class MessageActorController extends AbstractController {
 		principal = this.actorService.findByPrincipal();
 		recipients.remove(principal);
 
+		folders = principal.getFolders();
+
 		result = new ModelAndView("message/edit");
 		result.addObject("messageForm", messageForm);
 		result.addObject("message", message);
 		result.addObject("priorities", priorities);
 		result.addObject("recipients", recipients);
+		result.addObject("folders", folders);
 		result.addObject("requestURI", "message/actor/edit.do");
 
 		return result;

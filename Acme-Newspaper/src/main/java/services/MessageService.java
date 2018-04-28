@@ -81,6 +81,25 @@ public class MessageService {
 
 		return result;
 	}
+
+	public void delete(final Message message) {
+		Assert.notNull(message, "message.error.message.null");
+
+		final Folder folder = message.getFolder();
+		final Actor principal = this.actorService.findByPrincipal();
+
+		Assert.isTrue(principal.getMessagesSent().contains(message), "message.error.message.principal.owner");
+		Assert.isTrue(principal.getFolders().contains(folder), "message.error.message.folder.principal.owner");
+
+		if (folder.getName().equals("trash box"))
+			this.messageRepository.delete(message);
+		else {
+			final Folder trashbox = this.folderService.findOneByActorIdAndFolderName(principal.getId(), "trash box");
+			message.setFolder(trashbox);
+			this.save(message);
+		}
+	}
+
 	public Collection<Message> findAll() {
 		Collection<Message> result = null;
 		result = this.messageRepository.findAll();

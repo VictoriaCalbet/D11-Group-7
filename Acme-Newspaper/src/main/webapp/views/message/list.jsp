@@ -17,7 +17,16 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<security:authentication property="principal" var="loggedactor"/>
+
 <display:table name="messages" id="row" requestURI="${requestURI}" pagesize="5">
+
+	<spring:message code="message.edit" var="editHeader" />	
+	<display:column title="${editHeader}">
+		<a href="message/actor/edit.do?messageId=${row.id}">
+			<spring:message code="message.edit" />
+		</a>
+	</display:column>
 
 	<spring:message code="message.subject" var="subjectHeader" />
 	<display:column property="subject" title="${subjectHeader}" sortable="true" />

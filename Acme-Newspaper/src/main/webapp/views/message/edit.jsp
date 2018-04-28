@@ -24,22 +24,40 @@
 	<!-- Hidden attributes -->
 	<form:hidden path="id"/>
 	
-	<!-- Editable attributes -->
-	<acme:textbox code="message.subject" path="subject"/>
-	<acme:textarea code="message.body" path="body"/>
-	<acme:select items="${recipients}" itemLabel="userAccount.username" code="message.recipient" path="recipientId"/>
+	<jstl:choose>
+		<jstl:when test="${messageForm.folderId eq 0}">
+			<form:hidden path="folderId"/>
+			
+			<!-- Editable attributes -->
+			<acme:textbox code="message.subject" path="subject"/>
+			<acme:textarea code="message.body" path="body"/>
+			<acme:select items="${recipients}" itemLabel="userAccount.username" code="message.recipient" path="recipientId"/>
 
-	<b><form:label path="priority">
-		<spring:message code="message.priority"/>
-	</form:label>:</b>
-	<form:select path="priority">
-		<form:options items="${priorities}"/>
-	</form:select>
-	<form:errors cssClass="error" path="priority"/>
-	<br/>
+			<b><form:label path="priority">
+				<spring:message code="message.priority"/>
+			</form:label>:</b>
+			<form:select path="priority">
+				<form:options items="${priorities}"/>
+			</form:select>
+			<form:errors cssClass="error" path="priority"/>
+			<br/>
+		</jstl:when>
+		<jstl:when test="${messageForm.folderId ne 0}">
+			<form:hidden path="subject"/>
+			<form:hidden path="body"/>
+			<form:hidden path="priority"/>
+			<form:hidden path="recipientId"/>
+			<acme:select items="${folders}" itemLabel="name" code="folder.name" path="folderId"/>
+		</jstl:when>
+	</jstl:choose>
 		
 	<!-- Action buttons -->
 	<acme:submit name="save" code="message.save" /> &nbsp;
+	
+	<jstl:if test="${messageForm.id ne 0}">
+		<acme:submit name="delete" code="message.delete"/> &nbsp;
+	</jstl:if>
+	
 	<acme:cancel url="folder/actor/list.do" code="message.cancel" /> <br/>	
 
 </form:form>

@@ -6,6 +6,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import services.ActorService;
 import services.FolderService;
@@ -44,11 +45,35 @@ public class MessageFormService {
 
 		result = new MessageForm();
 		result.setId(0);
+		result.setFolderId(0);
 
 		return result;
 	}
 
-	public void reconstruct(final MessageForm messageForm) {
+	public MessageForm createFromMessage(final int messageId) {
+		MessageForm result;
+		Message message;
+
+		final Actor principal = this.actorService.findByPrincipal();
+
+		message = this.messageService.findOne(messageId);
+
+		Assert.isTrue(principal.getMessagesSent().contains(message), "message.error.message.principal.owner");
+
+		result = new MessageForm();
+		result.setId(message.getId());
+		result.setSubject(message.getSubject());
+		result.setBody(message.getBody());
+		result.setPriority(message.getPriority());
+		result.setRecipientId(message.getRecipient().getId());
+		result.setFolderId(message.getFolder().getId());
+
+		return result;
+	}
+
+	public void saveFromCreate(final MessageForm messageForm) {
+		Assert.notNull(messageForm, "message.error.messageForm.null");
+
 		Message messageForSender;
 		Message messageForRecipient;
 
@@ -83,6 +108,35 @@ public class MessageFormService {
 		messageForRecipient.setFolder(recipientInbox);
 
 		messageForRecipient = this.messageService.saveFromCreate(messageForRecipient);
+
+	}
+
+	public void saveFromEdit(final MessageForm messageForm) {
+		Assert.notNull(messageForm, "message.error.messageForm.null");
+
+		final Message message = this.messageService.findOne(messageForm.getId());
+		final Folder folder = this.folderService.findOne(messageForm.getFolderId());
+		final Actor principal = this.actorService.findByPrincipal();
+
+		Assert.isTrue(principal.getMessagesSent().contains(message), "message.error.message.principal.owner");
+		Assert.isTrue(principal.getFolders().contains(folder), "message.error.message.folder.principal.owner");
+
+		message.setFolder(folder);
+
+		this.messageService.save(message);
+	}
+
+	public void delete(final MessageForm messageForm) {
+		Assert.notNull(messageForm, "message.error.messageForm.null");
+
+		final Message message = this.messageService.findOne(messageForm.getId());
+		final Folder folder = this.folderService.findOne(messageForm.getFolderId());
+		final Actor principal = this.actorService.findByPrincipal();
+
+		Assert.isTrue(principal.getMessagesSent().contains(message), "message.error.message.principal.owner");
+		Assert.isTrue(principal.getFolders().contains(folder), "message.error.message.folder.principal.owner");
+
+		this.messageService.delete(message);
 
 	}
 }
