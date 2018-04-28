@@ -58,7 +58,7 @@ public class NewspaperController extends AbstractController {
 			if (word == null || word.equals("")) {
 
 				final Actor a = this.actorService.findByPrincipal();
-				newspapers = this.newspaperService.findPublicated();
+				newspapers = this.newspaperService.findPublicatedAll();
 				ns = this.newspaperService.findNewspaperSubscribedOfCustomer(a.getId());
 			} else {
 				final Customer c = this.customerService.findByPrincipal();
@@ -67,9 +67,9 @@ public class NewspaperController extends AbstractController {
 			}
 		} catch (final Throwable oops) {
 			if (word == null || word.equals(""))
-				newspapers = this.newspaperService.findPublicated();
+				newspapers = this.newspaperService.findPublicatedAll();
 			else
-				newspapers = this.newspaperService.findNewspaperByKeyWordNotPrivate(word);
+				newspapers = this.newspaperService.findNewspaperByKeyWord(word);
 		}
 
 		result = new ModelAndView("newspaper/list");
@@ -133,11 +133,19 @@ public class NewspaperController extends AbstractController {
 					return result = new ModelAndView("redirect:/newspaper/list.do");
 				else if (!u.getNewspapers().contains(newspaper) && !newspaper.getIsPrivate() && newspaper.getPublicationDate() == null)
 					return result = new ModelAndView("redirect:/newspaper/list.do");
-			}
+				else if (!u.getNewspapers().contains(newspaper) && newspaper.getIsPrivate() == true && newspaper.getPublicationDate() != null)
+					visible = false;
+				else if (u.getNewspapers().contains(newspaper) && newspaper.getIsPrivate() == true)
+					visible = true;
+			} else if (this.actorService.checkAuthority(this.actorService.findByPrincipal(), "ADMIN"))
+				if (newspaper.getIsPrivate() == true)
+					visible = false;
 
 		} catch (final Throwable oops) {
-			if (newspaper.getIsPrivate() || newspaper.getPublicationDate() == null)
+			if (newspaper.getPublicationDate() == null)
 				return result = new ModelAndView("redirect:/newspaper/list.do");
+			else if (newspaper.getPublicationDate() != null && newspaper.getIsPrivate() == true)
+				visible = false;
 
 		}
 

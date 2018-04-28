@@ -12,11 +12,13 @@ import org.springframework.util.Assert;
 
 import repositories.NewspaperRepository;
 import domain.Actor;
+import domain.Advertisement;
 import domain.Article;
 import domain.Customer;
 import domain.Newspaper;
 import domain.NewspaperSubscription;
 import domain.User;
+import domain.Volume;
 
 @Service
 @Transactional
@@ -54,10 +56,16 @@ public class NewspaperService {
 
 		final Collection<Article> articles = new ArrayList<Article>();
 		final Collection<NewspaperSubscription> subscriptions = new ArrayList<NewspaperSubscription>();
+		final Collection<Advertisement> advertisements = new ArrayList<Advertisement>();
+		final Collection<NewspaperSubscription> newspaperSubscriptions = new ArrayList<NewspaperSubscription>();
+		final Collection<Volume> volumes = new ArrayList<Volume>();
 
 		result.setArticles(articles);
 		result.setPublisher(u);
 		result.setNewspaperSubscriptions(subscriptions);
+		result.setAdvertisements(advertisements);
+		result.setNewspaperSubscriptions(newspaperSubscriptions);
+		result.setVolumes(volumes);
 
 		return result;
 	}
@@ -141,10 +149,6 @@ public class NewspaperService {
 
 		return this.newspaperRepository.findNewspaperSubscribedOfCustomer(customerId);
 
-	}
-
-	public Collection<Newspaper> findNewspaperByKeyWordNotPrivate(final String keyWord) {
-		return this.newspaperRepository.findNewspaperByKeyWordNotPrivate(keyWord);
 	}
 
 	public Collection<Newspaper> getTabooNewspapers(final String keyword) {
