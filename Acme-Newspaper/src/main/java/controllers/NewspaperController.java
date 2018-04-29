@@ -3,6 +3,7 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,7 +57,7 @@ public class NewspaperController extends AbstractController {
 	public ModelAndView list(@RequestParam(required = false, defaultValue = "") final String word, @RequestParam(required = false) final String message) {
 		ModelAndView result;
 		Collection<Newspaper> newspapers = new ArrayList<Newspaper>();
-		Collection<Newspaper> ns = new ArrayList<Newspaper>();
+		Collection<Newspaper> ns = new HashSet<Newspaper>();
 
 		try {
 			if (word == null || word.equals("")) {
@@ -64,10 +65,12 @@ public class NewspaperController extends AbstractController {
 				final Actor a = this.actorService.findByPrincipal();
 				newspapers = this.newspaperService.findPublicatedAll();
 				ns = this.newspaperService.findNewspaperSubscribedOfCustomer(a.getId());
+				ns.addAll(this.newspaperService.findNewspaperSubscribedOfCustomerByVolumen());
 			} else {
 				final Customer c = this.customerService.findByPrincipal();
 				newspapers = this.newspaperService.findNewspaperByKeyWord(word);
 				ns = this.newspaperService.findNewspaperSubscribedOfCustomer(c.getId());
+				ns.addAll(this.newspaperService.findNewspaperSubscribedOfCustomerByVolumen());
 			}
 		} catch (final Throwable oops) {
 			if (word == null || word.equals(""))
@@ -117,7 +120,7 @@ public class NewspaperController extends AbstractController {
 		ModelAndView result = new ModelAndView();
 
 		final Newspaper newspaper = this.newspaperService.findOne(newspaperId);
-		Collection<Newspaper> ns = new ArrayList<Newspaper>();
+		Collection<Newspaper> ns = new HashSet<Newspaper>();
 
 		boolean visible = true;
 
@@ -125,6 +128,7 @@ public class NewspaperController extends AbstractController {
 			if (this.actorService.checkAuthority(this.actorService.findByPrincipal(), "CUSTOMER")) {
 				final Customer c = this.customerService.findByPrincipal();
 				ns = this.newspaperService.findNewspaperSubscribedOfCustomer(c.getId());
+				ns.addAll(this.newspaperService.findNewspaperSubscribedOfCustomerByVolumen());
 				if (!ns.contains(newspaper) && newspaper.getIsPrivate() == true && newspaper.getPublicationDate() != null)
 					visible = false;
 				else if (!ns.contains(newspaper) && newspaper.getIsPrivate() == true && newspaper.getPublicationDate() == null)
@@ -141,7 +145,7 @@ public class NewspaperController extends AbstractController {
 					visible = false;
 				else if (u.getNewspapers().contains(newspaper) && newspaper.getIsPrivate() == true)
 					visible = true;
-			} else if (this.actorService.checkAuthority(this.actorService.findByPrincipal(), "ADMIN"))
+			} else if (this.actorService.checkAuthority(this.actorService.findByPrincipal(), "ADMIN") || this.actorService.checkAuthority(this.actorService.findByPrincipal(), "AGENT"))
 				if (newspaper.getIsPrivate() == true)
 					visible = false;
 

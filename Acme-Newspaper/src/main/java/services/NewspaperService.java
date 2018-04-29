@@ -145,6 +145,11 @@ public class NewspaperService {
 
 	}
 
+	public Collection<Newspaper> findNewspaperSubscribedOfCustomerByVolumen() {
+		final Customer c = this.customerService.findByPrincipal();
+		return this.newspaperRepository.findNewspaperSubscribedOfCustomerByVolumen(c.getId());
+	}
+
 	public Collection<Newspaper> findNewspaperWithAdvertisement() {
 		return this.newspaperRepository.findNewspaperWithAdvertisement();
 	}

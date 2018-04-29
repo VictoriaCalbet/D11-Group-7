@@ -3,6 +3,7 @@ package controllers.customer;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,16 +35,24 @@ public class NewspaperCustomerController extends AbstractController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list(@RequestParam(required = false, defaultValue = "") final String word, @RequestParam(required = false) final String message) {
 		ModelAndView result;
-		Collection<Newspaper> newspapers = new ArrayList<Newspaper>();
-		Collection<Newspaper> ns = new ArrayList<Newspaper>();
+		Collection<Newspaper> n = new ArrayList<Newspaper>();
+
+		Collection<Newspaper> ns = new HashSet<Newspaper>();
+
+		Collection<Newspaper> newspaperVolumen = new ArrayList<Newspaper>();
+		Collection<Newspaper> newspapers = new HashSet<Newspaper>();
+
 		final Actor a = this.actorService.findByPrincipal();
 		ns = this.newspaperService.findNewspaperSubscribedOfCustomer(a.getId());
+		ns.addAll(this.newspaperService.findNewspaperSubscribedOfCustomerByVolumen());
 
-		if (word == null || word.equals(""))
-			newspapers = this.newspaperService.findNewspaperSubscribedOfCustomer();
-		else
+		if (word == null || word.equals("")) {
+			n = this.newspaperService.findNewspaperSubscribedOfCustomer();
+			newspaperVolumen = this.newspaperService.findNewspaperSubscribedOfCustomerByVolumen();
+			newspapers.addAll(n);
+			newspapers.addAll(newspaperVolumen);
+		} else
 			newspapers = this.newspaperService.findNewspaperByKeyWord(word);
-
 		result = new ModelAndView("newspaper/list");
 		result.addObject("newspapers", newspapers);
 		result.addObject("message", message);

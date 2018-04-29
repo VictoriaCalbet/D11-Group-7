@@ -95,27 +95,8 @@
 				</jstl:if>
 		</display:column>
 	</security:authorize>
-	
-	<security:authorize access="hasRole('AGENT')">	
-		<spring:message code="newspaper.articles" var="articleHeader" />	
-			<display:column title="${articleHeader}" style="${style}">		
-				<jstl:choose>
-				
-					<jstl:when test="${fn:length(row.articles) !=0}">	
-						<a href="article/list.do?newspaperId=${row.id}">
-						 	<spring:message code="newspaper.articlesButton" />
-						</a>
-					</jstl:when>
-					<jstl:otherwise>
-						<spring:message code= "newspaper.notArticles" var="newspaperNotArticles"/>
-							<jstl:out value="${newspaperNotArticles}"/> 
-					</jstl:otherwise>
-				</jstl:choose>
-		</display:column>
-	</security:authorize>
-	
 
-	<security:authorize access="hasAnyRole('USER, ADMIN')">	
+	<security:authorize access="hasAnyRole('USER, ADMIN, AGENT')">	
 		<spring:message code="newspaper.articles" var="articleHeader" />	
 			<display:column title="${articleHeader}" style="${style}">		
 				<jstl:if test="${!isPrivate or row.publisher.userAccount.username==loggedactor.username && isPrivate}">	
