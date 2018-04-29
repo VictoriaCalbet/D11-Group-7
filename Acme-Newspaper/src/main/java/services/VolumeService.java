@@ -73,5 +73,13 @@ public class VolumeService {
 		return result;
 	}
 
+	// Acme-Newspaper 2.0 - Requisito 11.1.1
+
+	public Double avgNewspaperPerVolume() {
+		Double result = null;
+		result = this.volumeRepository.avgNewspaperPerVolume();
+		return result;
+	}
+
 	// Other business methods -------------------------------------------------
 }

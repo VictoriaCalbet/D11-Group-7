@@ -213,4 +213,47 @@
 			<td> <b> <jstl:out value="${dashboardRatio}"/>:&nbsp; </b> <jstl:out value="${avgRatioOfPrivateVsPublicNewspaperPerPublisher}"/></td>
 		</tr>
 	</table>
+
+	<!-- Acme - Newspaper 2.0 -->
+	
+	<!-- Dashboard 1 -->
+	<table border="1">
+		<tr>
+			<td colspan="2"> <b> <spring:message code="administrator.ratioOfNewspapersWithAtLeastOneAdvertisementVsNewspapersWithNoOne"/>:&nbsp; </b> </td>
+		</tr>
+		<tr>
+			<td> <b> <jstl:out value="${dashboardRatio}"/>:&nbsp; </b> <jstl:out value="${ratioOfNewspapersWithAtLeastOneAdvertisementVsNewspapersWithNoOne}"/></td>
+		</tr>
+	</table>
+	
+	<!-- Dashboard 2 -->
+	<table border="1">
+		<tr>
+			<td colspan="2"> <b> <spring:message code="administrator.ratioOfAdvertisementsWithTabooWords"/>:&nbsp; </b> </td>
+		</tr>
+		<tr>
+			<td> <b> <jstl:out value="${dashboardRatio}"/>:&nbsp; </b> <jstl:out value="${ratioOfAdvertisementsWithTabooWords}"/></td>
+		</tr>
+	</table>
+	
+	<!-- Dashboard 3 -->
+	<table border="1">
+		<tr>
+			<td colspan="2"> <b> <spring:message code="administrator.avgNewspaperPerVolume"/>:&nbsp; </b> </td>
+		</tr>
+		<tr>
+			<td> <b> <jstl:out value="${dashboardRatio}"/>:&nbsp; </b> <jstl:out value="${avgNewspaperPerVolume}"/></td>
+		</tr>
+	</table>
+	
+	<!-- Dashboard 4 -->
+	<table border="1">
+		<tr>
+			<td colspan="2"> <b> <spring:message code="administrator.ratioOfVolumeSubscriptionsVsNewspaperSubscription"/>:&nbsp; </b> </td>
+		</tr>
+		<tr>
+			<td> <b> <jstl:out value="${dashboardRatio}"/>:&nbsp; </b> <jstl:out value="${ratioOfVolumeSubscriptionsVsNewspaperSubscription}"/></td>
+		</tr>
+	</table>
+	
 </security:authorize>

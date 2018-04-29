@@ -76,6 +76,10 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select count(n1)*1.0/(select count(n2)*1.0 * (select count(u) from User u where u.newspapers is not empty) from Newspaper n2 where n2.isPrivate is true) from Newspaper n1 where n1.isPrivate is false")
 	Double avgRatioOfPrivateVsPublicNewspaperPerPublisher();
 
+	// Acme-Newspaper 2.0 - Requisito 5.3.1
+	@Query("select count(n1)/(select count(n2) from Newspaper n2 where n2.advertisements.size = 0) from Newspaper n1 where n1.advertisements.size > 0")
+	Double ratioOfNewspapersWithAtLeastOneAdvertisementVsNewspapersWithNoOne();
+
 	// Not publicated yet and public newspapers
 	@Query("select n from Newspaper n where n.publicationDate = null")
 	Collection<Newspaper> findAllNotPublished();

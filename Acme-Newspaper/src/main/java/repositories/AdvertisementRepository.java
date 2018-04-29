@@ -14,4 +14,5 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, In
 
 	@Query("select a from Advertisement a where (a.title like %?1% )")
 	Collection<Advertisement> getTabooAdvertisements(String tabooWord);
+
 }

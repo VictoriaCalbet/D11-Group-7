@@ -4,6 +4,7 @@ package services;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -24,13 +25,16 @@ public class AdvertisementService {
 	// Managed Repository -----------------------------------------------------
 
 	@Autowired
-	private AdvertisementRepository	advertisementRepository;
+	private AdvertisementRepository		advertisementRepository;
 
 	// Supporting services ----------------------------------------------------
 	@Autowired
-	private NewspaperService		newspaperService;
+	private NewspaperService			newspaperService;
 	@Autowired
-	private AgentService			agentService;
+	private AgentService				agentService;
+
+	@Autowired
+	private SystemConfigurationService	systemConfigurationService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -118,6 +122,22 @@ public class AdvertisementService {
 	public Advertisement findOne(final int advertisementId) {
 		Advertisement result = null;
 		result = this.advertisementRepository.findOne(advertisementId);
+		return result;
+	}
+
+	// Acme-Newspaper 2.0 - Requisito 5.3.2
+
+	public Double ratioOfAdvertisementsWithTabooWords() {
+		Double result = null;
+		Collection<String> tabooWords;
+		final Collection<Advertisement> advertisements = new HashSet<Advertisement>();
+
+		tabooWords = this.systemConfigurationService.findMain().getTabooWords();
+
+		for (final String tabooWord : tabooWords)
+			advertisements.addAll(this.getTabooAdvertisements(tabooWord));
+
+		result = new Double(advertisements.size());
 		return result;
 	}
 

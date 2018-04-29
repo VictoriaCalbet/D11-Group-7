@@ -9,12 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.AdvertisementService;
 import services.ArticleService;
 import services.ChirpService;
 import services.FollowUpService;
 import services.NewspaperService;
 import services.NewspaperSubscriptionService;
 import services.UserService;
+import services.VolumeService;
+import services.VolumeSubscriptionService;
 import controllers.AbstractController;
 import domain.Newspaper;
 
@@ -41,6 +44,15 @@ public class DashboardAdministratorController extends AbstractController {
 
 	@Autowired
 	private NewspaperSubscriptionService	newspaperSubscriptionService;
+
+	@Autowired
+	private AdvertisementService			advertisementService;
+
+	@Autowired
+	private VolumeService					volumeService;
+
+	@Autowired
+	private VolumeSubscriptionService		volumeSubscriptionService;
 
 
 	// Constructors ---------------------------------------------------------
@@ -133,6 +145,22 @@ public class DashboardAdministratorController extends AbstractController {
 		// Requisito 24.1.5 - OK
 		final Double avgRatioOfPrivateVsPublicNewspaperPerPublisher = this.newspaperService.avgRatioOfPrivateVsPublicNewspaperPerPublisher();
 		result.addObject("avgRatioOfPrivateVsPublicNewspaperPerPublisher", avgRatioOfPrivateVsPublicNewspaperPerPublisher);
+
+		// Acme 2.0: Requisito 5.3.1
+		final Double ratioOfNewspapersWithAtLeastOneAdvertisementVsNewspapersWithNoOne = this.newspaperService.ratioOfNewspapersWithAtLeastOneAdvertisementVsNewspapersWithNoOne();
+		result.addObject("ratioOfNewspapersWithAtLeastOneAdvertisementVsNewspapersWithNoOne", ratioOfNewspapersWithAtLeastOneAdvertisementVsNewspapersWithNoOne);
+
+		// Acme 2.0: Requisito 5.3.2
+		final Double ratioOfAdvertisementsWithTabooWords = this.advertisementService.ratioOfAdvertisementsWithTabooWords();
+		result.addObject("ratioOfAdvertisementsWithTabooWords", ratioOfAdvertisementsWithTabooWords);
+
+		// Acme 2.0: Requisito 11.1.1
+		final Double avgNewspaperPerVolume = this.volumeService.avgNewspaperPerVolume();
+		result.addObject("avgNewspaperPerVolume", avgNewspaperPerVolume);
+
+		// Acme 2.0: Requisito 11.1.2
+		final Double ratioOfVolumeSubscriptionsVsNewspaperSubscription = this.volumeSubscriptionService.ratioOfVolumeSubscriptionsVsNewspaperSubscription();
+		result.addObject("ratioOfVolumeSubscriptionsVsNewspaperSubscription", ratioOfVolumeSubscriptionsVsNewspaperSubscription);
 
 		result.addObject("requestURI", "administrator/dashboard.do");
 

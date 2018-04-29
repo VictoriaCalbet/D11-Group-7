@@ -2,6 +2,7 @@
 package repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import domain.VolumeSubscription;
@@ -9,4 +10,6 @@ import domain.VolumeSubscription;
 @Repository
 public interface VolumeSubscriptionRepository extends JpaRepository<VolumeSubscription, Integer> {
 
+	@Query("select count(vs)/(select count(ns) from NewspaperSubscription ns) from VolumeSubscription vs")
+	Double ratioOfVolumeSubscriptionsVsNewspaperSubscription();
 }

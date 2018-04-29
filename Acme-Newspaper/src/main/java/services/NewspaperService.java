@@ -247,6 +247,14 @@ public class NewspaperService {
 		return result;
 	}
 
+	// Acme-Newspaper 2.0 - Requisito 5.3.1
+
+	public Double ratioOfNewspapersWithAtLeastOneAdvertisementVsNewspapersWithNoOne() {
+		Double result = null;
+		result = this.newspaperRepository.ratioOfNewspapersWithAtLeastOneAdvertisementVsNewspapersWithNoOne();
+		return result;
+	}
+
 	public Collection<Newspaper> findAllNotPublished() {
 		return this.newspaperRepository.findAllNotPublished();
 	}
