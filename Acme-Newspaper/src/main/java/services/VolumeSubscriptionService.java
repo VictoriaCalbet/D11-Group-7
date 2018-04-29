@@ -120,6 +120,14 @@ public class VolumeSubscriptionService {
 		return result;
 	}
 
+	// Acme-Newspaper 2.0 - Requisito 11.1.2
+
+	public Double ratioOfVolumeSubscriptionsVsNewspaperSubscription() {
+		Double result = null;
+		result = this.volumeSubscriptionRepository.ratioOfVolumeSubscriptionsVsNewspaperSubscription();
+		return result;
+	}
+
 	// Other business methods -------------------------------------------------
 
 	private boolean checkCreditCard(final CreditCard creditCard) {

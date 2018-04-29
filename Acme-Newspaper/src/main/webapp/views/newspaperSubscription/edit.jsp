@@ -21,11 +21,10 @@
 
 <jstl:choose>
 	<jstl:when test="${not empty availableNewspapers}">
-		<form:form action="${actionURI}" modelAttribute="newspaperSubscription">
+		<form:form action="${actionURI}" modelAttribute="newspaperSubscriptionForm">
 							
-			<form:hidden path="customer"/>
-			
-			<acme:select items="${availableNewspapers}" itemLabel="title" code="newspaperSubscription.newspaper" path="newspaper"/>
+			<acme:select items="${availableNewspapers}" itemLabel="title" code="newspaperSubscription.newspaper" path="newspaperId"/>
+			<br/>
 			
 			<fieldset> 
 				<spring:message code="newspaperSubscription.edit.creditCard.legend" var="subscriptionCreditCardLegend"/>

@@ -60,13 +60,19 @@
 			<li><a class="fNiv" href="article/user/listOwnArticles.do"> <spring:message code="master.page.list.ownArticles" /></a>
 		
 		</security:authorize>
+		<security:authorize access="hasRole('AGENT')">
+			
+			<li><a class="fNiv" href="advertisement/agent/list.do"><spring:message code="master.page.advertisement.myadvertisements" /></a></li>
+			<li><a class="fNiv" href="newspaper/agent/list.do"><spring:message code="master.page.newspaper.withadvertisement" /></a></li>
+			<li><a class="fNiv" href="newspaper/agent/listWithoutAdvertisement.do"><spring:message code="master.page.newspaper.withoutadvertisement" /></a></li>
 		
+		</security:authorize>
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
 		<security:authorize access="hasRole('ADMIN')">
 		
 			<li><a class="fNiv" href="newspaper/administrator/list.do"><spring:message code="master.page.newspaper.admin.list" /></a></li>
 			<li><a class="fNiv" href="chirp/administrator/list.do"><spring:message code="master.page.chirp.administrator.list" /></a></li>
-		
+			<li><a class="fNiv" href="advertisement/administrator/list.do"><spring:message code="master.page.advertisement.advertisements" /></a></li>
 			<li><a class="fNiv"><spring:message
 						code="master.page.administrator" /></a>
 				<ul>
@@ -129,6 +135,10 @@
 					<security:authorize access="hasRole('AGENT')">
 						<li><a href="agent/agent/edit.do"><spring:message
 									code="user.profile" /></a></li>
+					</security:authorize>
+					<security:authorize access="isAuthenticated()">
+						<li><a href="folder/actor/list.do"><spring:message
+									code="folder.folders" /></a></li>
 					</security:authorize>
 					<li><a href="j_spring_security_logout"><spring:message
 								code="master.page.logout" /> </a></li>

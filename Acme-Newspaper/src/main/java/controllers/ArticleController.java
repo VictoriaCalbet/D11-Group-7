@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.AdvertisementService;
 import services.ArticleService;
 import services.NewspaperService;
 import services.NewspaperSubscriptionService;
@@ -40,6 +41,9 @@ public class ArticleController extends AbstractController {
 
 	@Autowired
 	private NewspaperSubscriptionService	newspaperSubscriptionService;
+
+	@Autowired
+	private AdvertisementService			advertisementService;
 
 
 	//Constructor
@@ -105,6 +109,7 @@ public class ArticleController extends AbstractController {
 		result = new ModelAndView("article/user/display");
 		result.addObject("article", article);
 		result.addObject("requestURI", "article/display.do");
+		result.addObject("advertisementBanner", this.advertisementService.getRandomAdvertisementByNewspaperId(article.getNewspaper().getId()));
 		return result;
 
 	}

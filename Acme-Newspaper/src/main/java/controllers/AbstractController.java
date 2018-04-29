@@ -24,13 +24,18 @@ public class AbstractController {
 	@ExceptionHandler(Throwable.class)
 	public ModelAndView panic(final Throwable oops) {
 
-		ModelAndView result;
+		final ModelAndView result;
 
 		//result = new ModelAndView("redirect:/");
 		result = new ModelAndView("misc/panic");
 		result.addObject("name", ClassUtils.getShortName(oops.getClass()));
 		result.addObject("exception", oops.getMessage());
 		result.addObject("stackTrace", ExceptionUtils.getStackTrace(oops));
+
+		//		result = new ModelAndView("misc/panic");
+		//		result.addObject("name", ClassUtils.getShortName(oops.getClass()));
+		//		result.addObject("exception", oops.getMessage());
+		//		result.addObject("stackTrace", ExceptionUtils.getStackTrace(oops));
 
 		return result;
 

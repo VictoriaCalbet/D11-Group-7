@@ -17,3 +17,24 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+
+<form:form action="${requestURI}" modelAttribute="folderForm">
+
+	<!-- Hidden attributes -->
+	<form:hidden path="id"/>
+	
+	<!-- Editable attributes -->
+	<acme:textbox code="folder.name" path="name"/>
+	<acme:select items="${possibleParentFolders}" itemLabel="name" optionalRow="true" code="folder.parent" path="parentId"/>
+	
+	<!-- Action buttons -->
+	<acme:submit name="save" code="folder.save" /> &nbsp;
+	
+	<jstl:if test="${folderForm.id ne 0}">
+		<acme:submit name="delete" code="folder.delete" /> &nbsp;
+	</jstl:if>
+	
+	<acme:cancel url="folder/actor/list.do" code="folder.cancel" /> <br/>	
+
+</form:form>

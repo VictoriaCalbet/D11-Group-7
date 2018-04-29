@@ -15,4 +15,7 @@ public interface VolumeRepository extends JpaRepository<Volume, Integer> {
 	@Query("select vl from Volume vl where vl.id not in (select vs.volume.id from Customer c join c.volumeSubscriptions vs where c.id = ?1)")
 	Collection<Volume> findAvailableVolumesByCustomerId(int customerId);
 
+	@Query("select avg(v.newspapers.size) from Volume v")
+	Double avgNewspaperPerVolume();
+
 }

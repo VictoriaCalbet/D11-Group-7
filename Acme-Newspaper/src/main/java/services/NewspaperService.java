@@ -12,11 +12,13 @@ import org.springframework.util.Assert;
 
 import repositories.NewspaperRepository;
 import domain.Actor;
+import domain.Advertisement;
 import domain.Article;
 import domain.Customer;
 import domain.Newspaper;
 import domain.NewspaperSubscription;
 import domain.User;
+import domain.Volume;
 
 @Service
 @Transactional
@@ -54,10 +56,16 @@ public class NewspaperService {
 
 		final Collection<Article> articles = new ArrayList<Article>();
 		final Collection<NewspaperSubscription> subscriptions = new ArrayList<NewspaperSubscription>();
+		final Collection<Advertisement> advertisements = new ArrayList<Advertisement>();
+		final Collection<NewspaperSubscription> newspaperSubscriptions = new ArrayList<NewspaperSubscription>();
+		final Collection<Volume> volumes = new ArrayList<Volume>();
 
 		result.setArticles(articles);
 		result.setPublisher(u);
 		result.setNewspaperSubscriptions(subscriptions);
+		result.setAdvertisements(advertisements);
+		result.setNewspaperSubscriptions(newspaperSubscriptions);
+		result.setVolumes(volumes);
 
 		return result;
 	}
@@ -137,14 +145,27 @@ public class NewspaperService {
 
 	}
 
+	public Collection<Newspaper> findNewspaperSubscribedOfCustomerByVolumen() {
+		final Customer c = this.customerService.findByPrincipal();
+		return this.newspaperRepository.findNewspaperSubscribedOfCustomerByVolumen(c.getId());
+	}
+
+	public Collection<Newspaper> findNewspaperWithAdvertisement() {
+		return this.newspaperRepository.findNewspaperWithAdvertisement();
+	}
+
+	public Collection<Newspaper> findNewspaperWithoutAdvertisement() {
+		return this.newspaperRepository.findNewspaperWithoutAdvertisement();
+	}
+
+	public Collection<Newspaper> findNewspaperByKeyWordAdvertisement(final String keyWord) {
+		return this.newspaperRepository.findNewspaperByKeyWordAdvertisement(keyWord);
+	}
+
 	public Collection<Newspaper> findNewspaperSubscribedOfCustomer(final int customerId) {
 
 		return this.newspaperRepository.findNewspaperSubscribedOfCustomer(customerId);
 
-	}
-
-	public Collection<Newspaper> findNewspaperByKeyWordNotPrivate(final String keyWord) {
-		return this.newspaperRepository.findNewspaperByKeyWordNotPrivate(keyWord);
 	}
 
 	public Collection<Newspaper> getTabooNewspapers(final String keyword) {
@@ -223,6 +244,14 @@ public class NewspaperService {
 	public Double avgRatioOfPrivateVsPublicNewspaperPerPublisher() {
 		Double result = null;
 		result = this.newspaperRepository.avgRatioOfPrivateVsPublicNewspaperPerPublisher();
+		return result;
+	}
+
+	// Acme-Newspaper 2.0 - Requisito 5.3.1
+
+	public Double ratioOfNewspapersWithAtLeastOneAdvertisementVsNewspapersWithNoOne() {
+		Double result = null;
+		result = this.newspaperRepository.ratioOfNewspapersWithAtLeastOneAdvertisementVsNewspapersWithNoOne();
 		return result;
 	}
 

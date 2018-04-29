@@ -44,6 +44,7 @@ public class NewspaperSubscriptionService {
 
 		result = new NewspaperSubscription();
 		result.setCustomer(this.customerService.findByPrincipal());
+		result.setCreditCards(new ArrayList<CreditCard>());
 
 		return result;
 	}
@@ -56,23 +57,25 @@ public class NewspaperSubscriptionService {
 		return result;
 	}
 
-	public NewspaperSubscription saveFromCreate(final NewspaperSubscription subscription) {
-		Assert.notNull(subscription);
-		Assert.isTrue(this.checkCreditCards(subscription));
-		Assert.isTrue(subscription.getNewspaper().getIsPrivate());
-		Assert.notNull(subscription.getNewspaper().getPublicationDate());
+	public NewspaperSubscription saveFromCreate(final NewspaperSubscription newspaperSubscription) {
+		Assert.notNull(newspaperSubscription, "message.error.newspaperSubscription.null");
+		Assert.isTrue(this.checkCreditCards(newspaperSubscription), "message.error.newspaperSubscription.invalidCreditCard");
+		Assert.isTrue(newspaperSubscription.getNewspaper().getIsPrivate(), "message.error.newspaperSubscription.isPublicNewspaper");
+		Assert.notNull(newspaperSubscription.getNewspaper().getPublicationDate(), "message.error.newspaperSubscription.publicationDateNotDefined");
 
 		NewspaperSubscription result = null;
 		Customer customer = null;
 
 		customer = this.customerService.findByPrincipal();
-		Assert.notNull(customer);
-		Assert.isTrue(customer.equals(subscription.getCustomer()));
-		Assert.isTrue(!this.newspaperSubscriptionRepository.isThisCustomerSubscribeOnThisNewspaper(subscription.getCustomer().getId(), subscription.getNewspaper().getId()));
+		Assert.notNull(customer, "message.error.newspaperSubscription.customer.null");
+		Assert.isTrue(customer.equals(newspaperSubscription.getCustomer()), "message.error.newspaperSubscription.isNotTheSameCustomer");
+		// TODO: creo que hay que quitar esta comprobación
+		Assert.isTrue(!this.newspaperSubscriptionRepository.isThisCustomerSubscribeOnThisNewspaper(newspaperSubscription.getCustomer().getId(), newspaperSubscription.getNewspaper().getId()));
+		newspaperSubscription.setCounter(1);		// Es el primer newspaperSubscription que se crea
 
 		// Paso 1: realizo la entidad del servicio NewspaperSubscription
 
-		result = this.save(subscription);
+		result = this.save(newspaperSubscription);
 
 		// Paso 2: persisto el resto de relaciones a las que el objeto NewspaperSubscription estén relacionadas
 		result.getCustomer().getNewspaperSubscriptions().add(result);
@@ -80,7 +83,6 @@ public class NewspaperSubscriptionService {
 
 		return result;
 	}
-
 	public void flush() {
 		this.newspaperSubscriptionRepository.flush();
 	}
