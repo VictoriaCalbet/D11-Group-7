@@ -54,17 +54,17 @@ public class AdvertisementService {
 
 	// DO NOT MODIFY. ANY OTHER SAVE METHOD MUST BE NAMED DIFFERENT.
 	public Advertisement save(final Advertisement advertisement) {
-		Assert.notNull(advertisement, "advertisement.error.null");
+		Assert.notNull(advertisement, "message.error.advertisement.null");
 		Advertisement result;
 		result = this.advertisementRepository.save(advertisement);
 		return result;
 	}
 	public void delete(final Advertisement advertisement) {
-		Assert.notNull(advertisement, "advertisement.error.null");
+		Assert.notNull(advertisement, "message.error.advertisement.null");
 
 		Advertisement advertisementInDB;
 		advertisementInDB = this.advertisementRepository.findOne(advertisement.getId());
-		Assert.notNull(advertisementInDB, "advertisement.error.null.indb");
+		Assert.notNull(advertisementInDB, "message.error.advertisement.null.indb");
 
 		this.advertisementRepository.delete(advertisement);
 	}
@@ -74,13 +74,13 @@ public class AdvertisementService {
 
 	public Advertisement saveFromCreate(final Advertisement advertisement) {
 
-		Assert.notNull(advertisement, "advertisement.error.null");
+		Assert.notNull(advertisement, "message.error.advertisement.null");
 		this.isAgentAunthenticate();
-		Assert.notNull(advertisement.getBannerURL(), "advertisement.error.null.banner");
-		Assert.notNull(advertisement.getTitle(), "advertisement.error.null.title");
-		Assert.notNull(advertisement.getTargetPageURL(), "advertisement.error.null.target");
+		Assert.notNull(advertisement.getBannerURL(), "message.error.advertisement.null.banner");
+		Assert.notNull(advertisement.getTitle(), "message.error.advertisement.null.title");
+		Assert.notNull(advertisement.getTargetPageURL(), "message.error.advertisement.null.target");
 		this.checkCreditCard(advertisement.getCreditCard());
-		Assert.notNull(advertisement.getNewspaper(), "advertisement.error.null.newspaper");
+		Assert.notNull(advertisement.getNewspaper(), "message.error.advertisement.null.newspaper");
 
 		Advertisement advertisementInDB;
 		advertisementInDB = this.advertisementRepository.save(advertisement);
@@ -91,12 +91,12 @@ public class AdvertisementService {
 	public Advertisement saveFromEdit(final Advertisement advertisement) {
 		Assert.notNull(advertisement.getAgent());
 		this.isCorrectAgentAunthenticate(advertisement.getAgent().getId());
-		Assert.notNull(advertisement, "advertisement.error.null");
-		Assert.notNull(advertisement.getBannerURL(), "advertisement.error.null.banner");
-		Assert.notNull(advertisement.getTitle(), "advertisement.error.null.title");
-		Assert.notNull(advertisement.getTargetPageURL(), "advertisement.error.null.target");
+		Assert.notNull(advertisement, "message.error.advertisement.null");
+		Assert.notNull(advertisement.getBannerURL(), "message.error.advertisement.null.banner");
+		Assert.notNull(advertisement.getTitle(), "message.error.advertisement.null.title");
+		Assert.notNull(advertisement.getTargetPageURL(), "message.error.advertisement.null.target");
 		this.checkCreditCard(advertisement.getCreditCard());
-		Assert.notNull(advertisement.getNewspaper(), "advertisement.error.null.newspaper");
+		Assert.notNull(advertisement.getNewspaper(), "message.error.advertisement.null.newspaper");
 		Advertisement advertisementInDB;
 		advertisementInDB = this.findOne(advertisement.getId());
 		Assert.notNull(advertisementInDB);
@@ -105,11 +105,11 @@ public class AdvertisementService {
 		return advertisementInDB;
 	}
 	public void deleteByAgent(final Advertisement advertisement) {
-		Assert.notNull(advertisement, "advertisement.error.null");
+		Assert.notNull(advertisement, "message.error.advertisement.null");
 
 		Advertisement advertisementInDB;
 		advertisementInDB = this.advertisementRepository.findOne(advertisement.getId());
-		Assert.notNull(advertisementInDB, "advertisement.error.null.indb");
+		Assert.notNull(advertisementInDB, "message.error.advertisement.null.indb");
 		this.isCorrectAgentAunthenticate(advertisementInDB.getAgent().getId());
 		this.advertisementRepository.delete(advertisement);
 	}
@@ -167,11 +167,11 @@ public class AdvertisementService {
 		Assert.notNull(creditCard);
 		final Calendar calendar = Calendar.getInstance();
 		final int year = calendar.get(Calendar.YEAR);
-		System.out.println(year + "GGGGGGGGGGGGGGGGGGGGGGGG");
+
 		if (creditCard.getExpirationYear() < year)
-			Assert.isTrue(false, "advertisement.error.creditcard");
+			Assert.isTrue(false, "message.error.advertisement.creditcard");
 		else if (creditCard.getExpirationYear() == year)
-			Assert.isTrue(!(creditCard.getExpirationMonth() <= (calendar.get(Calendar.MONTH)) + 1), "advertisement.error.creditcard");
+			Assert.isTrue(!(creditCard.getExpirationMonth() <= (calendar.get(Calendar.MONTH)) + 1), "message.error.advertisement.creditcard");
 	}
 
 	private Agent isAgentAunthenticate() {
@@ -180,10 +180,10 @@ public class AdvertisementService {
 		Assert.notNull(actor);
 		String authority;
 		authority = actor.getUserAccount().getAuthorities().iterator().next().getAuthority();
-		Assert.isTrue(authority.equals("AGENT"), "advertisement.error.notagent");
+		Assert.isTrue(authority.equals("AGENT"), "message.error.advertisement.notagent");
 		return actor;
 	}
 	private void isCorrectAgentAunthenticate(final int agentId) {
-		Assert.isTrue(this.isAgentAunthenticate().getId() == agentId, "advertisement.error.badagent");
+		Assert.isTrue(this.isAgentAunthenticate().getId() == agentId, "message.error.advertisement.badagent");
 	}
 }
