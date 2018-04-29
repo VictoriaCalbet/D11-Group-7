@@ -1,6 +1,7 @@
 
 package services.forms;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,17 @@ public class MessageFormService {
 		return result;
 	}
 
+	public MessageForm createForBroadcast() {
+		MessageForm result;
+
+		result = new MessageForm();
+		result.setId(0);
+		result.setFolderId(0);
+		result.setRecipientId(0);
+
+		return result;
+	}
+
 	public void saveFromCreate(final MessageForm messageForm) {
 		Assert.notNull(messageForm, "message.error.messageForm.null");
 
@@ -124,6 +136,31 @@ public class MessageFormService {
 		message.setFolder(folder);
 
 		this.messageService.save(message);
+	}
+
+	public void saveFromBroadcast(final MessageForm messageForm) {
+		Assert.notNull(messageForm, "message.error.messageForm.null");
+
+		final Actor principal = this.actorService.findByPrincipal();
+		final Collection<Actor> allActors = this.actorService.findAll();
+		allActors.remove(principal);
+
+		for (final Actor recipient : allActors) {
+			final Message message = this.messageService.create();
+			message.setSubject(messageForm.getSubject());
+			message.setBody(messageForm.getBody());
+			message.setPriority(messageForm.getPriority());
+			message.setMoment(new Date(System.currentTimeMillis() - 1));
+
+			message.setSender(principal);
+			message.setRecipient(recipient);
+
+			final Folder recipientInbox = this.folderService.findOneByActorIdAndFolderName(recipient.getId(), "in box");
+			message.setFolder(recipientInbox);
+
+			this.messageService.saveFromCreate(message);
+		}
+
 	}
 
 	public void delete(final MessageForm messageForm) {

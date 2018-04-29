@@ -17,6 +17,13 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<security:authorize access="hasRole('ADMIN')">
+		
+		<a href="message/administrator/create.do">
+		<spring:message code="message.broadcast" /></a>
+		
+</security:authorize>
+
 <display:table name="folders" id="row" requestURI="${requestURI}" pagesize="5">
 
 	<spring:message code="folder.edit" var="editHeader" />	
