@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.VolumeRepository;
+import domain.User;
 import domain.Volume;
+import domain.VolumeSubscription;
 
 @Service
 @Transactional
@@ -19,6 +23,9 @@ public class VolumeService {
 
 	@Autowired
 	private VolumeRepository	volumeRepository;
+
+	@Autowired
+	private UserService			userService;
 
 
 	// Supporting services ----------------------------------------------------
@@ -32,7 +39,14 @@ public class VolumeService {
 	// Simple CRUD methods ----------------------------------------------------
 
 	public Volume create() {
-		return null;
+		final Volume result = new Volume();
+
+		result.setYear(Calendar.YEAR);
+		final User principal = this.userService.findByPrincipal();
+		result.setUser(principal);
+		final Collection<VolumeSubscription> subs = new ArrayList<VolumeSubscription>();
+		result.setVolumeSubscriptions(subs);
+		return result;
 	}
 
 	// DO NOT MODIFY. ANY OTHER SAVE METHOD MUST BE NAMED DIFFERENT.
@@ -48,11 +62,37 @@ public class VolumeService {
 	}
 
 	public Volume saveFromCreate(final Volume volume) {
-		return null;
+
+		Volume result = volume;
+
+		final User principal = this.userService.findByPrincipal();
+		Assert.isTrue(volume.getUser() == principal);
+		Assert.notNull(principal);
+
+		Collection<Volume> newVolumes = new ArrayList<Volume>();
+		newVolumes = principal.getVolumes();
+		newVolumes.add(volume);
+		principal.setVolumes(newVolumes);
+		this.userService.saveFromEdit(principal);
+
+		result = this.volumeRepository.save(result);
+
+		return result;
 	}
 
 	public Volume saveFromEdit(final Volume volume) {
-		return null;
+
+		Volume result = volume;
+		final User principal = this.userService.findByPrincipal();
+
+		Assert.notNull(principal);
+		Assert.isTrue(volume.getUser() == principal);
+
+		Assert.isTrue(principal.getVolumes().contains(volume));
+
+		result = this.volumeRepository.save(result);
+
+		return result;
 	}
 
 	public Collection<Volume> findAll() {
