@@ -31,6 +31,8 @@
 
 <display:table name="newspapers" id="row" requestURI="${requestURI}" pagesize="5">
 
+
+	
 	<jstl:set var="isPrivate" value="${row.isPrivate}" />		
 	
 	<jstl:if test="${isPrivate eq true}">
@@ -94,6 +96,23 @@
 		</display:column>
 	</security:authorize>
 	
+	<security:authorize access="hasRole('AGENT')">	
+		<spring:message code="newspaper.articles" var="articleHeader" />	
+			<display:column title="${articleHeader}" style="${style}">		
+				<jstl:choose>
+				
+					<jstl:when test="${fn:length(row.articles) !=0}">	
+						<a href="article/list.do?newspaperId=${row.id}">
+						 	<spring:message code="newspaper.articlesButton" />
+						</a>
+					</jstl:when>
+					<jstl:otherwise>
+						<spring:message code= "newspaper.notArticles" var="newspaperNotArticles"/>
+							<jstl:out value="${newspaperNotArticles}"/> 
+					</jstl:otherwise>
+				</jstl:choose>
+		</display:column>
+	</security:authorize>
 	
 
 	<security:authorize access="hasAnyRole('USER, ADMIN')">	

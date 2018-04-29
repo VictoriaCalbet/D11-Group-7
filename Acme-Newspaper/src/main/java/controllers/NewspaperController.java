@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.AgentService;
 import services.ArticleService;
 import services.CustomerService;
 import services.NewspaperService;
@@ -40,6 +41,9 @@ public class NewspaperController extends AbstractController {
 
 	@Autowired
 	private UserService			userService;
+
+	@Autowired
+	private AgentService		agentService;
 
 
 	public NewspaperController() {

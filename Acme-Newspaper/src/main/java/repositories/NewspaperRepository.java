@@ -39,6 +39,15 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select news from VolumeSubscription vs join vs.volume vl join vl.newspapers news where news.isPrivate is true and vl.id = ?1 and news.id not in (select subs.newspaper.id from Customer c join c.newspaperSubscriptions subs where c.id = ?2)")
 	Collection<Newspaper> findPrivateNewspapersToThisVolumeThatNotSubscribeYet(int volumeId, int customerId);
 
+	@Query("select n from Newspaper n where n.advertisements.size>0")
+	Collection<Newspaper> findNewspaperWithAdvertisement();
+
+	@Query("select n from Newspaper n where n.advertisements.size=0")
+	Collection<Newspaper> findNewspaperWithoutAdvertisement();
+
+	@Query("select n from Newspaper n join n.advertisements a where (n.title like %?1% or n.description like %?1%) and n.publicationDate != null and a!=null")
+	Collection<Newspaper> findNewspaperByKeyWordAdvertisement(String keyWord);
+
 	// Dashboard queries -------------------------------------------------------
 
 	// Acme-Newspaper 1.0 - Requisito 7.3.1

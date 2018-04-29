@@ -145,6 +145,18 @@ public class NewspaperService {
 
 	}
 
+	public Collection<Newspaper> findNewspaperWithAdvertisement() {
+		return this.newspaperRepository.findNewspaperWithAdvertisement();
+	}
+
+	public Collection<Newspaper> findNewspaperWithoutAdvertisement() {
+		return this.newspaperRepository.findNewspaperWithoutAdvertisement();
+	}
+
+	public Collection<Newspaper> findNewspaperByKeyWordAdvertisement(final String keyWord) {
+		return this.newspaperRepository.findNewspaperByKeyWordAdvertisement(keyWord);
+	}
+
 	public Collection<Newspaper> findNewspaperSubscribedOfCustomer(final int customerId) {
 
 		return this.newspaperRepository.findNewspaperSubscribedOfCustomer(customerId);
