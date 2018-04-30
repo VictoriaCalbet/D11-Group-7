@@ -29,9 +29,6 @@
 
 	<spring:message code="volumeSubscription.title" var="volumeSubscriptionTitle"/>
 	<display:column property="volume.title" title="${volumeSubscriptionTitle}"/>
-
-	<spring:message code="volumeSubscription.creditCard.number" var="volumeSubscriptionCreditCardNumberHeader"/>
-	<display:column property="creditCard.number" title="${volumeSubscriptionCreditCardNumberHeader}"/>
 </display:table>
 
 <security:authorize access="hasRole('CUSTOMER')">

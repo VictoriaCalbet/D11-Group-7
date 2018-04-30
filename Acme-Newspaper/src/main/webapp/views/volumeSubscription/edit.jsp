@@ -1,5 +1,5 @@
 <%--
- * list.jsp
+ * edit.jsp
  *
  * Copyright (C) 2017 Universidad de Sevilla
  * 
@@ -18,3 +18,13 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+
+<jstl:choose>
+	<jstl:when test="${not empty availableVolumes}">
+	</jstl:when>
+	<jstl:otherwise>
+		<spring:message code="service.edit.volumeSubscription.volume.notAvailable" var="volumeSubscriptionEditVolumeNotAvailable"/>
+		<b><jstl:out value="${volumeSubscriptionEditVolumeNotAvailable}"/></b>
+		<br/>
+	</jstl:otherwise>
+</jstl:choose>
