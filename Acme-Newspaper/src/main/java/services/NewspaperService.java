@@ -39,6 +39,8 @@ public class NewspaperService {
 	private CustomerService		customerService;
 	@Autowired
 	private ArticleService		articleService;
+	@Autowired
+	private VolumeService		volumeService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -93,16 +95,24 @@ public class NewspaperService {
 	public void deleteAdmin(final int newspaperId) {
 		final Newspaper n = this.newspaperRepository.findOne(newspaperId);
 		final Actor actor = this.actorService.findByPrincipal();
+
 		Assert.isTrue(this.actorService.checkAuthority(actor, "ADMIN"));
 		Assert.notNull(n, "message.error.newspaper.null");
+
 		final User publisher = n.getPublisher();
 		publisher.getNewspapers().remove(n);
 		this.userService.save(publisher);
 
+		final Collection<Volume> volumes = n.getVolumes();
+
+		for (final Volume volume : volumes) {
+			volume.getNewspapers().remove(n);
+			this.volumeService.save(volume);
+		}
+
 		this.newspaperRepository.delete(n);
 
 	}
-
 	// Other business methods -------------------------------------------------
 
 	public Collection<Newspaper> findAvailableNewspapersByCustomerId(final int customerId) {
