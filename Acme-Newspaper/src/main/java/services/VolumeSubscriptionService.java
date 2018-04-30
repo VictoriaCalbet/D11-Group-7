@@ -13,8 +13,7 @@ import org.springframework.util.Assert;
 import repositories.VolumeSubscriptionRepository;
 import domain.CreditCard;
 import domain.Customer;
-import domain.Newspaper;
-import domain.NewspaperSubscription;
+import domain.Volume;
 import domain.VolumeSubscription;
 
 @Service
@@ -32,10 +31,7 @@ public class VolumeSubscriptionService {
 	private CustomerService					customerService;
 
 	@Autowired
-	private NewspaperService				newspaperService;
-
-	@Autowired
-	private NewspaperSubscriptionService	newspaperSubscriptionService;
+	private VolumeService					volumeService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -69,41 +65,34 @@ public class VolumeSubscriptionService {
 	}
 
 	public VolumeSubscription saveFromCreate(final VolumeSubscription volumeSubscription) {
-		Assert.notNull(volumeSubscription);
-		Assert.isTrue(this.checkCreditCard(volumeSubscription.getCreditCard()));
+		Assert.notNull(volumeSubscription, "message.error.volumeSubscription.null");
+		Assert.isTrue(this.checkCreditCard(volumeSubscription.getCreditCard()), "message.error.volumeSubscription.invalidCreditCard");
 
 		VolumeSubscription result = null;
 		Customer customer = null;
-		Collection<Newspaper> newspapersNotSubscribeYet = null;
+		Volume volume = null;
 
 		customer = this.customerService.findByPrincipal();
-		Assert.isTrue(customer.equals(volumeSubscription.getCustomer()));
+		volume = this.volumeService.findOne(volumeSubscription.getVolume().getId());
+
+		Assert.notNull(customer, "message.error.volumeSubscription.customer.null");
+		Assert.isTrue(customer.equals(volumeSubscription.getCustomer()), "message.error.volumeSubscription.isNotTheSameCustomer");
 
 		// Paso 1: realizo la entidad del servicio VolumeSubscription
 
-		/**
-		 * - Obtener los periodicos privados de un volumen - HECHO
-		 * - Retirar aquellos a los que ya se esta suscrito - HECHO
-		 * - Subscribirse a los periódicos restantes - HECHO
-		 */
-		newspapersNotSubscribeYet = this.newspaperService.findPrivateNewspapersToThisVolumeThatNotSubscribeYet(volumeSubscription.getVolume().getId(), customer.getId());
-
-		for (final Newspaper newspaper : newspapersNotSubscribeYet) {
-			NewspaperSubscription subscription = null;
-
-			subscription = this.newspaperSubscriptionService.create();
-			subscription.setCreditCard(volumeSubscription.getCreditCard());
-			subscription.setNewspaper(newspaper);
-
-			this.newspaperSubscriptionService.saveFromCreate(subscription);
-		}
-
 		result = this.save(volumeSubscription);
+		Assert.isTrue(this.volumeSubscriptionRepository.isThisCustomerSubscribeOnThisVolume(customer, volume), "message.error.volumeSubscription.itsAlreadySubscribed");
 
 		// Paso 2: persisto el resto de relaciones a las que el objeto VolumeSubscription estén relacionadas 
 
+		customer = this.customerService.findOne(result.getCustomer().getId());
+		volume = this.volumeService.findOne(result.getVolume().getId());
+
 		result.getCustomer().getVolumeSubscriptions().add(result);
 		result.getVolume().getVolumeSubscriptions().add(result);
+
+		this.customerService.save(customer);
+		this.volumeService.save(volume);
 
 		return result;
 	}

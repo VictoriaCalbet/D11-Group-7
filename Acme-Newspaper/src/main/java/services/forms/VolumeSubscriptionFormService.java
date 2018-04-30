@@ -7,9 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import services.CustomerService;
+import services.VolumeService;
 import services.VolumeSubscriptionService;
 import domain.Customer;
-import domain.Newspaper;
+import domain.Volume;
 import domain.VolumeSubscription;
 import domain.forms.VolumeSubscriptionForm;
 
@@ -24,6 +25,9 @@ public class VolumeSubscriptionFormService {
 
 	@Autowired
 	private CustomerService				customerService;
+
+	@Autowired
+	private VolumeService				volumeService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -49,25 +53,23 @@ public class VolumeSubscriptionFormService {
 	// Reconstrucción de objetos (Reconstruct) --------------------------------
 
 	public VolumeSubscription saveFromCreate(final VolumeSubscriptionForm volumeSubscriptionForm) {
-		final VolumeSubscription volumeSubscription = null;
-		final VolumeSubscription result = null;
-		final Customer customer = null;
-		final Newspaper newspaper = null;
+		VolumeSubscription volumeSubscription = null;
+		VolumeSubscription result = null;
+		Customer customer = null;
+		Volume volume = null;
 
 		Assert.notNull(volumeSubscriptionForm, "message.error.volumeSubscription.null");
 
-		//		volumeSubscription = this.volumeSubscriptionService.create();
-		//		customer = this.customerService.findByPrincipal();
-		//		newspaper = this.newspaperService.findOne(volumeSubscriptionForm.getNewspaperId());
-		//
-		//		newspaperSubscription.setCustomer(customer);
-		//		newspaperSubscription.setNewspaper(newspaper);
-		//		newspaperSubscription.getCreditCards().add(volumeSubscriptionForm.getCreditCard());
-		//
-		//		newspaperSubscription.setCounter(1);		// Es el primer newspaperSubscription que se crea
-		//
-		//		result = this.volumeSubscriptionService.saveFromCreate(volumeSubscription);
-		//
+		volumeSubscription = this.volumeSubscriptionService.create();
+		customer = this.customerService.findByPrincipal();
+		volume = this.volumeService.findOne(volumeSubscriptionForm.getVolumeId());
+
+		volumeSubscription.setCustomer(customer);
+		volumeSubscription.setVolume(volume);
+		volumeSubscription.setCreditCard(volumeSubscriptionForm.getCreditCard());
+
+		result = this.volumeSubscriptionService.saveFromCreate(volumeSubscription);
+
 		return result;
 	}
 }

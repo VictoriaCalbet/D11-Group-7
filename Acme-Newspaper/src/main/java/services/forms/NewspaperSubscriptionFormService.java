@@ -59,7 +59,7 @@ public class NewspaperSubscriptionFormService {
 		Customer customer = null;
 		Newspaper newspaper = null;
 
-		Assert.notNull(newspaperSubscriptionForm, "message.error.followUp.null");
+		Assert.notNull(newspaperSubscriptionForm, "message.error.newspaperSubscription.null");
 
 		newspaperSubscription = this.newspaperSubscriptionService.create();
 		customer = this.customerService.findByPrincipal();
