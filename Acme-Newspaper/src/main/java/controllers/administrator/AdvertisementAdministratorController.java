@@ -51,7 +51,7 @@ public class AdvertisementAdministratorController extends AbstractController {
 		advertisementInDB = this.advertisementService.findOne(advertisementId);
 		try {
 			this.advertisementService.delete(advertisementInDB);
-			result = new ModelAndView("redirect:/advertisement/agent/list.do");
+			result = new ModelAndView("redirect:/advertisement/administrator/list.do");
 		} catch (final Throwable oops) {
 			List<Advertisement> advertisements;
 			advertisements = new ArrayList<Advertisement>();
