@@ -97,10 +97,13 @@ public class NewspaperSubscriptionCustomerController extends AbstractController 
 	public ModelAndView display(@RequestParam final int newspaperSubscriptionId) {
 		ModelAndView result = null;
 		NewspaperSubscription newspaperSubscription = null;
+		Customer customer = null;
 
 		newspaperSubscription = this.newspaperSubscriptionService.findOne(newspaperSubscriptionId);
+		customer = this.customerService.findByPrincipal();
 
 		Assert.notNull(newspaperSubscription);
+		Assert.isTrue(customer.equals(newspaperSubscription.getCustomer()));
 
 		result = new ModelAndView("newspaperSubscription/display");
 		result.addObject("newspaperSubscription", newspaperSubscription);

@@ -3,9 +3,12 @@ package controllers.customer;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,10 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 import services.CustomerService;
 import services.VolumeService;
 import services.VolumeSubscriptionService;
+import services.forms.VolumeSubscriptionFormService;
 import controllers.AbstractController;
 import domain.Customer;
 import domain.Volume;
 import domain.VolumeSubscription;
+import domain.forms.VolumeSubscriptionForm;
 
 @Controller
 @RequestMapping("/volumeSubscription/customer")
@@ -26,13 +31,16 @@ public class VolumeSubscriptionCustomerController extends AbstractController {
 	// Services -------------------------------------------------------------
 
 	@Autowired
-	private VolumeSubscriptionService	volumeSubscriptionService;
+	private VolumeSubscriptionService		volumeSubscriptionService;
 
 	@Autowired
-	private VolumeService				volumeService;
+	private VolumeSubscriptionFormService	volumeSubscriptionFormService;
 
 	@Autowired
-	private CustomerService				customerService;
+	private VolumeService					volumeService;
+
+	@Autowired
+	private CustomerService					customerService;
 
 
 	// Constructors ---------------------------------------------------------
@@ -76,10 +84,10 @@ public class VolumeSubscriptionCustomerController extends AbstractController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result = null;
-		VolumeSubscription volumeSubscription = null;
+		VolumeSubscriptionForm volumeSubscriptionForm = null;
 
-		volumeSubscription = this.volumeSubscriptionService.create();
-		result = this.createModelAndView(volumeSubscription);
+		volumeSubscriptionForm = this.volumeSubscriptionFormService.createFromCreate();
+		result = this.createModelAndView(volumeSubscriptionForm);
 
 		return result;
 	}
@@ -90,10 +98,13 @@ public class VolumeSubscriptionCustomerController extends AbstractController {
 	public ModelAndView display(@RequestParam final int volumeSubscriptionId) {
 		ModelAndView result = null;
 		VolumeSubscription volumeSubscription = null;
+		Customer customer = null;
 
 		volumeSubscription = this.volumeSubscriptionService.findOne(volumeSubscriptionId);
+		customer = this.customerService.findByPrincipal();
 
 		Assert.notNull(volumeSubscription);
+		Assert.isTrue(customer.equals(volumeSubscription.getCustomer()));
 
 		result = new ModelAndView("volumeSubscription/display");
 		result.addObject("volumeSubscription", volumeSubscription);
@@ -103,36 +114,36 @@ public class VolumeSubscriptionCustomerController extends AbstractController {
 	}
 
 	// Edition    -----------------------------------------------------------
-	//
-	//	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	//	public ModelAndView save(@Valid final VolumeSubscriptionForm volumeSubscriptionForm, final BindingResult bindingResult) {
-	//		ModelAndView result = null;
-	//
-	//		if (bindingResult.hasErrors())
-	//			result = this.createModelAndView(volumeSubscriptionForm);
-	//		else
-	//			try {
-	//				this.volumeSubscriptionFormService.saveFromCreate(volumeSubscriptionForm);
-	//				result = new ModelAndView("redirect:/volumeSubscription/customer/list.do");
-	//			} catch (final Throwable oops) {
-	//				String messageError = "volumeSubscription.commit.error";
-	//				if (oops.getMessage().contains("message.error"))
-	//					messageError = oops.getMessage();
-	//				result = this.createModelAndView(volumeSubscriptionForm, messageError);
-	//			}
-	//
-	//		return result;
-	//	}
 
-	// Other actions --------------------------------------------------------
-
-	private ModelAndView createModelAndView(final VolumeSubscription volumeSubscription) {
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid final VolumeSubscriptionForm volumeSubscriptionForm, final BindingResult bindingResult) {
 		ModelAndView result = null;
-		result = this.createModelAndView(volumeSubscription, null);
+
+		if (bindingResult.hasErrors())
+			result = this.createModelAndView(volumeSubscriptionForm);
+		else
+			try {
+				this.volumeSubscriptionFormService.saveFromCreate(volumeSubscriptionForm);
+				result = new ModelAndView("redirect:/volumeSubscription/customer/list.do");
+			} catch (final Throwable oops) {
+				String messageError = "volumeSubscription.commit.error";
+				if (oops.getMessage().contains("message.error"))
+					messageError = oops.getMessage();
+				result = this.createModelAndView(volumeSubscriptionForm, messageError);
+			}
+
 		return result;
 	}
 
-	private ModelAndView createModelAndView(final VolumeSubscription volumeSubscription, final String message) {
+	// Other actions --------------------------------------------------------
+
+	private ModelAndView createModelAndView(final VolumeSubscriptionForm volumeSubscriptionForm) {
+		ModelAndView result = null;
+		result = this.createModelAndView(volumeSubscriptionForm, null);
+		return result;
+	}
+
+	private ModelAndView createModelAndView(final VolumeSubscriptionForm volumeSubscriptionForm, final String message) {
 		ModelAndView result = null;
 		String actionURI = null;
 		Collection<Volume> availableVolumes = null;
@@ -144,7 +155,7 @@ public class VolumeSubscriptionCustomerController extends AbstractController {
 		availableVolumes = this.volumeService.findAvailableVolumesByCustomerId(customer.getId());
 
 		result = new ModelAndView("volumeSubscription/create");
-		result.addObject("volumeSubscription", volumeSubscription);
+		result.addObject("volumeSubscriptionForm", volumeSubscriptionForm);
 		result.addObject("actionURI", actionURI);
 		result.addObject("availableVolumes", availableVolumes);
 		result.addObject("message", message);
