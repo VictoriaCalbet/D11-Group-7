@@ -18,11 +18,13 @@ import services.ArticleService;
 import services.CustomerService;
 import services.NewspaperService;
 import services.UserService;
+import services.VolumeService;
 import domain.Actor;
 import domain.Article;
 import domain.Customer;
 import domain.Newspaper;
 import domain.User;
+import domain.Volume;
 
 @Controller
 @RequestMapping("/newspaper")
@@ -42,6 +44,9 @@ public class NewspaperController extends AbstractController {
 
 	@Autowired
 	private UserService			userService;
+
+	@Autowired
+	private VolumeService		volumeService;
 
 	@Autowired
 	private AgentService		agentService;
@@ -88,6 +93,18 @@ public class NewspaperController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/listNewspapersFromVolume", method = RequestMethod.GET)
+	public ModelAndView list(@RequestParam final int volumeId) {
+		final ModelAndView result;
+		final Volume volume = this.volumeService.findOne(volumeId);
+		Collection<Newspaper> newspapers = new ArrayList<Newspaper>();
+
+		newspapers = volume.getNewspapers();
+		result = new ModelAndView("newspaper/list");
+		result.addObject("newspapers", newspapers);
+		result.addObject("requestURI", "newspaper/list.do");
+		return result;
+	}
 	// Search by key word
 
 	//	@RequestMapping(value = "/searchWord", method = RequestMethod.POST)

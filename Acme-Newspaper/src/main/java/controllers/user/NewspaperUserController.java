@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import javax.validation.Valid;
 
+import org.jboss.logging.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,10 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.NewspaperService;
 import services.UserService;
+import services.VolumeService;
 import services.forms.NewspaperFormService;
 import controllers.AbstractController;
 import domain.Newspaper;
 import domain.User;
+import domain.Volume;
 import domain.forms.NewspaperForm;
 
 @Controller
@@ -31,6 +34,9 @@ public class NewspaperUserController extends AbstractController {
 
 	@Autowired
 	private NewspaperFormService	newspaperFormService;
+
+	@Autowired
+	private VolumeService			volumeService;
 
 	@Autowired
 	private UserService				userService;
@@ -150,6 +156,77 @@ public class NewspaperUserController extends AbstractController {
 	//		return result;
 	//	}
 
+	@RequestMapping(value = "/listAdd", method = RequestMethod.GET)
+	public ModelAndView listAdd(@RequestParam final int volumeId) {
+		ModelAndView result;
+		Collection<Newspaper> newspapers = new ArrayList<Newspaper>();
+
+		final Volume v = this.volumeService.findOne(volumeId);
+		newspapers = this.newspaperService.findPublicatedAll();
+		Collection<Newspaper> containedNewspapers = new ArrayList<Newspaper>();
+		containedNewspapers = v.getNewspapers();
+		newspapers.removeAll(containedNewspapers);
+
+		result = new ModelAndView("newspaper/user/listAdd");
+		result.addObject("newspapers", newspapers);
+		result.addObject("volumeId", volumeId);
+		result.addObject("requestURI", "newspaper/user/listAdd.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/addNewspaper", method = RequestMethod.GET)
+	public ModelAndView addNewspaper(@RequestParam final int newspaperId, @Param final int volumeId) {
+		ModelAndView result;
+		try {
+			this.volumeService.addNewspaperToVolume(newspaperId, volumeId);
+			result = new ModelAndView("redirect:/volume/user/listMyVolumes.do");
+		} catch (final Throwable oops) {
+			String messageError = "newspaper.cancel.error";
+			if (oops.getMessage().contains("message.error"))
+				messageError = oops.getMessage();
+			result = new ModelAndView("redirect:/volume/user/listMyVolumes.do");
+			result.addObject("message", messageError);
+		}
+
+		result.addObject("newspaperId", newspaperId);
+
+		return result;
+	}
+	@RequestMapping(value = "/listDelete", method = RequestMethod.GET)
+	public ModelAndView listDelete(@RequestParam final int volumeId) {
+		ModelAndView result;
+		Collection<Newspaper> newspapers = new ArrayList<Newspaper>();
+
+		final Volume v = this.volumeService.findOne(volumeId);
+		newspapers = v.getNewspapers();
+
+		result = new ModelAndView("newspaper/user/listDelete");
+		result.addObject("newspapers", newspapers);
+		result.addObject("volumeId", volumeId);
+		result.addObject("requestURI", "newspaper/user/listDelete.do");
+
+		return result;
+	}
+
+	@RequestMapping(value = "/deleteNewspaper", method = RequestMethod.GET)
+	public ModelAndView deleteNewspaper(@RequestParam final int newspaperId, @Param final int volumeId) {
+		ModelAndView result;
+		try {
+			this.volumeService.deleteNewspaperToVolume(newspaperId, volumeId);
+			result = new ModelAndView("redirect:/volume/user/listMyVolumes.do");
+		} catch (final Throwable oops) {
+			String messageError = "newspaper.cancel.error";
+			if (oops.getMessage().contains("message.error"))
+				messageError = oops.getMessage();
+			result = new ModelAndView("redirect:/volume/user/listMyVolumes.do");
+			result.addObject("message", messageError);
+		}
+
+		result.addObject("newspaperId", newspaperId);
+
+		return result;
+	}
 	// Ancillaty methods
 	protected ModelAndView createModelAndView(final NewspaperForm newspaperForm) {
 		ModelAndView result;

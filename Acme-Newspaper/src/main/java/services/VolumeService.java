@@ -2,15 +2,16 @@
 package services;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.VolumeRepository;
+import domain.Newspaper;
 import domain.User;
 import domain.Volume;
 import domain.VolumeSubscription;
@@ -23,6 +24,9 @@ public class VolumeService {
 
 	@Autowired
 	private VolumeRepository	volumeRepository;
+
+	@Autowired
+	private NewspaperService	newspaperService;
 
 	@Autowired
 	private UserService			userService;
@@ -41,14 +45,12 @@ public class VolumeService {
 	public Volume create() {
 		final Volume result = new Volume();
 
-		result.setYear(Calendar.YEAR);
 		final User principal = this.userService.findByPrincipal();
 		result.setUser(principal);
 		final Collection<VolumeSubscription> subs = new ArrayList<VolumeSubscription>();
 		result.setVolumeSubscriptions(subs);
 		return result;
 	}
-
 	// DO NOT MODIFY. ANY OTHER SAVE METHOD MUST BE NAMED DIFFERENT.
 	public Volume save(final Volume volume) {
 		Assert.notNull(volume, "message.error.message.null");
@@ -63,26 +65,24 @@ public class VolumeService {
 
 	public Volume saveFromCreate(final Volume volume) {
 
-		Volume result = volume;
+		Volume result = null;
 
 		final User principal = this.userService.findByPrincipal();
 		Assert.isTrue(volume.getUser() == principal);
 		Assert.notNull(principal);
 
-		Collection<Volume> newVolumes = new ArrayList<Volume>();
-		newVolumes = principal.getVolumes();
-		newVolumes.add(volume);
-		principal.setVolumes(newVolumes);
-		this.userService.saveFromEdit(principal);
-
-		result = this.volumeRepository.save(result);
-
+		if (volume.getYear() == null) {
+			final DateTime now = DateTime.now();
+			volume.setYear(now.getYear());
+		}
+		Assert.isTrue(volume.getYear() <= DateTime.now().getYear());
+		Assert.isTrue(volume.getYear() > 1950);
+		result = this.save(volume);
 		return result;
 	}
 
 	public Volume saveFromEdit(final Volume volume) {
 
-		Volume result = volume;
 		final User principal = this.userService.findByPrincipal();
 
 		Assert.notNull(principal);
@@ -90,11 +90,41 @@ public class VolumeService {
 
 		Assert.isTrue(principal.getVolumes().contains(volume));
 
-		result = this.volumeRepository.save(result);
+		this.save(volume);
 
-		return result;
+		return volume;
 	}
 
+	public void addNewspaperToVolume(final int newspaperId, final int volumeId) {
+		Assert.notNull(newspaperId);
+		Assert.notNull(volumeId);
+		final Newspaper a = this.newspaperService.findOne(newspaperId);
+		final Volume v = this.volumeRepository.findOne(volumeId);
+		final User principal = this.userService.findByPrincipal();
+		Assert.isTrue(v.getUser() == principal);
+		final Collection<Newspaper> newspapers = v.getNewspapers();
+		Assert.isTrue(!newspapers.contains(a));
+		newspapers.add(a);
+		v.setNewspapers(newspapers);
+		this.save(v);
+	}
+
+	public void deleteNewspaperToVolume(final int newspaperId, final int volumeId) {
+
+		Assert.notNull(newspaperId);
+		Assert.notNull(volumeId);
+
+		final Newspaper b = this.newspaperService.findOne(newspaperId);
+		final Volume v = this.volumeRepository.findOne(volumeId);
+		final User principal = this.userService.findByPrincipal();
+		Assert.isTrue(v.getUser() == principal);
+		final Collection<Newspaper> newspapers = v.getNewspapers();
+		Assert.isTrue(newspapers.contains(b));
+		newspapers.remove(b);
+		v.setNewspapers(newspapers);
+		this.save(v);
+
+	}
 	public Collection<Volume> findAll() {
 		Collection<Volume> result = null;
 		result = this.volumeRepository.findAll();

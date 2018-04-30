@@ -20,9 +20,18 @@
 		alt="Acme-Newspaper Co., Inc." height="180"/></a>
 </div>
 
+
 <div>
+
+
 	<ul id="jMenu">
+	
+		
+		
 		<security:authorize access="permitAll">
+		
+			<li><a class="fNiv" href="volume/list.do"><spring:message code="master.page.volumes"/></a></li>
+			<li>
 			<li><a class="fNiv" href="newspaper/list.do"><spring:message code="master.page.newspaper"/></a></li>
 			<li>
 				<a class="fNiv" href="user/list.do"> <spring:message code="master.page.users"/></a>
@@ -32,6 +41,7 @@
 			</li>
 		</security:authorize>
 		
+	
 		<security:authorize access="isAnonymous()">
 			<li>			
 			<a class="fNiv"><spring:message
@@ -50,6 +60,7 @@
 	
 			<!-- #User -->
 		<security:authorize access="hasRole('USER')">
+			<li><a class="fNiv" href="volume/user/listMyVolumes.do"><spring:message code="master.page.volume.listMyVolumes" /></a></li>
 			<li><a class="fNiv" href="newspaper/user/create.do"><spring:message code="master.page.newspaper.create" /></a></li>
 			<li><a class="fNiv" href="newspaper/user/list.do"><spring:message code="master.page.newspaper.user.list" /></a></li>
 			<li><a class="fNiv" href="chirp/user/list.do"><spring:message code="master.page.chirp.user.list" /></a></li>
@@ -85,7 +96,9 @@
 			</li>
 			<li><a class="fNiv" href="systemConfiguration/administrator/list.do"><spring:message code="master.page.systemconfiguration.administrator.list" /></a></li>
 		</security:authorize>
-
+	
+		
+		
 		<security:authorize access="hasRole('CUSTOMER')">
 			<li><a class="fNiv" href="newspaper/customer/list.do"><spring:message code="master.page.newspaper.user.list" /></a></li>
 			<li>

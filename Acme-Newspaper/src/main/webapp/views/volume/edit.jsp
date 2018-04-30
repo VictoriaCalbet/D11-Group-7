@@ -35,7 +35,7 @@
 	<acme:textbox code="volume.year" path="year"/>
 	
 	<acme:selectMultiple items="${availableNewspapers}"  itemLabel="title" code="volume.newspapers" path="newspapers" />
-     			
+     <jstl:out value="${newspapersSelectInfo}"> <spring:message code="volume.newspapersSelectInfo" var="newspapersSelectInfo" /></jstl:out>
 	<br/> <br/>
 	<input type="submit" name="save" value="<spring:message code="volume.save"/>"/>
 	<acme:cancel url="volume/list.do" code="volume.cancel" /> <br/>

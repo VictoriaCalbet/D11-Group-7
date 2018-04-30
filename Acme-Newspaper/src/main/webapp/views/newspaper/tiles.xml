@@ -21,6 +21,15 @@
 		<put-attribute name="body" value="/views/newspaper/list.jsp" />
 	</definition>
 	
+	<definition name="newspaper/user/listAdd" extends="master.page">	
+		<put-attribute name="title" value="Add newspapers to the volume" />
+		<put-attribute name="body" value="/views/newspaper/listAdd.jsp" />
+	</definition>
+	
+	<definition name="newspaper/user/listDelete" extends="master.page">	
+		<put-attribute name="title" value="Delete newspapers to the volume" />
+		<put-attribute name="body" value="/views/newspaper/listDelete.jsp" />
+	</definition>
 	
 	<definition name="newspaper/user/create" extends="master.page">	
 		<put-attribute name="title" value="Create a newspaper" />

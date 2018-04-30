@@ -3,6 +3,7 @@ package services.forms;
 
 import javax.transaction.Transactional;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -48,10 +49,11 @@ public class VolumeFormService {
 		volumeForm.setDescription(v.getDescription());
 		volumeForm.setYear(v.getYear());
 		volumeForm.setNewspapers(v.getNewspapers());
-
+		volumeForm.setId(v.getId());
 		return volumeForm;
 	}
 	public Volume saveFromEdit(final VolumeForm volumeForm) {
+
 		Assert.notNull(volumeForm);
 		final Volume v = this.volumeService.findOne(volumeForm.getId());
 		v.setTitle(volumeForm.getTitle());
@@ -59,6 +61,11 @@ public class VolumeFormService {
 		v.setId(volumeForm.getId());
 		v.setUser(this.userService.findByPrincipal());
 		v.setNewspapers(volumeForm.getNewspapers());
+		if (volumeForm.getYear() == null) {
+			final DateTime now = DateTime.now();
+			v.setYear(now.getYear());
+		} else
+			v.setYear(volumeForm.getYear());
 		this.volumeService.saveFromEdit(v);
 
 		return v;
@@ -69,11 +76,15 @@ public class VolumeFormService {
 		final Volume v = this.volumeService.create();
 
 		v.setTitle(volumeForm.getTitle());
-		v.setId(volumeForm.getId());
 		v.setDescription(volumeForm.getDescription());
 		v.setUser(this.userService.findByPrincipal());
 		v.setNewspapers(volumeForm.getNewspapers());
 
+		if (volumeForm.getYear() == null) {
+			final DateTime now = DateTime.now();
+			v.setYear(now.getYear());
+		} else
+			v.setYear(volumeForm.getYear());
 		final Volume volumeSave = this.volumeService.saveFromCreate(v);
 
 		return volumeSave;

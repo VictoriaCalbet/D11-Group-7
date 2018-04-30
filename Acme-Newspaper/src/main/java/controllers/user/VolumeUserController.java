@@ -1,6 +1,7 @@
 
 package controllers.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -16,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.NewspaperService;
 import services.UserService;
-import services.VolumeService;
 import services.forms.VolumeFormService;
 import controllers.AbstractController;
 import domain.Newspaper;
@@ -29,8 +29,6 @@ import domain.forms.VolumeForm;
 public class VolumeUserController extends AbstractController {
 
 	//Services
-	@Autowired
-	private VolumeService		volumeService;
 
 	@Autowired
 	private UserService			userService;
@@ -48,12 +46,31 @@ public class VolumeUserController extends AbstractController {
 		super();
 	}
 
+	@RequestMapping(value = "/listMyVolumes", method = RequestMethod.GET)
+	public ModelAndView list() {
+		final ModelAndView result;
+		User principal;
+
+		principal = this.userService.findByPrincipal();
+
+		Collection<Volume> volumes = new ArrayList<Volume>();
+		Collection<Volume> principalVolumes = new ArrayList<Volume>();
+		volumes = principal.getVolumes();
+		principalVolumes = volumes;
+		result = new ModelAndView("volume/user/list");
+		result.addObject("volumes", volumes);
+		result.addObject("principalVolumes", principalVolumes);
+		result.addObject("requestURI", "volume/user/list.do");
+		result.addObject("principal", principal);
+		return result;
+
+	}
 	//Creating 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
 		VolumeForm volumeForm;
-		final Collection<Newspaper> availableNewspapers = this.newsPaperService.findPublicated();
+		final Collection<Newspaper> availableNewspapers = this.newsPaperService.findPublicatedAll();
 
 		volumeForm = this.volumeFormService.create();
 		result = this.createEditModelAndView(volumeForm);
@@ -73,13 +90,13 @@ public class VolumeUserController extends AbstractController {
 		final VolumeForm volumeForm;
 		volumeForm = this.volumeFormService.create(volumeId);
 		final User principal = this.userService.findByPrincipal();
-		final Collection<Newspaper> availableNewspapers = this.newsPaperService.findPublicated();
+		final Collection<Newspaper> availableNewspapers = this.newsPaperService.findPublicatedAll();
 		result = this.createEditModelAndView(volumeForm);
 		result.addObject("availableNewspapers", availableNewspapers);
 		result.addObject("principal", principal);
 		return result;
 	}
-	//Saving //TODO
+	//Saving 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final VolumeForm volumeForm, final BindingResult binding) {
 		ModelAndView result;
@@ -93,7 +110,7 @@ public class VolumeUserController extends AbstractController {
 
 				else
 					this.volumeFormService.saveFromCreate(volumeForm);
-				result = new ModelAndView("redirect:/volume/list.do");
+				result = new ModelAndView("redirect:/volume/user/listMyVolumes.do");
 
 			} catch (final Throwable oops) {
 				String messageError = "volume.commit.error";
@@ -108,7 +125,6 @@ public class VolumeUserController extends AbstractController {
 
 		return result;
 	}
-	//Ancillary methods
 
 	protected ModelAndView createEditModelAndView(final VolumeForm volumeForm) {
 		ModelAndView result;

@@ -20,7 +20,17 @@
 		<put-attribute name="title" value="Listado de periodicos" />
 		<put-attribute name="body" value="/views/newspaper/list.jsp" />
 	</definition>
-
+	
+	<definition name="newspaper/user/listAdd" extends="master.page">	
+		<put-attribute name="title" value="Añadir periódicos al volumen" />
+		<put-attribute name="body" value="/views/newspaper/listAdd.jsp" />
+	</definition>
+	
+	<definition name="newspaper/user/listDelete" extends="master.page">	
+		<put-attribute name="title" value="Eliminar periódicos del volumen" />
+		<put-attribute name="body" value="/views/newspaper/listDelete.jsp" />
+	</definition>
+	
 	<definition name="newspaper/user/create" extends="master.page">	
 		<put-attribute name="title" value="Crear un periodico" />
 		<put-attribute name="body" value="/views/newspaper/edit.jsp" />
