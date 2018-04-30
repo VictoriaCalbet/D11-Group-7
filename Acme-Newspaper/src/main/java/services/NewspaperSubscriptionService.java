@@ -1,7 +1,6 @@
 
 package services;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -14,6 +13,7 @@ import org.springframework.util.Assert;
 import repositories.NewspaperSubscriptionRepository;
 import domain.CreditCard;
 import domain.Customer;
+import domain.Newspaper;
 import domain.NewspaperSubscription;
 
 @Service
@@ -30,6 +30,9 @@ public class NewspaperSubscriptionService {
 	@Autowired
 	private CustomerService					customerService;
 
+	@Autowired
+	private NewspaperService				newspaperService;
+
 
 	// Constructors -----------------------------------------------------------
 
@@ -44,7 +47,6 @@ public class NewspaperSubscriptionService {
 
 		result = new NewspaperSubscription();
 		result.setCustomer(this.customerService.findByPrincipal());
-		result.setCreditCards(new ArrayList<CreditCard>());
 
 		return result;
 	}
@@ -59,25 +61,28 @@ public class NewspaperSubscriptionService {
 
 	public NewspaperSubscription saveFromCreate(final NewspaperSubscription newspaperSubscription) {
 		Assert.notNull(newspaperSubscription, "message.error.newspaperSubscription.null");
-		Assert.isTrue(this.checkCreditCards(newspaperSubscription), "message.error.newspaperSubscription.invalidCreditCard");
+		Assert.isTrue(this.checkCreditCard(newspaperSubscription.getCreditCard()), "message.error.newspaperSubscription.invalidCreditCard");
 		Assert.isTrue(newspaperSubscription.getNewspaper().getIsPrivate(), "message.error.newspaperSubscription.isPublicNewspaper");
 		Assert.notNull(newspaperSubscription.getNewspaper().getPublicationDate(), "message.error.newspaperSubscription.publicationDateNotDefined");
 
 		NewspaperSubscription result = null;
 		Customer customer = null;
+		Newspaper newspaper = null;
 
 		customer = this.customerService.findByPrincipal();
+		newspaper = this.newspaperService.findOne(newspaperSubscription.getNewspaper().getId());
+
 		Assert.notNull(customer, "message.error.newspaperSubscription.customer.null");
 		Assert.isTrue(customer.equals(newspaperSubscription.getCustomer()), "message.error.newspaperSubscription.isNotTheSameCustomer");
-		// TODO: creo que hay que quitar esta comprobación
-		Assert.isTrue(!this.newspaperSubscriptionRepository.isThisCustomerSubscribeOnThisNewspaper(newspaperSubscription.getCustomer().getId(), newspaperSubscription.getNewspaper().getId()));
-		newspaperSubscription.setCounter(1);		// Es el primer newspaperSubscription que se crea
+
+		Assert.isTrue(!this.newspaperSubscriptionRepository.isThisCustomerSubscribeOnThisNewspaper(customer, newspaper));
 
 		// Paso 1: realizo la entidad del servicio NewspaperSubscription
 
 		result = this.save(newspaperSubscription);
 
 		// Paso 2: persisto el resto de relaciones a las que el objeto NewspaperSubscription estén relacionadas
+
 		result.getCustomer().getNewspaperSubscriptions().add(result);
 		result.getNewspaper().getNewspaperSubscriptions().add(result);
 
@@ -107,29 +112,6 @@ public class NewspaperSubscriptionService {
 		return result;
 	}
 
-	private boolean checkCreditCards(final NewspaperSubscription newspaperSubscription) {
-		boolean result = false;
-
-		Collection<CreditCard> creditCardsInDB = new ArrayList<CreditCard>();
-		Collection<CreditCard> creditCardsInObject = new ArrayList<CreditCard>();
-
-		if (newspaperSubscription.getId() != 0) {
-			final NewspaperSubscription newspaperSubscriptionInDB = this.findOne(newspaperSubscription.getId());
-			creditCardsInDB = newspaperSubscriptionInDB.getCreditCards();
-		}
-
-		creditCardsInObject = newspaperSubscription.getCreditCards();
-
-		creditCardsInObject.removeAll(creditCardsInDB);
-
-		CreditCard creditCardToCheck;
-
-		creditCardToCheck = creditCardsInObject.iterator().next();
-
-		result = this.checkCreditCard(creditCardToCheck);
-
-		return result;
-	}
 	private boolean checkCreditCard(final CreditCard creditCard) {
 		Assert.notNull(creditCard);
 		Assert.notNull(creditCard.getHolderName());
@@ -161,6 +143,12 @@ public class NewspaperSubscriptionService {
 		return result;
 	}
 
+	public NewspaperSubscription findNewspaperSubscriptionByCustomerIdAndNewspaperId(final int customerId, final int newspaperId) {
+		NewspaperSubscription result = null;
+		result = this.newspaperSubscriptionRepository.findNewspaperSubscriptionByCustomerIdAndNewspaperId(customerId, newspaperId);
+		return result;
+	}
+
 	// Dashboard services ------------------------------------------------------
 
 	// Acme-Newspaper 1.0 - Requisito 24.1.4
@@ -170,4 +158,5 @@ public class NewspaperSubscriptionService {
 		result = this.newspaperSubscriptionRepository.ratioOfSubscribersPerPrivateNewspaperVsTotalNumberOfCustomers();
 		return result;
 	}
+
 }

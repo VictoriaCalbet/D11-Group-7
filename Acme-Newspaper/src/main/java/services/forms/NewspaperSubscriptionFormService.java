@@ -67,7 +67,7 @@ public class NewspaperSubscriptionFormService {
 
 		newspaperSubscription.setCustomer(customer);
 		newspaperSubscription.setNewspaper(newspaper);
-		newspaperSubscription.getCreditCards().add(newspaperSubscriptionForm.getCreditCard());
+		newspaperSubscription.setCreditCard(newspaperSubscriptionForm.getCreditCard());
 
 		result = this.newspaperSubscriptionService.saveFromCreate(newspaperSubscription);
 
