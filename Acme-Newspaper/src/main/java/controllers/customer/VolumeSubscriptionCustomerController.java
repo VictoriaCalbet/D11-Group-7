@@ -103,6 +103,26 @@ public class VolumeSubscriptionCustomerController extends AbstractController {
 	}
 
 	// Edition    -----------------------------------------------------------
+	//
+	//	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
+	//	public ModelAndView save(@Valid final VolumeSubscriptionForm volumeSubscriptionForm, final BindingResult bindingResult) {
+	//		ModelAndView result = null;
+	//
+	//		if (bindingResult.hasErrors())
+	//			result = this.createModelAndView(volumeSubscriptionForm);
+	//		else
+	//			try {
+	//				this.volumeSubscriptionFormService.saveFromCreate(volumeSubscriptionForm);
+	//				result = new ModelAndView("redirect:/volumeSubscription/customer/list.do");
+	//			} catch (final Throwable oops) {
+	//				String messageError = "volumeSubscription.commit.error";
+	//				if (oops.getMessage().contains("message.error"))
+	//					messageError = oops.getMessage();
+	//				result = this.createModelAndView(volumeSubscriptionForm, messageError);
+	//			}
+	//
+	//		return result;
+	//	}
 
 	// Other actions --------------------------------------------------------
 
