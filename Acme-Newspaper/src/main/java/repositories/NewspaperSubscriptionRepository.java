@@ -24,7 +24,7 @@ public interface NewspaperSubscriptionRepository extends JpaRepository<Newspaper
 	@Query("select case when (count(subs.newspaper) > 0) then true else false end from Customer c join c.newspaperSubscriptions subs where c.id = ?1 and subs.newspaper.id = ?2")
 	boolean thisCustomerCanSeeThisNewspaper(int customerId, int newspaperId);
 
-	@Query("select case when (count(subs) > 0) then true else false end from NewspaperSubscription subs where subs.customer = ?1 and subs.newspaper = ?2")
+	@Query("select case when (count(subs) = 1) then true else false end from NewspaperSubscription subs where subs.customer = ?1 and subs.newspaper = ?2")
 	boolean isThisCustomerSubscribeOnThisNewspaper(Customer customer, Newspaper newspaper);
 
 }

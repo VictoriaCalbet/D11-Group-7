@@ -75,16 +75,22 @@ public class NewspaperSubscriptionService {
 		Assert.notNull(customer, "message.error.newspaperSubscription.customer.null");
 		Assert.isTrue(customer.equals(newspaperSubscription.getCustomer()), "message.error.newspaperSubscription.isNotTheSameCustomer");
 
-		Assert.isTrue(!this.newspaperSubscriptionRepository.isThisCustomerSubscribeOnThisNewspaper(customer, newspaper));
-
 		// Paso 1: realizo la entidad del servicio NewspaperSubscription
 
 		result = this.save(newspaperSubscription);
 
+		Assert.isTrue(this.newspaperSubscriptionRepository.isThisCustomerSubscribeOnThisNewspaper(customer, newspaper));
+
 		// Paso 2: persisto el resto de relaciones a las que el objeto NewspaperSubscription estén relacionadas
 
-		result.getCustomer().getNewspaperSubscriptions().add(result);
-		result.getNewspaper().getNewspaperSubscriptions().add(result);
+		final Customer customer2 = this.customerService.findOne(result.getCustomer().getId());
+		final Newspaper newspaper2 = this.newspaperService.findOne(result.getNewspaper().getId());
+
+		customer2.getNewspaperSubscriptions().add(result);
+		newspaper2.getNewspaperSubscriptions().add(result);
+
+		this.customerService.save(customer2);
+		this.newspaperService.save(newspaper2);
 
 		return result;
 	}
