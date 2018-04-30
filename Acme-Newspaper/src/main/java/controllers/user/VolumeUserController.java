@@ -90,9 +90,7 @@ public class VolumeUserController extends AbstractController {
 		final VolumeForm volumeForm;
 		volumeForm = this.volumeFormService.create(volumeId);
 		final User principal = this.userService.findByPrincipal();
-		final Collection<Newspaper> availableNewspapers = this.newsPaperService.findPublicatedAll();
 		result = this.createEditModelAndView(volumeForm);
-		result.addObject("availableNewspapers", availableNewspapers);
 		result.addObject("principal", principal);
 		return result;
 	}
@@ -119,9 +117,6 @@ public class VolumeUserController extends AbstractController {
 				result = this.createEditModelAndView(volumeForm, messageError);
 
 			}
-		final Collection<Newspaper> availableNewspapers = this.newsPaperService.findPublicated();
-
-		result.addObject("availableNewspapers", availableNewspapers);
 
 		return result;
 	}
@@ -138,10 +133,12 @@ public class VolumeUserController extends AbstractController {
 		ModelAndView result;
 		final User principal = this.userService.findByPrincipal();
 		final Collection<Volume> volumes = principal.getVolumes();
+		final Collection<Newspaper> availableNewspapers = this.newsPaperService.findPublicatedAll();
 		result = new ModelAndView("volume/user/edit");
 		result.addObject("volumeForm", volumeForm);
 		result.addObject("message", messageCode);
 		result.addObject("volumes", volumes);
+		result.addObject("availableNewspapers", availableNewspapers);
 		result.addObject("requestURI", "volume/user/edit.do");
 		return result;
 	}
