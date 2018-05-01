@@ -155,7 +155,19 @@
 			</jstl:choose>
 		</display:column>
 	</security:authorize>
-</display:table>
+	
+	
+	<security:authorize access="hasRole('ADMIN')">
+
+	<spring:message code="article.delete" var="deleteArticleHeader" />
+	<display:column title="${deleteArticleHeader}" style="${style}">
+
+			<spring:message var="articleDeleteLink" code="article.delete"/>
+ 			<a href="article/administrator/delete.do?articleId=${row.id}"><jstl:out value="${articleDeleteLink}"/></a>
+
+	</display:column>
+	</security:authorize>
+	</display:table>
 
 <security:authorize access="isAuthenticated()">
 	<jstl:if test="${not empty articles}">
