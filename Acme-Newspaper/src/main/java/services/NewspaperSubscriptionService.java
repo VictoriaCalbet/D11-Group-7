@@ -77,22 +77,18 @@ public class NewspaperSubscriptionService {
 
 		// Paso 1: realizo la entidad del servicio NewspaperSubscription
 
+		Assert.isTrue(!this.newspaperSubscriptionRepository.isThisCustomerSubscribeOnThisNewspaper(customer, newspaper), "message.error.newspaperSubscription.itsAlreadySubscribed");
 		result = this.save(newspaperSubscription);
 		Assert.isTrue(this.newspaperSubscriptionRepository.isThisCustomerSubscribeOnThisNewspaper(customer, newspaper), "message.error.newspaperSubscription.itsAlreadySubscribed");
 
 		// Paso 2: persisto el resto de relaciones a las que el objeto NewspaperSubscription estén relacionadas
 
-		final Customer customer2 = this.customerService.findOne(result.getCustomer().getId());
-		final Newspaper newspaper2 = this.newspaperService.findOne(result.getNewspaper().getId());
-
-		customer2.getNewspaperSubscriptions().add(result);
-		newspaper2.getNewspaperSubscriptions().add(result);
-
-		this.customerService.save(customer2);
-		this.newspaperService.save(newspaper2);
+		result.getCustomer().getNewspaperSubscriptions().add(result);
+		result.getNewspaper().getNewspaperSubscriptions().add(result);
 
 		return result;
 	}
+
 	public void flush() {
 		this.newspaperSubscriptionRepository.flush();
 	}
