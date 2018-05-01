@@ -76,68 +76,6 @@
 			</a>
 	</display:column>
 	
-	<security:authorize access="isAnonymous()">	
-		<spring:message code="newspaper.articles" var="articleHeader" />	
-			<display:column title="${articleHeader}" style="${style}">		
-				<jstl:if test="${!isPrivate}">	
-				<jstl:choose>
-				
-					<jstl:when test="${fn:length(row.articles) !=0}">	
-						<a href="article/list.do?newspaperId=${row.id}">
-						 	<spring:message code="newspaper.articlesButton" />
-						</a>
-					</jstl:when>
-					<jstl:otherwise>
-						<spring:message code= "newspaper.notArticles" var="newspaperNotArticles"/>
-							<jstl:out value="${newspaperNotArticles}"/> 
-					</jstl:otherwise>
-				</jstl:choose>
-				</jstl:if>
-		</display:column>
-	</security:authorize>
-
-	<security:authorize access="hasAnyRole('USER, ADMIN, AGENT')">	
-		<spring:message code="newspaper.articles" var="articleHeader" />	
-			<display:column title="${articleHeader}" style="${style}">		
-				<jstl:if test="${!isPrivate or row.publisher.userAccount.username==loggedactor.username && isPrivate}">	
-				<jstl:choose>
-				
-					<jstl:when test="${fn:length(row.articles) !=0}">	
-						<a href="article/list.do?newspaperId=${row.id}">
-						 	<spring:message code="newspaper.articlesButton" />
-						</a>
-					</jstl:when>
-					<jstl:otherwise>
-						<spring:message code= "newspaper.notArticles" var="newspaperNotArticles"/>
-							<jstl:out value="${newspaperNotArticles}"/> 
-					</jstl:otherwise>
-				</jstl:choose>
-				</jstl:if>
-		</display:column>
-	</security:authorize>
-	
-	<security:authorize access="hasRole('CUSTOMER')">	
-
-		<spring:message code="newspaper.articles" var="articleHeader" />	
-			<display:column title="${articleHeader}" style="${style}">
-				<jstl:if test="${ns.contains(row) && isPrivate or !isPrivate}">
-			
-				<jstl:choose>
-				
-					<jstl:when test="${fn:length(row.articles) !=0}">	
-						<a href="article/list.do?newspaperId=${row.id}">
-						 	<spring:message code="newspaper.articlesButton" />
-						</a>
-					</jstl:when>
-					<jstl:otherwise>
-						<spring:message code= "newspaper.notArticles" var="newspaperNotArticles"/>
-							<jstl:out value="${newspaperNotArticles}"/> 
-					</jstl:otherwise>
-				</jstl:choose>
-				</jstl:if>
-		</display:column>
-	</security:authorize>	
-	
 	<security:authorize access="hasRole('USER')">
 		<spring:message code="newspaper.published" var="publishedHeader" />	
 		<display:column title="${publishedHeader}" style="${style}">	
