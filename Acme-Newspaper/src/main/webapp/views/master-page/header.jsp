@@ -102,7 +102,7 @@
 		<security:authorize access="hasRole('CUSTOMER')">
 			<li><a class="fNiv" href="newspaper/customer/list.do"><spring:message code="master.page.newspaper.user.list" /></a></li>
 			<li>
-				<a class="fNiv"><spring:message	code="master.page.customer"/></a>
+				<a class="fNiv"><spring:message	code="master.page.subscriptions"/></a>
 				<ul>
 					<li class="arrow"></li>
 					<li>
