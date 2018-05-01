@@ -17,12 +17,16 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.AdvertisementService;
 import services.ArticleService;
+import services.CustomerService;
 import services.NewspaperService;
 import services.NewspaperSubscriptionService;
+import services.VolumeSubscriptionService;
 import domain.Actor;
 import domain.Article;
+import domain.Customer;
 import domain.Newspaper;
 import domain.User;
+import domain.VolumeSubscription;
 
 @Controller
 @RequestMapping("/article")
@@ -37,10 +41,16 @@ public class ArticleController extends AbstractController {
 	private ArticleService					articleService;
 
 	@Autowired
+	private CustomerService					customerService;
+
+	@Autowired
 	private ActorService					actorService;
 
 	@Autowired
 	private NewspaperSubscriptionService	newspaperSubscriptionService;
+
+	@Autowired
+	private VolumeSubscriptionService		volumeSubscriptionService;
 
 	@Autowired
 	private AdvertisementService			advertisementService;
@@ -88,9 +98,23 @@ public class ArticleController extends AbstractController {
 			} else if (this.actorService.checkAuthority(actor, "CUSTOMER") && newspaperId != 0) {
 				newspaper = this.newsPaperService.findOne(newspaperId);
 				if (newspaper != null && newspaper.getIsPrivate()) {
-					showFollowUps = this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId);
-					Assert.isTrue(showFollowUps);	// Si es false, significa que no está suscrito
+					final Customer customer = this.customerService.findByPrincipal();
+					Collection<VolumeSubscription> volumeSubscriptions = new ArrayList<VolumeSubscription>();
+					volumeSubscriptions = customer.getVolumeSubscriptions();
+					if (volumeSubscriptions.isEmpty())
+						showFollowUps = this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId);
+					// Si es false, significa que no está suscrito
+					else
+						for (final VolumeSubscription v : volumeSubscriptions)
+							if (newspaper.getVolumes().contains(v.getVolume()))
+								showFollowUps = true;
+
+							else
+								showFollowUps = false;
+
 				}
+				Assert.isTrue(showFollowUps);
+
 			}
 		} else if (newspaperId != 0)
 			Assert.isTrue(!newspaper.getIsPrivate());
