@@ -80,19 +80,14 @@ public class VolumeSubscriptionService {
 
 		// Paso 1: realizo la entidad del servicio VolumeSubscription
 
+		Assert.isTrue(!this.volumeSubscriptionRepository.isThisCustomerSubscribeOnThisVolume(customer.getId(), volume.getId()), "message.error.volumeSubscription.itsAlreadySubscribed");
 		result = this.save(volumeSubscription);
-		Assert.isTrue(this.volumeSubscriptionRepository.isThisCustomerSubscribeOnThisVolume(customer, volume), "message.error.volumeSubscription.itsAlreadySubscribed");
+		Assert.isTrue(this.volumeSubscriptionRepository.isThisCustomerSubscribeOnThisVolume(customer.getId(), volume.getId()), "message.error.volumeSubscription.itsAlreadySubscribed");
 
 		// Paso 2: persisto el resto de relaciones a las que el objeto VolumeSubscription estén relacionadas 
 
-		customer = this.customerService.findOne(result.getCustomer().getId());
-		volume = this.volumeService.findOne(result.getVolume().getId());
-
 		result.getCustomer().getVolumeSubscriptions().add(result);
 		result.getVolume().getVolumeSubscriptions().add(result);
-
-		this.customerService.save(customer);
-		this.volumeService.save(volume);
 
 		return result;
 	}
