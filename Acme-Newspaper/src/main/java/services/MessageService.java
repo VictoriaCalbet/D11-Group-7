@@ -88,7 +88,6 @@ public class MessageService {
 		final Folder folder = message.getFolder();
 		final Actor principal = this.actorService.findByPrincipal();
 
-		Assert.isTrue(principal.getMessagesSent().contains(message), "message.error.message.principal.owner");
 		Assert.isTrue(principal.getFolders().contains(folder), "message.error.message.folder.principal.owner");
 
 		if (folder.getName().equals("trash box"))

@@ -59,7 +59,7 @@ public class MessageFormService {
 
 		message = this.messageService.findOne(messageId);
 
-		Assert.isTrue(principal.getMessagesSent().contains(message), "message.error.message.principal.owner");
+		Assert.isTrue(message.getFolder().getActor().getId() == principal.getId(), "message.error.message.principal.owner");
 
 		result = new MessageForm();
 		result.setId(message.getId());
@@ -71,7 +71,6 @@ public class MessageFormService {
 
 		return result;
 	}
-
 	public MessageForm createForBroadcast() {
 		MessageForm result;
 
@@ -130,7 +129,6 @@ public class MessageFormService {
 		final Folder folder = this.folderService.findOne(messageForm.getFolderId());
 		final Actor principal = this.actorService.findByPrincipal();
 
-		Assert.isTrue(principal.getMessagesSent().contains(message), "message.error.message.principal.owner");
 		Assert.isTrue(principal.getFolders().contains(folder), "message.error.message.folder.principal.owner");
 
 		message.setFolder(folder);
@@ -155,8 +153,8 @@ public class MessageFormService {
 			message.setSender(principal);
 			message.setRecipient(recipient);
 
-			final Folder recipientInbox = this.folderService.findOneByActorIdAndFolderName(recipient.getId(), "in box");
-			message.setFolder(recipientInbox);
+			final Folder recipientNotificationBox = this.folderService.findOneByActorIdAndFolderName(recipient.getId(), "notification box");
+			message.setFolder(recipientNotificationBox);
 
 			this.messageService.saveFromCreate(message);
 		}
@@ -170,7 +168,6 @@ public class MessageFormService {
 		final Folder folder = this.folderService.findOne(messageForm.getFolderId());
 		final Actor principal = this.actorService.findByPrincipal();
 
-		Assert.isTrue(principal.getMessagesSent().contains(message), "message.error.message.principal.owner");
 		Assert.isTrue(principal.getFolders().contains(folder), "message.error.message.folder.principal.owner");
 
 		this.messageService.delete(message);
