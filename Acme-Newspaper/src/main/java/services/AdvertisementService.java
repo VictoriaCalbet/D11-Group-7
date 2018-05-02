@@ -79,7 +79,8 @@ public class AdvertisementService {
 	public Advertisement saveFromCreate(final Advertisement advertisement) {
 
 		Assert.notNull(advertisement, "message.error.advertisement.null");
-		this.isAgentAunthenticate();
+		advertisement.setAgent(this.isAgentAunthenticate());
+
 		Assert.notNull(advertisement.getBannerURL(), "message.error.advertisement.null.banner");
 		Assert.notNull(advertisement.getTitle(), "message.error.advertisement.null.title");
 		Assert.notNull(advertisement.getTargetPageURL(), "message.error.advertisement.null.target");
@@ -104,6 +105,8 @@ public class AdvertisementService {
 		Advertisement advertisementInDB;
 		advertisementInDB = this.findOne(advertisement.getId());
 		Assert.notNull(advertisementInDB);
+		this.isCorrectAgentAunthenticate(advertisementInDB.getAgent().getId());
+
 		advertisementInDB = this.advertisementRepository.save(advertisement);
 
 		return advertisementInDB;
