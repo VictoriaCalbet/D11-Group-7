@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.AdvertisementRepository;
+import domain.Administrator;
 import domain.Advertisement;
 import domain.Agent;
 import domain.CreditCard;
@@ -32,6 +33,8 @@ public class AdvertisementService {
 	private NewspaperService			newspaperService;
 	@Autowired
 	private AgentService				agentService;
+	@Autowired
+	private AdministratorService		administratorService;
 
 	@Autowired
 	private SystemConfigurationService	systemConfigurationService;
@@ -68,6 +71,7 @@ public class AdvertisementService {
 
 		this.advertisementRepository.delete(advertisement);
 	}
+
 	public void flush() {
 		this.advertisementRepository.flush();
 	}
@@ -111,6 +115,16 @@ public class AdvertisementService {
 		advertisementInDB = this.advertisementRepository.findOne(advertisement.getId());
 		Assert.notNull(advertisementInDB, "message.error.advertisement.null.indb");
 		this.isCorrectAgentAunthenticate(advertisementInDB.getAgent().getId());
+		this.advertisementRepository.delete(advertisement);
+	}
+
+	public void deleteByAdmin(final Advertisement advertisement) {
+		Assert.notNull(advertisement, "message.error.advertisement.null");
+
+		Advertisement advertisementInDB;
+		advertisementInDB = this.advertisementRepository.findOne(advertisement.getId());
+		Assert.notNull(advertisementInDB, "message.error.advertisement.null.indb");
+		this.isAdminAunthenticate();
 		this.advertisementRepository.delete(advertisement);
 	}
 	public Collection<Advertisement> findAll() {
@@ -181,6 +195,15 @@ public class AdvertisementService {
 		String authority;
 		authority = actor.getUserAccount().getAuthorities().iterator().next().getAuthority();
 		Assert.isTrue(authority.equals("AGENT"), "message.error.advertisement.notagent");
+		return actor;
+	}
+	private Administrator isAdminAunthenticate() {
+		Administrator actor;
+		actor = this.administratorService.findByPrincipal();
+		Assert.notNull(actor);
+		String authority;
+		authority = actor.getUserAccount().getAuthorities().iterator().next().getAuthority();
+		Assert.isTrue(authority.equals("ADMIN"), "message.error.advertisement.notadmin");
 		return actor;
 	}
 	private void isCorrectAgentAunthenticate(final int agentId) {
