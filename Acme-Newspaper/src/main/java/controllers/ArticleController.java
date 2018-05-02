@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.AdvertisementService;
 import services.ArticleService;
-import services.CustomerService;
 import services.NewspaperService;
 import services.NewspaperSubscriptionService;
 import services.VolumeSubscriptionService;
@@ -37,9 +36,6 @@ public class ArticleController extends AbstractController {
 
 	@Autowired
 	private ArticleService					articleService;
-
-	@Autowired
-	private CustomerService					customerService;
 
 	@Autowired
 	private ActorService					actorService;
@@ -99,27 +95,6 @@ public class ArticleController extends AbstractController {
 					showFollowUps = this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId) || this.volumeSubscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId);
 					Assert.isTrue(showFollowUps);	// Si es false, significa que no está  suscrito
 				}
-				//				newspaper = this.newsPaperService.findOne(newspaperId);
-				//				if (newspaper != null && newspaper.getIsPrivate()) {
-
-				//					final Customer customer = this.customerService.findByPrincipal();
-
-				//					Collection<VolumeSubscription> volumeSubscriptions = new ArrayList<VolumeSubscription>();
-				//					volumeSubscriptions = customer.getVolumeSubscriptions();
-				//					if (volumeSubscriptions.isEmpty())
-				//						showFollowUps = this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId);
-				//					// Si es false, significa que no está suscrito
-				//					else
-				//						for (final VolumeSubscription v : volumeSubscriptions)
-				//							if (newspaper.getVolumes().contains(v.getVolume()))
-				//								showFollowUps = true;
-				//
-				//							else
-				//								showFollowUps = false;
-
-				//				}
-				//				Assert.isTrue(showFollowUps);
-
 			}
 		} else if (newspaperId != 0)
 			Assert.isTrue(!newspaper.getIsPrivate());

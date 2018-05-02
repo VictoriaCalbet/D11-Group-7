@@ -43,8 +43,6 @@ public class ArticleService {
 
 	public Article create() {
 		final Article result = new Article();
-		final User principal = this.userService.findByPrincipal();
-		result.setWriter(principal);
 		result.setIsDraft(true);
 		return result;
 	}
