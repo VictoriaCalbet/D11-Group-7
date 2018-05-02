@@ -93,8 +93,9 @@ public class FolderService {
 		folderInDB = this.folderRepository.findOne(folder.getId());
 		principal = this.actorService.findByPrincipal();
 
-		Assert.isTrue(folder.getActor().getId() == folderInDB.getActor().getId());
-		Assert.isTrue(folder.getActor().getId() == principal.getId());
+		Assert.isTrue(folder.getActor().getId() == folderInDB.getActor().getId(), "message.error.folder.principal.owner");
+		Assert.isTrue(folder.getActor().getId() == principal.getId(), "message.error.folder.principal.owner");
+		Assert.isTrue(!folderInDB.getSystem(), "message.error.folder.name.system");
 
 		result = this.save(folder);
 
@@ -112,6 +113,7 @@ public class FolderService {
 
 		Assert.isTrue(folder.getActor().getId() == folderInDB.getActor().getId(), "message.error.folder.principal.owner");
 		Assert.isTrue(folder.getActor().getId() == principal.getId(), "message.error.folder.principal.owner");
+		Assert.isTrue(!folderInDB.getSystem(), "message.error.folder.name.system");
 
 		// Remove messages. TODO
 		for (final Message message : folder.getMessages())

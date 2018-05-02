@@ -16,15 +16,18 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.FolderService;
 import services.forms.FolderFormService;
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Folder;
 import domain.forms.FolderForm;
 
@@ -37,6 +40,9 @@ public class FolderActorController extends AbstractController {
 
 	@Autowired
 	private FolderFormService	folderFormService;
+
+	@Autowired
+	private ActorService		actorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -79,12 +85,17 @@ public class FolderActorController extends AbstractController {
 		final ModelAndView result;
 		FolderForm folderForm;
 
+		final Folder folder = this.folderService.findOne(folderId);
+		final Actor principal = this.actorService.findByPrincipal();
+
+		Assert.isTrue(principal.getId() == folder.getActor().getId());
+		Assert.isTrue(!folder.getSystem());
+
 		folderForm = this.folderFormService.createFromFolder(folderId);
 		result = this.createEditModelAndView(folderForm);
 
 		return result;
 	}
-
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final FolderForm folderForm, final BindingResult binding) {
 		ModelAndView result;
