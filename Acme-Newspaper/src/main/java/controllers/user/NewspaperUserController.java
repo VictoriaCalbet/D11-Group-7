@@ -160,7 +160,7 @@ public class NewspaperUserController extends AbstractController {
 	public ModelAndView listAdd(@RequestParam final int volumeId) {
 		ModelAndView result;
 		Collection<Newspaper> newspapers = new ArrayList<Newspaper>();
-
+		final User principal = this.userService.findByPrincipal();
 		final Volume v = this.volumeService.findOne(volumeId);
 		newspapers = this.newspaperService.findPublicatedAll();
 		Collection<Newspaper> containedNewspapers = new ArrayList<Newspaper>();
@@ -169,6 +169,7 @@ public class NewspaperUserController extends AbstractController {
 
 		result = new ModelAndView("newspaper/user/listAdd");
 		result.addObject("newspapers", newspapers);
+		result.addObject("principal", principal);
 		result.addObject("volumeId", volumeId);
 		result.addObject("requestURI", "newspaper/user/listAdd.do");
 

@@ -45,17 +45,18 @@ public class VolumeController extends AbstractController {
 		final ModelAndView result;
 		Collection<Volume> volumes = new ArrayList<Volume>();
 		Collection<Volume> principalVolumes = new ArrayList<Volume>();
-
+		Actor actor = null;
+		User principal = null;
 		if (this.actorService.checkLogin()) {
-			final Actor principal1 = this.actorService.findByPrincipal();
-			User principal2 = null;
-			if (this.actorService.checkAuthority(principal1, "USER")) {
-				principal2 = this.userService.findByPrincipal();
-				principalVolumes = principal2.getVolumes();
+			actor = this.actorService.findByPrincipal();
+			if (this.actorService.checkAuthority(actor, "USER")) {
+				principal = this.userService.findByPrincipal();
+				principalVolumes = principal.getVolumes();
 			}
 		}
 		volumes = this.volumeService.findAll();
 		result = new ModelAndView("volume/list");
+		result.addObject("principal", principal);
 		result.addObject("volumes", volumes);
 		result.addObject("principalVolumes", principalVolumes);
 		result.addObject("requestURI", "volume/list.do");

@@ -69,16 +69,27 @@
 	<security:authorize access="hasRole('USER')">
 	
 		<spring:message code="volume.addNewspapers" var="addNewspaperHeader" />
+		
 		<display:column title="${addNewspaperHeader}" style="${style}">	
+		
+		<jstl:choose>
+         <jstl:when test="${principal.id == row.user.id}">
 			<a href="newspaper/user/listAdd.do?volumeId=${row.id}">
 				<spring:message code="volume.addLink"/>
 			</a>	
+				</jstl:when>
+				
+				<jstl:otherwise>
+				<spring:message code="volume.notEditable" />
+				</jstl:otherwise>
+				</jstl:choose>
+			
 		</display:column>
 
 	<spring:message code="volume.deleteNewspapers" var="deleteNewspaperHeader" />
 	<display:column title="${deleteNewspaperHeader}" style="${style}">
 	<jstl:choose>
-		<jstl:when test="${fn:length(row.newspapers) > 0 }"> 
+		<jstl:when test="${fn:length(row.newspapers) > 0 and principal.id == row.user.id}"> 
 			<a href="newspaper/user/listDelete.do?volumeId=${row.id}">
 				<spring:message code="volume.deleteLink"/>
 			</a>
