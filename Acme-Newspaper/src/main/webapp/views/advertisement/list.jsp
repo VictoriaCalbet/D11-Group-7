@@ -51,13 +51,14 @@
 		</a>
 	</display:column>
 	</security:authorize>
-	
+	<security:authorize access="hasRole('ADMIN')">
 	<spring:message code="advertisement.delete" var="delete" />
 	<display:column sortable="false" title="${delete}">
 		<a href="${deleteURI}${row.id}">
 			${delete}
 		</a>
 	</display:column>
+	</security:authorize>
 </display:table>
 <security:authorize access="hasRole('AGENT')">
 <spring:message code="advertisement.create" var="create" />

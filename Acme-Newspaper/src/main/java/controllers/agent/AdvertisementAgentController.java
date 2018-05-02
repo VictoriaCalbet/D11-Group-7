@@ -97,35 +97,36 @@ public class AdvertisementAgentController extends AbstractController {
 
 		return result;
 	}
-
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam final int advertisementId) {
-		ModelAndView result;
-		Advertisement advertisementInDB;
-		advertisementInDB = this.advertisementService.findOne(advertisementId);
-		try {
-			this.advertisementService.deleteByAgent(advertisementInDB);
-			result = new ModelAndView("redirect:/advertisement/agent/list.do");
-		} catch (final Throwable oops) {
-			List<Advertisement> advertisements;
-			advertisements = new ArrayList<Advertisement>();
-			Agent agent;
-			agent = this.agentService.findByPrincipal();
-			advertisements.addAll(agent.getAdvertisements());
-			result = new ModelAndView("advertisement/list");
-			result.addObject("advertisements", advertisements);
-			result.addObject("requestURI", "advertisement/agent/list.do");
-			String messageError = "advertisement.commit.error";
-
-			if (oops.getMessage().contains("message.error"))
-				messageError = oops.getMessage();
-			result.addObject("message", messageError);
-			result.addObject("deleteURI", "advertisement/agent/delete.do?advertisementId=");
-
-		}
-		return result;
-
-	}
+	/*
+	 * @RequestMapping(value = "/delete", method = RequestMethod.GET)
+	 * public ModelAndView delete(@RequestParam final int advertisementId) {
+	 * ModelAndView result;
+	 * Advertisement advertisementInDB;
+	 * advertisementInDB = this.advertisementService.findOne(advertisementId);
+	 * try {
+	 * this.advertisementService.deleteByAgent(advertisementInDB);
+	 * result = new ModelAndView("redirect:/advertisement/agent/list.do");
+	 * } catch (final Throwable oops) {
+	 * List<Advertisement> advertisements;
+	 * advertisements = new ArrayList<Advertisement>();
+	 * Agent agent;
+	 * agent = this.agentService.findByPrincipal();
+	 * advertisements.addAll(agent.getAdvertisements());
+	 * result = new ModelAndView("advertisement/list");
+	 * result.addObject("advertisements", advertisements);
+	 * result.addObject("requestURI", "advertisement/agent/list.do");
+	 * String messageError = "advertisement.commit.error";
+	 * 
+	 * if (oops.getMessage().contains("message.error"))
+	 * messageError = oops.getMessage();
+	 * result.addObject("message", messageError);
+	 * result.addObject("deleteURI", "advertisement/agent/delete.do?advertisementId=");
+	 * 
+	 * }
+	 * return result;
+	 * 
+	 * }
+	 */
 
 	// Ancillary methods
 
