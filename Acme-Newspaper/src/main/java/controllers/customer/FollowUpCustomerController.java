@@ -15,6 +15,7 @@ import services.ArticleService;
 import services.CustomerService;
 import services.FollowUpService;
 import services.NewspaperSubscriptionService;
+import services.VolumeSubscriptionService;
 import controllers.AbstractController;
 import domain.Article;
 import domain.Customer;
@@ -37,6 +38,9 @@ public class FollowUpCustomerController extends AbstractController {
 
 	@Autowired
 	private NewspaperSubscriptionService	newspaperSubscriptionService;
+
+	@Autowired
+	private VolumeSubscriptionService		volumeSubscriptionService;
 
 
 	// Constructors ---------------------------------------------------------
@@ -66,7 +70,8 @@ public class FollowUpCustomerController extends AbstractController {
 		Assert.isTrue(article.getNewspaper().getPublicationDate() != null && article.getIsDraft() == false);
 
 		if (article.getNewspaper().getIsPrivate())
-			Assert.isTrue(this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(customer.getId(), article.getNewspaper().getId()));
+			Assert.isTrue(this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(customer.getId(), article.getNewspaper().getId())
+				|| this.volumeSubscriptionService.thisCustomerCanSeeThisNewspaper(customer.getId(), article.getNewspaper().getId()));
 
 		requestURI = "follow-up/customer/list.do";
 		displayURI = "follow-up/customer/display.do?followUpId=";
@@ -87,10 +92,21 @@ public class FollowUpCustomerController extends AbstractController {
 	public ModelAndView display(@RequestParam final int followUpId) {
 		ModelAndView result = null;
 		FollowUp followUp = null;
+		Article article = null;
+		Customer customer = null;
+
+		customer = this.customerService.findByPrincipal();
+		Assert.notNull(customer);
 
 		followUp = this.followUpService.findOne(followUpId);
-
 		Assert.notNull(followUp);
+
+		article = followUp.getArticle();
+		Assert.isTrue(article.getNewspaper().getPublicationDate() != null && article.getIsDraft() == false);
+
+		if (article.getNewspaper().getIsPrivate())
+			Assert.isTrue(this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(customer.getId(), article.getNewspaper().getId())
+				|| this.volumeSubscriptionService.thisCustomerCanSeeThisNewspaper(customer.getId(), article.getNewspaper().getId()));
 
 		result = new ModelAndView("follow-up/display");
 		result.addObject("followup", followUp);
