@@ -42,7 +42,7 @@ public class ArticleFormService {
 
 	public ArticleForm create(final int articleId) {
 		final Article a = this.articleService.findOne(articleId);
-
+		Assert.isTrue(a.getWriter() == this.userService.findByPrincipal());
 		final ArticleForm articleForm = new ArticleForm();
 		Assert.isTrue(a.getIsDraft());
 		articleForm.setBody(a.getBody());
@@ -61,7 +61,6 @@ public class ArticleFormService {
 		a.setTitle(articleForm.getTitle());
 		a.setBody(articleForm.getBody());
 		a.setId(articleForm.getId());
-		a.setWriter(this.userService.findByPrincipal());
 		a.setIsDraft(articleForm.getIsDraft());
 		a.setNewspaper(articleForm.getNewspaper());
 		a.setPictures(articleForm.getPictures());

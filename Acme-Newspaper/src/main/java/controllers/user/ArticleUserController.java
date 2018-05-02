@@ -160,7 +160,7 @@ public class ArticleUserController extends AbstractController {
 
 				else
 					this.articleFormService.saveFromCreate(articleForm);
-				result = new ModelAndView("redirect:/newspaper/user/list.do");
+				result = new ModelAndView("redirect:/article/user/listOwnArticles.do");
 
 			} catch (final Throwable oops) {
 				String messageError = "article.commit.error";
