@@ -112,6 +112,14 @@ public class VolumeSubscriptionService {
 		return result;
 	}
 
+	public boolean isThisCustomerSubscribeOnThisVolume(final int customerId, final int volumeId) {
+		return this.volumeSubscriptionRepository.isThisCustomerSubscribeOnThisVolume(customerId, volumeId);
+	}
+
+	public boolean thisCustomerCanSeeThisNewspaper(final int customerId, final int newspaperId) {
+		return this.volumeSubscriptionRepository.thisCustomerCanSeeThisNewspaper(customerId, newspaperId);
+	}
+
 	// Other business methods -------------------------------------------------
 
 	private boolean checkCreditCard(final CreditCard creditCard) {
@@ -144,4 +152,5 @@ public class VolumeSubscriptionService {
 
 		return result;
 	}
+
 }

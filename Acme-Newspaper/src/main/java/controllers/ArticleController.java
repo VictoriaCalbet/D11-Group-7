@@ -23,10 +23,8 @@ import services.NewspaperSubscriptionService;
 import services.VolumeSubscriptionService;
 import domain.Actor;
 import domain.Article;
-import domain.Customer;
 import domain.Newspaper;
 import domain.User;
-import domain.VolumeSubscription;
 
 @Controller
 @RequestMapping("/article")
@@ -98,22 +96,29 @@ public class ArticleController extends AbstractController {
 			} else if (this.actorService.checkAuthority(actor, "CUSTOMER") && newspaperId != 0) {
 				newspaper = this.newsPaperService.findOne(newspaperId);
 				if (newspaper != null && newspaper.getIsPrivate()) {
-					final Customer customer = this.customerService.findByPrincipal();
-					Collection<VolumeSubscription> volumeSubscriptions = new ArrayList<VolumeSubscription>();
-					volumeSubscriptions = customer.getVolumeSubscriptions();
-					if (volumeSubscriptions.isEmpty())
-						showFollowUps = this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId);
-					// Si es false, significa que no est� suscrito
-					else
-						for (final VolumeSubscription v : volumeSubscriptions)
-							if (newspaper.getVolumes().contains(v.getVolume()))
-								showFollowUps = true;
-
-							else
-								showFollowUps = false;
-
+					showFollowUps = this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId) || this.volumeSubscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId);
+					Assert.isTrue(showFollowUps);	// Si es false, significa que no está  suscrito
 				}
-				Assert.isTrue(showFollowUps);
+				//				newspaper = this.newsPaperService.findOne(newspaperId);
+				//				if (newspaper != null && newspaper.getIsPrivate()) {
+
+				//					final Customer customer = this.customerService.findByPrincipal();
+
+				//					Collection<VolumeSubscription> volumeSubscriptions = new ArrayList<VolumeSubscription>();
+				//					volumeSubscriptions = customer.getVolumeSubscriptions();
+				//					if (volumeSubscriptions.isEmpty())
+				//						showFollowUps = this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId);
+				//					// Si es false, significa que no está suscrito
+				//					else
+				//						for (final VolumeSubscription v : volumeSubscriptions)
+				//							if (newspaper.getVolumes().contains(v.getVolume()))
+				//								showFollowUps = true;
+				//
+				//							else
+				//								showFollowUps = false;
+
+				//				}
+				//				Assert.isTrue(showFollowUps);
 
 			}
 		} else if (newspaperId != 0)
