@@ -27,6 +27,14 @@
 </form>
 <br/>
 
+
+<form action="article/list.do" method="get">
+	<label><b><spring:message code="article.KeyWord"/>:&nbsp;</b></label>
+	<input type="text" name="word" placeholder="<spring:message code="article.KeyWord.filter"/>"> 
+	<input type="submit" value="<spring:message code="article.search" />" />&nbsp;
+</form>
+<br/>
+
 <security:authentication property="principal" var="loggedactor"/>
 
 <display:table name="newspapers" id="row" requestURI="${requestURI}" pagesize="5">
