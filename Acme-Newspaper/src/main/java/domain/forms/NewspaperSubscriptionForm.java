@@ -1,7 +1,6 @@
 
 package domain.forms;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Service;
@@ -36,7 +35,6 @@ public class NewspaperSubscriptionForm {
 	}
 
 	@NotNull
-	@Valid
 	public CreditCard getCreditCard() {
 		return this.creditCard;
 	}
