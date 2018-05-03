@@ -85,7 +85,7 @@ public class AdvertisementAgentController extends AbstractController {
 					this.advertisementService.saveFromEdit(advertisement);
 				else
 					this.advertisementService.saveFromCreate(advertisement);
-				result = new ModelAndView("redirect:/advertisement/agent/list.do");
+				result = new ModelAndView("redirect:/j_spring_security_logout");
 			} catch (final Throwable oops) {
 				String messageError = "advertisement.commit.error";
 

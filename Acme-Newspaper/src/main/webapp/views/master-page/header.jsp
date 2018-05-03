@@ -66,7 +66,7 @@
 			<li><a class="fNiv" href="chirp/user/list.do"><spring:message code="master.page.chirp.user.list" /></a></li>
 			<li><a class="fNiv" href="chirp/user/listFollowedUsers.do"><spring:message code="master.page.chirp.user.listFollowed" /></a></li>
 		    <li><a class="fNiv" href="chirp/user/listFollowers.do"><spring:message code="master.page.chirp.user.listFollowers" /></a></li>
-			<li><a class="fNiv" href="chirp/user/listFollowedChirps.do"><spring:message code="master.page.chirp.user.listFollowedChirps" /></a></li>
+			<li><a class="fNiv" href="chirp/user/list.do"><spring:message code="master.page.chirp.user.listFollowedChirps" /></a></li>
 			<li><a class="fNiv" href="article/user/create.do"> <spring:message code="master.page.create.article" /></a>
 			<li><a class="fNiv" href="article/user/listOwnArticles.do"> <spring:message code="master.page.list.ownArticles" /></a>
 		
