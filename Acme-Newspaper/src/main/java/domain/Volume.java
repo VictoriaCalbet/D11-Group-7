@@ -27,7 +27,6 @@ public class Volume extends DomainEntity {
 	private Integer	year;
 
 
-	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getTitle() {
 		return this.title;
