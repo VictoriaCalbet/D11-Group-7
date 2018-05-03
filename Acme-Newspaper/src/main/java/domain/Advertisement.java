@@ -25,7 +25,6 @@ public class Advertisement extends DomainEntity {
 	private CreditCard	creditCard;
 
 
-	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getTitle() {
 		return this.title;
