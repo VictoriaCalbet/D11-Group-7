@@ -32,7 +32,6 @@ public class VolumeForm {
 		this.id = id;
 	}
 
-	@NotBlank
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getTitle() {
 		return this.title;
