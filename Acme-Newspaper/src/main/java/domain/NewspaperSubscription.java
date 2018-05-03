@@ -24,6 +24,7 @@ public class NewspaperSubscription extends DomainEntity {
 	private CreditCard	creditCard;
 
 
+	@NotNull
 	@Valid
 	public CreditCard getCreditCard() {
 		return this.creditCard;

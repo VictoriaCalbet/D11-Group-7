@@ -57,9 +57,7 @@
 		</property>
 		<property name="messagesSent">
 		
-			<list>	
-			
-					
+			<list>
 			</list>
 		
 		</property>
@@ -99,7 +97,7 @@
 	<!-- #Folder Folders -->
 	
 	<bean id="folder1" class="domain.Folder">
-		<property name="name" value="inbox" />
+		<property name="name" value="in box" />
 		<property name="system" value="true" />
 		<property name="actor" ref="administrator1"/>
 		<property name="parent">
@@ -115,7 +113,7 @@
 	</bean>
 
 	<bean id="folder2" class="domain.Folder">
-		<property name="name" value="outbox" />
+		<property name="name" value="out box" />
 		<property name="system" value="true" />
 		<property name="parent">
 			<null />
@@ -123,14 +121,15 @@
 		<property name="actor" ref="administrator1"/>
 		<property name="messages">
 		
-			<list>				
+			<list>
+							
 			</list>
 		
 		</property>
 	</bean>
 
 	<bean id="folder3" class="domain.Folder">
-		<property name="name" value="notificationbox" />
+		<property name="name" value="notification box" />
 		<property name="system" value="true" />
 		<property name="parent">
 			<null />
@@ -146,7 +145,7 @@
 	</bean>
 
 	<bean id="folder4" class="domain.Folder">
-		<property name="name" value="trashbox" />
+		<property name="name" value="trash box" />
 		<property name="system" value="true" />
 		<property name="parent">
 			<null />
@@ -162,7 +161,7 @@
 	</bean>
 
 	<bean id="folder5" class="domain.Folder">
-		<property name="name" value="spambox" />
+		<property name="name" value="spam box" />
 		<property name="system" value="true" />
 		<property name="parent">
 			<null />
@@ -177,7 +176,11 @@
 		</property>
 	</bean>
 	
+	
+	
 	<!-- #Messages Messages -->
+	
+	<!-- Messages -->
 	
 	<!-- #VolumeSuscriptions Volume Suscriptions in the system -->
 

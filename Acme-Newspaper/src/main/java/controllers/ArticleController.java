@@ -59,10 +59,11 @@ public class ArticleController extends AbstractController {
 	//Listing
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam(required = false) final int newspaperId, @RequestParam(required = false, defaultValue = "") final String word) {
+	public ModelAndView list(@RequestParam(required = false) final Integer newspaperId, @RequestParam(required = false, defaultValue = "") final String word) {
 		ModelAndView result = null;
 		Collection<Article> articles = new ArrayList<Article>();
 		Actor actor = null;
+
 		User principal = null;
 		Collection<Article> principalArticles = null;
 		Newspaper newspaper = null;
@@ -70,13 +71,13 @@ public class ArticleController extends AbstractController {
 
 		articles = this.articleService.findArticleByKeyword("");
 
-		if (newspaperId != 0) {
+		if (newspaperId != null) {
 			newspaper = this.newsPaperService.findOne(newspaperId);
 			articles = newspaper.getArticles();
 		}
 
 		if (!(word == null || word.equals("")))
-			articles = this.articleService.findArticleByKeywordAndNewspaperId(word, newspaperId);
+			articles = this.articleService.findArticleByKeyword(word);
 
 		result = new ModelAndView("article/list");
 
@@ -89,14 +90,14 @@ public class ArticleController extends AbstractController {
 			if (this.actorService.checkAuthority(actor, "USER")) {
 				principal = (User) actor;
 				principalArticles = principal.getArticles();
-			} else if (this.actorService.checkAuthority(actor, "CUSTOMER") && newspaperId != 0) {
+			} else if (this.actorService.checkAuthority(actor, "CUSTOMER") && newspaperId != null) {
 				newspaper = this.newsPaperService.findOne(newspaperId);
 				if (newspaper != null && newspaper.getIsPrivate()) {
 					showFollowUps = this.newspaperSubscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId) || this.volumeSubscriptionService.thisCustomerCanSeeThisNewspaper(actor.getId(), newspaperId);
 					Assert.isTrue(showFollowUps);	// Si es false, significa que no está  suscrito
 				}
 			}
-		} else if (newspaperId != 0)
+		} else if (newspaperId != null)
 			Assert.isTrue(!newspaper.getIsPrivate());
 
 		result.addObject("principalArticles", principalArticles);
