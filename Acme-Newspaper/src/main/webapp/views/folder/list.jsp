@@ -45,14 +45,14 @@
 	
 	<spring:message code="folder.children" var="childrenHeader" />	
 	<display:column title="${childrenHeader}">
-		<a href="folder/actor/list.do?folderId=${row.id}">
-		 			<spring:message code="folder.children" />
-				</a>
+		<a href="message/actor/list.do?folderId=${row.id}">
+			<spring:message code="folder.children" />
+		</a>
 	</display:column>
 	
 	<spring:message code="folder.messages" var="messagesHeader" />	
 	<display:column title="${messagesHeader}">
-		<a href="message/actor/list.do?folderId=${row.id}">
+		<a href="folder/actor/list.do?folderId=${row.id}">
 			<spring:message code="folder.messages" />
 		</a>
 	</display:column>

@@ -35,7 +35,7 @@ public class UserController extends AbstractController {
 
 	@Autowired
 	private ActorService		actorService;
-	
+
 
 	public UserController() {
 		super();
@@ -51,14 +51,14 @@ public class UserController extends AbstractController {
 		result = new ModelAndView("user/list");
 		result.addObject("users", users);
 		result.addObject("requestURI", "user/list.do");
-		
-		if(this.actorService.checkLogin() && actorService.checkAuthority(this.actorService.findByPrincipal(), "USER")){
-			
-			User user = this.userService.findByPrincipal();
 
-			result.addObject("loggedUser",user);
-	}
-		
+		if (this.actorService.checkLogin() && this.actorService.checkAuthority(this.actorService.findByPrincipal(), "USER")) {
+
+			final User user = this.userService.findByPrincipal();
+
+			result.addObject("loggedUser", user);
+		}
+
 		return result;
 	}
 
@@ -102,7 +102,7 @@ public class UserController extends AbstractController {
 					this.actorFormService.saveFromEdit(actorForm, "USER");
 				else
 					this.actorFormService.saveFromCreate(actorForm, "USER");
-				result = new ModelAndView("redirect:../");
+				result = new ModelAndView("redirect:../user/list.do");
 			} catch (final Throwable oops) {
 				String messageError = "user.commit.error";
 				if (oops.getMessage().contains("message.error"))
