@@ -34,7 +34,6 @@ public class FollowUpForm {
 		this.id = id;
 	}
 
-	@NotNull
 	@SafeHtml(whitelistType = WhiteListType.NONE)
 	public String getTitle() {
 		return this.title;
