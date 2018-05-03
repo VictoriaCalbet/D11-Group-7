@@ -33,7 +33,7 @@ public class NewspaperAgentController extends AbstractController {
 		Collection<Newspaper> newspapers = new ArrayList<Newspaper>();
 
 		if (word == null || word.equals(""))
-			newspapers = this.newspaperService.findNewspaperWithAdvertisement();
+			newspapers = this.newspaperService.findNewspaperWithoutAdvertisement();
 		else
 			newspapers = this.newspaperService.findNewspaperByKeyWordAdvertisement(word);
 
@@ -51,7 +51,7 @@ public class NewspaperAgentController extends AbstractController {
 		Collection<Newspaper> newspapers = new ArrayList<Newspaper>();
 
 		if (word == null || word.equals(""))
-			newspapers = this.newspaperService.findNewspaperWithoutAdvertisement();
+			newspapers = this.newspaperService.findNewspaperWithAdvertisement();
 		else
 			newspapers = this.newspaperService.findNewspaperByKeyWord(word);
 

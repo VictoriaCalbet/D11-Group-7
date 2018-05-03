@@ -21,7 +21,7 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select n from Newspaper n where n.publicationDate != null")
 	Collection<Newspaper> findPublicatedAll();
 
-	@Query("select n from Newspaper n where (n.title like %?1% or n.description like %?1%) and n.publicationDate != null")
+	@Query("select n from Newspaper n where (n.description like %?1%) and n.publicationDate != null")
 	Collection<Newspaper> findNewspaperByKeyWord(String keyWord);
 
 	@Query("select count(a) from Newspaper n join n.articles a where n.id=?1 and a.isDraft=false")
@@ -33,7 +33,7 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select n from Newspaper n join n.volumes v join v.volumeSubscriptions vs join vs.customer c where c.id=?1")
 	Collection<Newspaper> findNewspaperSubscribedOfCustomerByVolumen(int customerId);
 
-	@Query("select n from Newspaper n where (n.title like %?1% or n.description like %?1%) and n.publisher.id = ?1")
+	@Query("select n from Newspaper n where (n.description like %?1%) and n.publisher.id = ?1")
 	Collection<Newspaper> findNewspaperByKeyWordByUser(String keyWord, int userId);
 
 	@Query("select n from Newspaper n where (n.title like %?1% or n.description like %?1%)")
@@ -48,7 +48,7 @@ public interface NewspaperRepository extends JpaRepository<Newspaper, Integer> {
 	@Query("select n from Newspaper n where n.advertisements.size=0")
 	Collection<Newspaper> findNewspaperWithoutAdvertisement();
 
-	@Query("select n from Newspaper n join n.advertisements a where (n.title like %?1% or n.description like %?1%) and n.publicationDate != null and a!=null")
+	@Query("select n from Newspaper n join n.advertisements a where (n.description like %?1%) and n.publicationDate != null and a!=null")
 	Collection<Newspaper> findNewspaperByKeyWordAdvertisement(String keyWord);
 
 	// Dashboard queries -------------------------------------------------------
