@@ -29,8 +29,8 @@
 	<acme:textarea code="chirp.description" path="description"/>	
 	
 		<!-- Action buttons -->
+	<acme:cancel url="/" code="chirp.cancel" />
 	<acme:submit name="save" code="chirp.save" /> &nbsp;
-	<acme:cancel url="/" code="chirp.cancel" /> <br/>
 
 </form:form>
 
