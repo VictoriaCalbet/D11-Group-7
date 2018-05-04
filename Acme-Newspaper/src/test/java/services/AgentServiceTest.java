@@ -25,18 +25,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import security.UserAccount;
 import utilities.AbstractTest;
-import domain.Administrator;
+import domain.Agent;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
 })
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class AdministratorServiceTest extends AbstractTest {
+public class AgentServiceTest extends AbstractTest {
 
 	// System under test ------------------------------------------------------
 	@Autowired
-	private AdministratorService	administratorService;
+	private AgentService	agentService;
 
 
 	// Tests ------------------------------------------------------------------
@@ -46,50 +46,50 @@ public class AdministratorServiceTest extends AbstractTest {
 	// it using JUnit.
 
 	/**
-	 * Acme-Newspaper: Requirement not listed:
+	 * Acme-Newspaper: Requirement 3.1:
 	 * 
 	 * An actor who is not authenticated must be able to:
-	 * Register to the system as a customer.
+	 * Register to the system as an agent.
 	 * 
 	 * Positive test1: Correct registration
-	 * Negative test2: An admin tries to register with a used username
-	 * Negative test3: An admin tries to register with a invalid email
+	 * Negative test2: A user tries to register with a used username
+	 * Negative test2: A user tries to register with an invalid email
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testSaveFromCreateAdmin() {
-		// Administrator: Name, surname, postal addresses, phone numbers, email addresses, username, password, expected exception.
+	public void testSaveFromCreateUser() {
+		// Customer: Name, surname, postal addresses, phone numbers, email addresses, username, password, expected exception.
 		final Object[][] testingData = {
 			{
-				"testAdminName1", "testAdminSurname1", new HashSet<>(Arrays.asList("testAdminPostalAddress1")), new HashSet<>(Arrays.asList("619619619")), new HashSet<>(Arrays.asList("testAdminEmailAddress1@testAdmin1.com")), "testAdmin1", "testAdmin1",
-				null
+				"testAgentName1", "testAgentSurname1", new HashSet<>(Arrays.asList("testAgentPostalAddress1")), new HashSet<>(Arrays.asList("619619619")), new HashSet<>(Arrays.asList("testAgentEmailAddress1@testAgentName1.com")), "testAgent1",
+				"testAgent1", null
 			},
 			{
-				"testAdminName1", "testAdminSurname1", new HashSet<>(Arrays.asList("testAdminPostalAddress1")), new HashSet<>(Arrays.asList("619619619")), new HashSet<>(Arrays.asList("testAdminEmailAddress1@admin.com")), "admin", "testAdmin1",
+				"testAgentName2", "testAgentSurname2", new HashSet<>(Arrays.asList("testAgentPostalAddress2")), new HashSet<>(Arrays.asList("619619619")), new HashSet<>(Arrays.asList("testAgentEmailAddress2@user1.com")), "user1", "user1",
 				IllegalArgumentException.class
 			},
 			{
-				"testAdminName1", "testAdminSurname1", new HashSet<>(Arrays.asList("testAdminPostalAddress1")), new HashSet<>(Arrays.asList("619619619")), new HashSet<>(Arrays.asList("testAdminEmailAddress1")), "testAdmin3", "testAdmin3",
+				"testAgentName3", "testAgentSurname3", new HashSet<>(Arrays.asList("testAgentPostalAddress3")), new HashSet<>(Arrays.asList("619619619")), new HashSet<>(Arrays.asList("testUserEmailAddress1")), "testAgent3", "testAgent3",
 				ConstraintViolationException.class
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.testSaveFromCreateAdminTemplate((String) testingData[i][0], (String) testingData[i][1], (Collection<String>) testingData[i][2], (Collection<String>) testingData[i][3], (Collection<String>) testingData[i][4], (String) testingData[i][5],
+			this.testSaveFromCreateUserTemplate((String) testingData[i][0], (String) testingData[i][1], (Collection<String>) testingData[i][2], (Collection<String>) testingData[i][3], (Collection<String>) testingData[i][4], (String) testingData[i][5],
 				(String) testingData[i][6], (Class<?>) testingData[i][7]);
 
 	}
-	protected void testSaveFromCreateAdminTemplate(final String name, final String surname, final Collection<String> postalAddresses, final Collection<String> phoneNumbers, final Collection<String> emailAddresses, final String username,
+
+	protected void testSaveFromCreateUserTemplate(final String name, final String surname, final Collection<String> postalAddresses, final Collection<String> phoneNumbers, final Collection<String> emailAddresses, final String username,
 		final String password, final Class<?> expectedException) {
 
 		Class<?> caught = null;
 
 		try {
-			this.authenticate("admin");
-			Administrator result;
+			Agent result;
 			UserAccount userAccount;
 
-			result = this.administratorService.create();
+			result = this.agentService.create();
 
 			result.setName(name);
 			result.setSurname(surname);
@@ -102,8 +102,8 @@ public class AdministratorServiceTest extends AbstractTest {
 			userAccount.setPassword(password);
 			result.setUserAccount(userAccount);
 
-			this.administratorService.saveFromCreate(result);
-			this.administratorService.flush();
+			this.agentService.saveFromCreate(result);
+			this.agentService.flush();
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
@@ -114,5 +114,4 @@ public class AdministratorServiceTest extends AbstractTest {
 		this.checkExceptions(expectedException, caught);
 
 	}
-
 }

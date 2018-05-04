@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,8 +69,8 @@ public class CustomerServiceTest extends AbstractTest {
 				"customer1", IllegalArgumentException.class
 			},
 			{
-				"testCustomerName1", "testCustomerSurname1", new HashSet<>(Arrays.asList("testCustomerPostalAddress1")), new HashSet<>(Arrays.asList("619619619")), new HashSet<>(Arrays.asList("testCustomerEmailAddress1")), "testCustomer1", "customer1",
-				IllegalArgumentException.class
+				"testCustomerName1", "testCustomerSurname1", new HashSet<>(Arrays.asList("testCustomerPostalAddress1")), new HashSet<>(Arrays.asList("619619619")), new HashSet<>(Arrays.asList("testCustomerEmailAddress1")), "testCustomer3",
+				"testCustomer3", ConstraintViolationException.class
 			}
 		};
 
