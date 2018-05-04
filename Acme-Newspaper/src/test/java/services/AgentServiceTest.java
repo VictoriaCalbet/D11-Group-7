@@ -58,7 +58,7 @@ public class AgentServiceTest extends AbstractTest {
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testSaveFromCreateUser() {
-		// Customer: Name, surname, postal addresses, phone numbers, email addresses, username, password, expected exception.
+		// Agent: Name, surname, postal addresses, phone numbers, email addresses, username, password, expected exception.
 		final Object[][] testingData = {
 			{
 				"testAgentName1", "testAgentSurname1", new HashSet<>(Arrays.asList("testAgentPostalAddress1")), new HashSet<>(Arrays.asList("619619619")), new HashSet<>(Arrays.asList("testAgentEmailAddress1@testAgentName1.com")), "testAgent1",
