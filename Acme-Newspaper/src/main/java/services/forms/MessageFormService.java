@@ -129,6 +129,7 @@ public class MessageFormService {
 		final Folder folder = this.folderService.findOne(messageForm.getFolderId());
 		final Actor principal = this.actorService.findByPrincipal();
 
+		Assert.isTrue(message.getFolder().getActor().getId() == folder.getActor().getId(), "message.error.message.folder.principal.owner");
 		Assert.isTrue(principal.getFolders().contains(folder), "message.error.message.folder.principal.owner");
 
 		message.setFolder(folder);
