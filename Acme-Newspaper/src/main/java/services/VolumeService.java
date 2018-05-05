@@ -1,8 +1,8 @@
 
 package services;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,15 +45,15 @@ public class VolumeService {
 	public Volume create() {
 		final Volume result = new Volume();
 
-		final User principal = this.userService.findByPrincipal();
-		result.setUser(principal);
-		final Collection<VolumeSubscription> subs = new ArrayList<VolumeSubscription>();
-		result.setVolumeSubscriptions(subs);
+		result.setUser(this.userService.findByPrincipal());
+		result.setNewspapers(new HashSet<Newspaper>());
+		result.setVolumeSubscriptions(new HashSet<VolumeSubscription>());
+
 		return result;
 	}
 	// DO NOT MODIFY. ANY OTHER SAVE METHOD MUST BE NAMED DIFFERENT.
 	public Volume save(final Volume volume) {
-		Assert.notNull(volume, "message.error.message.null");
+		Assert.notNull(volume, "message.error.volume.null");
 		Volume result;
 		result = this.volumeRepository.save(volume);
 		return result;
@@ -64,35 +64,40 @@ public class VolumeService {
 	}
 
 	public Volume saveFromCreate(final Volume volume) {
+		Assert.notNull(volume, "message.error.volume.null");
+		Assert.isTrue(this.checkPublishedNewspaper(volume), "message.error.volume.newspaper.publicationDate.null");
 
 		Volume result = null;
 
-		final User principal = this.userService.findByPrincipal();
-		Assert.isTrue(volume.getUser() == principal);
-		Assert.notNull(principal);
+		Assert.isTrue(volume.getUser() == this.userService.findByPrincipal(), "message.error.volume.user.principal");
 
 		if (volume.getYear() == null) {
 			final DateTime now = DateTime.now();
 			volume.setYear(now.getYear());
 		}
+
 		Assert.isTrue(volume.getYear() <= DateTime.now().getYear());
 		Assert.isTrue(volume.getYear() > 1950);
+
 		result = this.save(volume);
+
 		return result;
 	}
 
 	public Volume saveFromEdit(final Volume volume) {
+		Assert.notNull(volume, "message.error.volume.null");
+		Assert.isTrue(this.checkPublishedNewspaper(volume), "message.error.volume.newspaper.publicationDate.null");
 
+		final Volume result;
 		final User principal = this.userService.findByPrincipal();
 
-		Assert.notNull(principal);
-		Assert.isTrue(volume.getUser() == principal);
+		Assert.isTrue(volume.getUser() == principal, "message.error.volume.user.principal");
 
-		Assert.isTrue(principal.getVolumes().contains(volume));
+		Assert.isTrue(principal.getVolumes().contains(volume), "message.error.volume.user.principal");
 
-		this.save(volume);
+		result = this.save(volume);
 
-		return volume;
+		return result;
 	}
 
 	public void addNewspaperToVolume(final int newspaperId, final int volumeId) {
@@ -152,4 +157,19 @@ public class VolumeService {
 	}
 
 	// Other business methods -------------------------------------------------
+	public boolean checkPublishedNewspaper(final Volume volume) {
+		Assert.notNull(volume, "message.error.volume.null");
+
+		boolean result = true;
+
+		final Collection<Newspaper> newspapers = volume.getNewspapers();
+
+		for (final Newspaper newspaper : newspapers)
+			if (newspaper.getPublicationDate() == null) {
+				result = false;
+				break;
+			}
+
+		return result;
+	}
 }

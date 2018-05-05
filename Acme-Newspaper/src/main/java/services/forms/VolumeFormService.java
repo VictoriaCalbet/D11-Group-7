@@ -1,6 +1,8 @@
 
 package services.forms;
 
+import java.util.HashSet;
+
 import javax.transaction.Transactional;
 
 import org.joda.time.DateTime;
@@ -10,6 +12,7 @@ import org.springframework.util.Assert;
 
 import services.UserService;
 import services.VolumeService;
+import domain.Newspaper;
 import domain.Volume;
 import domain.forms.VolumeForm;
 
@@ -37,57 +40,68 @@ public class VolumeFormService {
 		VolumeForm result;
 
 		result = new VolumeForm();
+		result.setNewspapers(new HashSet<Newspaper>());
 
 		return result;
 	}
 
 	public VolumeForm create(final int volumeId) {
-		final Volume v = this.volumeService.findOne(volumeId);
+		final Volume volume = this.volumeService.findOne(volumeId);
+
+		Assert.isTrue(volume.getUser().getId() == this.userService.findByPrincipal().getId(), "message.error.volume.user.principal");
 
 		final VolumeForm volumeForm = new VolumeForm();
-		volumeForm.setTitle(v.getTitle());
-		volumeForm.setDescription(v.getDescription());
-		volumeForm.setYear(v.getYear());
-		volumeForm.setNewspapers(v.getNewspapers());
-		volumeForm.setId(v.getId());
+		volumeForm.setTitle(volume.getTitle());
+		volumeForm.setDescription(volume.getDescription());
+		volumeForm.setYear(volume.getYear());
+		volumeForm.setNewspapers(volume.getNewspapers());
+		volumeForm.setId(volume.getId());
+
 		return volumeForm;
 	}
-	public Volume saveFromEdit(final VolumeForm volumeForm) {
 
-		Assert.notNull(volumeForm);
-		final Volume v = this.volumeService.findOne(volumeForm.getId());
-		v.setTitle(volumeForm.getTitle());
-		v.setDescription(volumeForm.getDescription());
-		v.setId(volumeForm.getId());
-		v.setUser(this.userService.findByPrincipal());
-		v.setNewspapers(volumeForm.getNewspapers());
-		if (volumeForm.getYear() == null) {
-			final DateTime now = DateTime.now();
-			v.setYear(now.getYear());
-		} else
-			v.setYear(volumeForm.getYear());
-		this.volumeService.saveFromEdit(v);
-
-		return v;
-
-	}
 	public Volume saveFromCreate(final VolumeForm volumeForm) {
 
-		final Volume v = this.volumeService.create();
+		Volume result;
+		final Volume volume = this.volumeService.create();
 
-		v.setTitle(volumeForm.getTitle());
-		v.setDescription(volumeForm.getDescription());
-		v.setUser(this.userService.findByPrincipal());
-		v.setNewspapers(volumeForm.getNewspapers());
+		volume.setTitle(volumeForm.getTitle());
+		volume.setDescription(volumeForm.getDescription());
+		volume.setUser(this.userService.findByPrincipal());
+		volume.setNewspapers(volumeForm.getNewspapers());
 
 		if (volumeForm.getYear() == null) {
 			final DateTime now = DateTime.now();
-			v.setYear(now.getYear());
+			volume.setYear(now.getYear());
 		} else
-			v.setYear(volumeForm.getYear());
-		final Volume volumeSave = this.volumeService.saveFromCreate(v);
+			volume.setYear(volumeForm.getYear());
 
-		return volumeSave;
+		result = this.volumeService.saveFromCreate(volume);
+
+		return result;
+
+	}
+
+	public Volume saveFromEdit(final VolumeForm volumeForm) {
+		Assert.notNull(volumeForm, "message.error.volume.null");
+
+		Volume result;
+		final Volume volume = this.volumeService.findOne(volumeForm.getId());
+		volume.setTitle(volumeForm.getTitle());
+		volume.setDescription(volumeForm.getDescription());
+		volume.setId(volumeForm.getId());
+		volume.setUser(this.userService.findByPrincipal());
+		volume.setNewspapers(volumeForm.getNewspapers());
+
+		if (volumeForm.getYear() == null) {
+			final DateTime now = DateTime.now();
+			volume.setYear(now.getYear());
+		} else
+			volume.setYear(volumeForm.getYear());
+
+		result = this.volumeService.saveFromEdit(volume);
+
+		return result;
 
 	}
 
