@@ -377,4 +377,83 @@ public class NewspaperServiceTest extends AbstractTest {
 		this.checkExceptions(expectedException, caught);
 	}
 
+	/***
+	 * 
+	 * Requirement 4.3 to Acme-Newspaper 2.0
+	 * 
+	 * List the newspapers in which they have placed an advertisement.
+	 * 
+	 * Testing cases:
+	 * Positive test 1: List the newspapers with advertisement
+	 */
+
+	@Test
+	public void listNewspaperWithAdvertisement() {
+
+		//final Newspaper n1 = this.newspaperService.findOne(this.getEntityId("newspaper1"));
+
+		final Object testingData[][] = {
+			//expected exception
+			{
+				null
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.listNewspaperAnonymous((Class<?>) testingData[i][0]);
+	}
+	protected void listNewspaperWithAdvertisement(final Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			final Collection<Newspaper> newspapers = this.newspaperService.findNewspaperWithAdvertisement();
+			Assert.isTrue(newspapers.size() == 2);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		} finally {
+		}
+
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * 
+	 * Requirement 4.4 to Acme-Newspaper 2.0
+	 * 
+	 * List the newspapers in which they have not placed an advertisement.
+	 * 
+	 * Testing cases:
+	 * Positive test 1: List the newspapers without advertisement
+	 */
+
+	@Test
+	public void listNewspaperWithoutAdvertisement() {
+
+		//final Newspaper n1 = this.newspaperService.findOne(this.getEntityId("newspaper1"));
+
+		final Object testingData[][] = {
+			//expected exception
+			{
+				null
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.listNewspaperAnonymous((Class<?>) testingData[i][0]);
+	}
+	protected void listNewspaperWithoutAdvertisement(final Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			final Collection<Newspaper> newspapers = this.newspaperService.findNewspaperWithoutAdvertisement();
+			Assert.isTrue(newspapers.size() == 1);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		} finally {
+		}
+
+		this.checkExceptions(expectedException, caught);
+	}
 }
