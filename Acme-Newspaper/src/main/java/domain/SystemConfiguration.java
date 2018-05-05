@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import cz.jirutka.validator.collection.constraints.EachNotBlank;
+
 @Entity
 @Access(AccessType.PROPERTY)
 public class SystemConfiguration extends DomainEntity {
@@ -22,6 +24,7 @@ public class SystemConfiguration extends DomainEntity {
 	@Valid
 	@NotNull
 	@ElementCollection
+	@EachNotBlank
 	public Collection<String> getTabooWords() {
 		return this.tabooWords;
 	}
