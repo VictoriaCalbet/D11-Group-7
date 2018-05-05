@@ -70,6 +70,9 @@ public class FolderFormService {
 		folder = this.folderService.create();
 		parent = this.folderService.findOne(folderForm.getParentId());
 
+		if (parent != null)
+			Assert.isTrue(parent.getActor().getId() == this.actorService.findByPrincipal().getId(), "message.error.folderForm.parent.owner");
+
 		folder.setName(folderForm.getName());
 		folder.setParent(parent);
 
@@ -88,6 +91,11 @@ public class FolderFormService {
 
 		folder = this.folderService.findOne(folderForm.getId());
 		parent = this.folderService.findOne(folderForm.getParentId());
+
+		if (parent != null)
+			Assert.isTrue(parent.getActor().getId() == this.actorService.findByPrincipal().getId(), "message.error.folderForm.parent.owner");
+
+		Assert.isTrue(folder.getActor().getId() == this.actorService.findByPrincipal().getId(), "message.error.folder.principal.owner");
 
 		folder.setName(folderForm.getName());
 		folder.setParent(parent);
