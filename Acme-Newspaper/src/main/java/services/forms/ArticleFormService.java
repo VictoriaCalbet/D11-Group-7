@@ -45,9 +45,11 @@ public class ArticleFormService {
 
 	public ArticleForm create(final int articleId) {
 		final Article a = this.articleService.findOne(articleId);
-		Assert.isTrue(a.getWriter() == this.userService.findByPrincipal());
+		Assert.isTrue(a.getWriter().getId() == this.userService.findByPrincipal().getId(), "message.error.article.writer.owner");
+		Assert.isTrue(a.getIsDraft(), "message.error.article.draft");
+
 		final ArticleForm articleForm = new ArticleForm();
-		Assert.isTrue(a.getIsDraft());
+
 		articleForm.setBody(a.getBody());
 		articleForm.setPictures(a.getPictures());
 		articleForm.setTitle(a.getTitle());
@@ -58,37 +60,47 @@ public class ArticleFormService {
 
 		return articleForm;
 	}
-	public Article saveFromEdit(final ArticleForm articleForm) {
-		Assert.notNull(articleForm);
-		final Article a = this.articleService.findOne(articleForm.getId());
-		a.setTitle(articleForm.getTitle());
-		a.setBody(articleForm.getBody());
-		a.setId(articleForm.getId());
-		a.setIsDraft(articleForm.getIsDraft());
-		a.setNewspaper(articleForm.getNewspaper());
-		a.setPictures(articleForm.getPictures());
-		a.setSummary(articleForm.getSummary());
-		this.articleService.saveFromEdit(a);
 
-		return a;
+	public Article saveFromCreate(final ArticleForm articleForm) {
+		Assert.notNull(articleForm, "message.error.article.null");
+
+		final Article article = this.articleService.create();
+
+		article.setTitle(articleForm.getTitle());
+		article.setId(articleForm.getId());
+		article.setSummary(articleForm.getSummary());
+		article.setBody(articleForm.getBody());
+		article.setPictures(articleForm.getPictures());
+		article.setWriter(this.userService.findByPrincipal());
+		article.setNewspaper(articleForm.getNewspaper());
+		article.setIsDraft(articleForm.getIsDraft());
+
+		final Article result = this.articleService.saveFromCreate(article);
+
+		return result;
 
 	}
-	public Article saveFromCreate(final ArticleForm articleForm) {
 
-		final Article a = this.articleService.create();
+	public Article saveFromEdit(final ArticleForm articleForm) {
+		Assert.notNull(articleForm, "message.error.article.null");
 
-		a.setTitle(articleForm.getTitle());
-		a.setId(articleForm.getId());
-		a.setSummary(articleForm.getSummary());
-		a.setBody(articleForm.getBody());
-		a.setPictures(articleForm.getPictures());
-		a.setWriter(this.userService.findByPrincipal());
-		a.setNewspaper(articleForm.getNewspaper());
-		a.setIsDraft(articleForm.getIsDraft());
+		final Article article = this.articleService.findOne(articleForm.getId());
 
-		final Article articleSave = this.articleService.saveFromCreate(a);
+		Assert.isTrue(article.getIsDraft(), "message.error.article.draft");
+		Assert.isTrue(article.getNewspaper().getPublicationDate() == null, "message.error.article.newspaper.publicationDate.null");
+		Assert.isTrue(article.getPublicationMoment() == null, "message.error.article.publicationDate.null");
 
-		return articleSave;
+		article.setTitle(articleForm.getTitle());
+		article.setBody(articleForm.getBody());
+		article.setId(articleForm.getId());
+		article.setIsDraft(articleForm.getIsDraft());
+		article.setNewspaper(articleForm.getNewspaper());
+		article.setPictures(articleForm.getPictures());
+		article.setSummary(articleForm.getSummary());
+
+		final Article result = this.articleService.saveFromEdit(article);
+
+		return result;
 
 	}
 

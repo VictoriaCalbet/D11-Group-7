@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,6 @@ import domain.Actor;
 import domain.Article;
 import domain.Customer;
 import domain.FollowUp;
-import domain.Newspaper;
 import domain.User;
 
 @Service
@@ -50,59 +50,62 @@ public class ArticleService {
 		final Article result = new Article();
 		result.setIsDraft(true);
 		result.setPictures(new ArrayList<String>());
+		result.setFollowUps(new HashSet<FollowUp>());
 		return result;
 	}
 	// DO NOT MODIFY. ANY OTHER SAVE METHOD MUST BE NAMED DIFFERENT.
 	public Article save(final Article article) {
-		Assert.notNull(article);
+		Assert.notNull(article, "message.error.article.null");
 		Article result;
 		result = this.articleRepository.save(article);
 		return result;
 	}
 
 	public Article saveFromCreate(final Article article) {
-		Assert.notNull(article);
-		Article result = article;
-		final User writer = this.userService.findByPrincipal();
-		result.setWriter(writer);
-		final Collection<Article> principalArticles = writer.getArticles();
-		principalArticles.add(result);
-		writer.setArticles(principalArticles);
+		Assert.notNull(article, "message.error.article.null");
+		Assert.isTrue(article.getPublicationMoment() == null, "message.error.article.publicationDate.null");
+
+		final Article result;
+
+		User writer = this.userService.findByPrincipal();
+		article.setWriter(writer);
+
+		Assert.isTrue(article.getNewspaper().getPublicationDate() == null, "message.error.article.newspaper.publicationDate.null");
+
+		result = this.save(article);
+
+		writer = this.userService.findByPrincipal();
+		writer.getArticles().add(result);
 		this.userService.save(writer);
-		final Collection<FollowUp> followUps = new ArrayList<FollowUp>();
-		result.setFollowUps(followUps);
-		Assert.isTrue(article.getPublicationMoment() == null);
-		result = this.articleRepository.save(result);
 
 		return result;
 	}
 	public Article saveFromEdit(final Article article) {
-		Assert.notNull(article);
-		final Article result = article;
-		final User principal = this.userService.findByPrincipal();
-		final Newspaper newspaper = article.getNewspaper();
+		Assert.notNull(article, "message.error.article.null");
+		Assert.isTrue(article.getPublicationMoment() == null, "message.error.article.publicationDate.null");
 
-		Assert.isTrue(principal == result.getWriter());
-		Assert.isTrue(newspaper.getPublicationDate() == null);
-		Assert.isTrue(result.getPublicationMoment() == null);
-		this.articleRepository.save(article);
+		Article result;
+		final User principal = this.userService.findByPrincipal();
+
+		Assert.isTrue(article.getWriter().getId() == principal.getId(), "message.error.article.writer.owner");
+		Assert.isTrue(article.getNewspaper().getPublicationDate() == null, "message.error.article.newspaper.publicationDate.null");
+
+		result = this.save(article);
 		return result;
 	}
 	public void delete(final Article article) {
+		Assert.notNull(article, "message.error.article.null");
 
-		Assert.notNull(article);
-		final Article result = article;
 		final Actor principal = this.actorService.findByPrincipal();
-		Assert.isTrue(this.actorService.checkAuthority(principal, "ADMIN"));
-		final User writer = result.getWriter();
+		Assert.isTrue(this.actorService.checkAuthority(principal, "ADMIN"), "message.error.article.delete.admin");
 
-		final Collection<Article> writerArticles = writer.getArticles();
+		final User writer = article.getWriter();
+		writer.getArticles().remove(article);
+		this.userService.save(writer);
 
-		writerArticles.remove(result);
-		writer.setArticles(writerArticles);
-
-		this.articleRepository.delete(result);
+		this.articleRepository.delete(article);
 	}
+
 	public Collection<Article> findAll() {
 		Collection<Article> result = null;
 		result = this.articleRepository.findAll();
