@@ -67,7 +67,7 @@ public class FollowUpService {
 
 		Assert.notNull(followUp, "message.error.followUp.null");
 		Assert.notNull(user, "message.error.followUp.principal.null");
-		Assert.isTrue(followUp.getUser().equals(user));
+		Assert.isTrue(followUp.getUser().equals(user), "message.error.followUp.user.owner");
 		Assert.isTrue(followUp.getArticle().getWriter().equals(user), "message.error.followUp.heDoesntWriteTheArticle");
 		Assert.isTrue(!followUp.getArticle().getIsDraft(), "message.error.followUp.articleIsDraft");
 		Assert.notNull(followUp.getArticle().getNewspaper().getPublicationDate(), "message.error.followUp.theNewspaperHasntBeenPublishedYet");
@@ -93,7 +93,7 @@ public class FollowUpService {
 
 		Assert.notNull(followUp, "message.error.followUp.null");
 		Assert.notNull(user, "message.error.followUp.principal.null");
-		Assert.isTrue(followUp.getUser().equals(user));
+		Assert.isTrue(followUp.getUser().equals(user), "message.error.followUp.user.owner");
 		Assert.isTrue(followUp.getArticle().getWriter().equals(user), "message.error.followUp.heDoesntWriteTheArticle");
 		Assert.isTrue(!followUp.getArticle().getIsDraft(), "message.error.followUp.articleIsDraft");
 		Assert.notNull(followUp.getArticle().getNewspaper().getPublicationDate(), "message.error.followUp.theNewspaperHasntBeenPublishedYet");
