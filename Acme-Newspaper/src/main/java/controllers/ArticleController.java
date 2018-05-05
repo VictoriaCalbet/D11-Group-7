@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.AdvertisementService;
 import services.ArticleService;
+import services.CustomerService;
 import services.NewspaperService;
 import services.NewspaperSubscriptionService;
 import services.VolumeSubscriptionService;
@@ -49,6 +50,9 @@ public class ArticleController extends AbstractController {
 	@Autowired
 	private AdvertisementService			advertisementService;
 
+	@Autowired
+	private CustomerService					customerService;
+
 
 	//Constructor
 
@@ -78,6 +82,17 @@ public class ArticleController extends AbstractController {
 
 		if (!(word == null || word.equals("")))
 			articles = this.articleService.findArticleByKeyword(word);
+
+		try {
+			this.customerService.findByPrincipal();
+			articles = this.articleService.findArticleByKeyword(word);
+			final Collection<Article> articleFromNewspaperSubscriptions = this.articleService.findAllFromNewspaperSubscriptionByKeywordAndCustomerId(word);
+			final Collection<Article> articleFromVolumeSubscriptions = this.articleService.findAllFromVolumeSubscriptionByKeywordAndCustomerId(word);
+			articles.addAll(articleFromNewspaperSubscriptions);
+			articles.addAll(articleFromVolumeSubscriptions);
+		} catch (final Throwable oops) {
+			// TODO: handle exception
+		}
 
 		result = new ModelAndView("article/list");
 

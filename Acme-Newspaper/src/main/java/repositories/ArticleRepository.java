@@ -27,6 +27,12 @@ public interface ArticleRepository extends JpaRepository<Article, Integer> {
 	@Query("select a from Article a where (a.title like %?1% or a.summary like %?1% or a.body like %?1%) and a.newspaper.id = ?2")
 	Collection<Article> findArticleByKeywordAndNewspaperId(String keyword, int newspaperId);
 
+	@Query("select a from Customer c left join c.newspaperSubscriptions ns left join ns.newspaper.articles a where c.id = ?2 and (a.title like %?1% or a.summary like %?1% or a.body like %?1%)")
+	Collection<Article> findAllFromNewspaperSubscriptionByKeywordAndCustomerId(String keyword, int customerId);
+
+	@Query("select a from Customer c left join c.volumeSubscriptions vs left join vs.volume.newspapers n left join n.articles a where c.id = ?2 and (a.title like %?1% or a.summary like %?1% or a.body like %?1%)")
+	Collection<Article> findAllFromVolumeSubscriptionByKeywordAndCustomerId(String keyword, int customerId);
+
 	// Dashboard queries -------------------------------------------------------
 
 	// Acme-Newspaper 1.0 - Requisito 7.3.2

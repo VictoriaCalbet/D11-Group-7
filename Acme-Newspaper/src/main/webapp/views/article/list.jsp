@@ -45,15 +45,15 @@
 
 	<spring:message code="article.title" var="titleHeader" />
 	<display:column property="title" title="${titleHeader}"
-		sortable="false" style="${style}" />
+ 		sortable="false" style="${style}" />
 
 	<spring:message code="article.body" var="bodyHeader" />
 	<display:column property="body" title="${bodyHeader}" sortable="false"
-		style="${style}" />
+ 		style="${style}" />
 
 	<spring:message code="article.summary" var="summaryHeader" />
 	<display:column property="summary" title="${summaryHeader}"
-		sortable="false" style="${style}" />
+ 		sortable="false" style="${style}" />
 		
 	
 	<spring:message code="article.publicationMoment" var="publicationMomentHeader" />
@@ -70,62 +70,61 @@
 		</jstl:choose>
 	</display:column>
 	
-	
-	
 	<spring:message code="article.follow-ups" var="articleFollowUpsHeader" />
 	<spring:message code="article.follow-up.listFollow-ups" var="articleListFollowUpsLink"/>
 	<spring:message code="article.follow-up.cantShowFollowUps" var="articleCantShowFollowUps"/>
 	<spring:message code="article.follow-up.noFollowUps" var="articleNoFollowUps"/>
-	<display:column title="${articleFollowUpsHeader}" style="${style}" >
-		<jstl:choose>
-			<jstl:when test="${not empty row.newspaper.publicationDate and row.isDraft eq false}">
+	
+<%-- 	<display:column title="${articleFollowUpsHeader}" style="${style}" > --%>
+<%-- 		<jstl:choose> --%>
+<%-- 			<jstl:when test="${not empty row.newspaper.publicationDate and row.isDraft eq false}"> --%>
 			
-				<security:authorize access="hasRole('USER')">
-					<a href="follow-up/user/list.do?articleId=${row.id}"><jstl:out value="${articleListFollowUpsLink}"/></a>
-				</security:authorize>
-				<security:authorize access="hasRole('ADMIN')">
-					<a href="follow-up/administrator/list.do?articleId=${row.id}"><jstl:out value="${articleListFollowUpsLink}"/></a>
-				</security:authorize>
-				<security:authorize access="hasRole('CUSTOMER')">
-					<jstl:choose>
-						<jstl:when test="${showFollowUps eq true and not empty row.newspaper.publicationDate and row.isDraft eq false and not empty row.followUps}">
-							<a href="follow-up/customer/list.do?articleId=${row.id}"><jstl:out value="${articleListFollowUpsLink}"/></a>
-						</jstl:when>
-						<jstl:otherwise>
-							<jstl:choose>
-								<jstl:when test="${empty row.followUps}">
-									<jstl:out value="${articleNoFollowUps}"/>
-								</jstl:when>
-								<jstl:otherwise>
-									<jstl:out value="${articleCantShowFollowUps}"/>
-								</jstl:otherwise>
-							</jstl:choose>
-						</jstl:otherwise>
-					</jstl:choose>
-				</security:authorize>
-				<security:authorize access="isAnonymous()">
-					<jstl:choose>
-						<jstl:when test="${row.newspaper.isPrivate eq false and not empty row.followUps}">
-							<a href="follow-up/list.do?articleId=${row.id}"><jstl:out value="${articleListFollowUpsLink}"/></a>
-						</jstl:when>
-						<jstl:otherwise>
-							<jstl:choose>
-								<jstl:when test="${empty row.followUps}">
-									<jstl:out value="${articleNoFollowUps}"/>
-								</jstl:when>
-								<jstl:otherwise>
-									<jstl:out value="${articleCantShowFollowUps}"/>
-								</jstl:otherwise>
-							</jstl:choose>
-						</jstl:otherwise>
-					</jstl:choose>
-				</security:authorize>
-			</jstl:when>
-			<jstl:otherwise>
-				<jstl:out value="${articleCantShowFollowUps}"/>
-			</jstl:otherwise>
-		</jstl:choose>
-	</display:column>
+<%-- 				<security:authorize access="hasRole('USER')"> --%>
+<%-- 					<a href="follow-up/user/list.do?articleId=${row.id}"><jstl:out value="${articleListFollowUpsLink}"/></a> --%>
+<%-- 				</security:authorize> --%>
+<%-- 				<security:authorize access="hasRole('ADMIN')"> --%>
+<%-- 					<a href="follow-up/administrator/list.do?articleId=${row.id}"><jstl:out value="${articleListFollowUpsLink}"/></a> --%>
+<%-- 				</security:authorize> --%>
+<%-- 				<security:authorize access="hasRole('CUSTOMER')"> --%>
+<%-- 					<jstl:choose> --%>
+<%-- 						<jstl:when test="${showFollowUps eq true and not empty row.newspaper.publicationDate and row.isDraft eq false and not empty row.followUps}"> --%>
+<%-- 							<a href="follow-up/customer/list.do?articleId=${row.id}"><jstl:out value="${articleListFollowUpsLink}"/></a> --%>
+<%-- 						</jstl:when> --%>
+<%-- 						<jstl:otherwise> --%>
+<%-- 							<jstl:choose> --%>
+<%-- 								<jstl:when test="${empty row.followUps}"> --%>
+<%-- 									<jstl:out value="${articleNoFollowUps}"/> --%>
+<%-- 								</jstl:when> --%>
+<%-- 								<jstl:otherwise> --%>
+<%-- 									<jstl:out value="${articleCantShowFollowUps}"/> --%>
+<%-- 								</jstl:otherwise> --%>
+<%-- 							</jstl:choose> --%>
+<%-- 						</jstl:otherwise> --%>
+<%-- 					</jstl:choose> --%>
+<%-- 				</security:authorize> --%>
+<%-- 				<security:authorize access="isAnonymous()"> --%>
+<%-- 					<jstl:choose> --%>
+<%-- 						<jstl:when test="${row.newspaper.isPrivate eq false and not empty row.followUps}"> --%>
+<%-- 							<a href="follow-up/list.do?articleId=${row.id}"><jstl:out value="${articleListFollowUpsLink}"/></a> --%>
+<%-- 						</jstl:when> --%>
+<%-- 						<jstl:otherwise> --%>
+<%-- 							<jstl:choose> --%>
+<%-- 								<jstl:when test="${empty row.followUps}"> --%>
+<%-- 									<jstl:out value="${articleNoFollowUps}"/> --%>
+<%-- 								</jstl:when> --%>
+<%-- 								<jstl:otherwise> --%>
+<%-- 									<jstl:out value="${articleCantShowFollowUps}"/> --%>
+<%-- 								</jstl:otherwise> --%>
+<%-- 							</jstl:choose> --%>
+<%-- 						</jstl:otherwise> --%>
+<%-- 					</jstl:choose> --%>
+<%-- 				</security:authorize> --%>
+<%-- 			</jstl:when> --%>
+<%-- 			<jstl:otherwise> --%>
+<%-- 				<jstl:out value="${articleCantShowFollowUps}"/> --%>
+<%-- 			</jstl:otherwise> --%>
+<%-- 		</jstl:choose> --%>
+<%-- 	</display:column> --%>
 	
 	<spring:message code="article.pictures" var="picturesHeader" />
 	<display:column title="${picturesHeader}" style="${style}">
@@ -143,7 +142,7 @@
 	
 	<spring:message code="article.newspaper" var="newspaperHeader" />
 	<display:column property="newspaper.title" title="${newspaperHeader}"
-		sortable="false" style="${style}" />
+ 		sortable="false" style="${style}" />
 		
 	
 	<security:authorize access="hasRole('USER')">
@@ -164,13 +163,10 @@
 	
 	
 	<security:authorize access="hasRole('ADMIN')">
-
 	<spring:message code="article.delete" var="deleteArticleHeader" />
 	<display:column title="${deleteArticleHeader}" style="${style}">
-
 			<spring:message var="articleDeleteLink" code="article.delete"/>
  			<a href="article/administrator/delete.do?articleId=${row.id}"><jstl:out value="${articleDeleteLink}"/></a>
-
 	</display:column>
 	</security:authorize>
 	</display:table>

@@ -9,6 +9,7 @@ import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -82,7 +83,7 @@ public class Article extends DomainEntity {
 
 	@Valid
 	@NotNull
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	@EachURL
 	public Collection<String> getPictures() {
 		return this.pictures;
@@ -119,7 +120,7 @@ public class Article extends DomainEntity {
 
 	@Valid
 	@NotNull
-	@OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
 	public Collection<FollowUp> getFollowUps() {
 		return this.followUps;
 	}

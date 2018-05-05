@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 import repositories.ArticleRepository;
 import domain.Actor;
 import domain.Article;
+import domain.Customer;
 import domain.FollowUp;
 import domain.Newspaper;
 import domain.User;
@@ -27,8 +28,12 @@ public class ArticleService {
 
 	@Autowired
 	private UserService			userService;
+
 	@Autowired
 	private ActorService		actorService;
+
+	@Autowired
+	private CustomerService		customerService;
 
 
 	// Supporting services ----------------------------------------------------
@@ -197,5 +202,19 @@ public class ArticleService {
 
 	public Collection<Article> findArticleByKeywordByUser(final String keyword, final int userId) {
 		return this.articleRepository.findArticleByKeywordByUser(keyword, userId);
+	}
+
+	public Collection<Article> findAllFromNewspaperSubscriptionByKeywordAndCustomerId(final String keyword) {
+		Collection<Article> result = null;
+		final Customer customer = this.customerService.findByPrincipal();
+		result = this.articleRepository.findAllFromNewspaperSubscriptionByKeywordAndCustomerId(keyword, customer.getId());
+		return result;
+	}
+
+	public Collection<Article> findAllFromVolumeSubscriptionByKeywordAndCustomerId(final String keyword) {
+		Collection<Article> result = null;
+		final Customer customer = this.customerService.findByPrincipal();
+		result = this.articleRepository.findAllFromVolumeSubscriptionByKeywordAndCustomerId(keyword, customer.getId());
+		return result;
 	}
 }
