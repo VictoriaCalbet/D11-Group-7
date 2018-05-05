@@ -19,6 +19,8 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
+
 <div>
 	<b><spring:message code="article.title" />: </b>
 	<jstl:out value="${article.title}" />
@@ -33,7 +35,9 @@
 			<spring:message code="article.noPictures" />
 		</jstl:when>
 		<jstl:otherwise>
-			<jstl:out value="${article.pictures}" />
+			<jstl:forEach items="${article.pictures}" var="url">
+				<acme:image height="64" imageURL="${url}" width="64" codeError="newspaper.unspecifiedImage" imageNotFoundLocation="images/fotoNotFound.png"/>
+			</jstl:forEach>
 		</jstl:otherwise>
 	</jstl:choose>
 	<br /> <b><spring:message code="article.follow-ups" />: </b>

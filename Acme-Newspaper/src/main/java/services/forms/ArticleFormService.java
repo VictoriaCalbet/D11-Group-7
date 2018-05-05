@@ -1,6 +1,8 @@
 
 package services.forms;
 
+import java.util.ArrayList;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,7 @@ public class ArticleFormService {
 
 		result = new ArticleForm();
 		result.setIsDraft(true);
+		result.setPictures(new ArrayList<String>());
 		return result;
 	}
 

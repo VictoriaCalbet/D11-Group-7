@@ -133,6 +133,11 @@
 			<jstl:when test="${fn:length(row.pictures)==0}">
 				<spring:message code="article.noPictures" />
 			</jstl:when>
+			<jstl:otherwise>
+				<jstl:forEach items="${row.pictures}" var="url">
+					<acme:image height="64" imageURL="${url}" width="64" codeError="newspaper.unspecifiedImage" imageNotFoundLocation="images/fotoNotFound.png"/>
+				</jstl:forEach>
+			</jstl:otherwise>
 		</jstl:choose>
 	</display:column>
 	

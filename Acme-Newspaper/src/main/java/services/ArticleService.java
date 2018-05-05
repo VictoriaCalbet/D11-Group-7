@@ -44,6 +44,7 @@ public class ArticleService {
 	public Article create() {
 		final Article result = new Article();
 		result.setIsDraft(true);
+		result.setPictures(new ArrayList<String>());
 		return result;
 	}
 	// DO NOT MODIFY. ANY OTHER SAVE METHOD MUST BE NAMED DIFFERENT.

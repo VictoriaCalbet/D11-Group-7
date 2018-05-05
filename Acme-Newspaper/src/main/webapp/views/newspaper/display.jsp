@@ -33,7 +33,7 @@
 		<jstl:if test="${newspaper.picture!=null}">	
 			<spring:url var="bannerURL" value="${newspaper.picture}"/>
 			<spring:message code="newspaper.picture" var="bannerURL2" />
-			<img src="${bannerURL}" alt="${bannerURL2}" style="width: 100px; height: 100px;"/>
+			<acme:image height="100" imageURL="newspaper.picture" width="100" codeError="newspaper.unspecifiedImage" imageNotFoundLocation="images/fotoNotFound.png"/>
 		</jstl:if>
 		<jstl:if test="${newspaper.picture==null}">
 			<spring:message code="newspaper.unspecifiedImage"/>
