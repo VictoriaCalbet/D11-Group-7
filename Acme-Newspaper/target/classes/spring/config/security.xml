@@ -62,12 +62,15 @@
 		<security:intercept-url pattern="/advertisement/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/advertisement/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/advertisement/**" access="permitAll" />
+		<security:intercept-url pattern="/advertisement/agent/**" access="hasRole('AGENT')" />
+		<security:intercept-url pattern="/advertisement/admin/**" access="hasRole('ADMIN')" />
 		
 		<!-- Agent -->
 		<security:intercept-url pattern="/agent/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/agent/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/agent/user/**" access="hasRole('USER')" />
 		<security:intercept-url pattern="/agent/**" access="permitAll" />
+	
 				
 		<!-- Article -->
 		<security:intercept-url pattern="/article/administrator/**" access="hasRole('ADMIN')" />
@@ -92,6 +95,7 @@
 		<security:intercept-url pattern="/folder/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/folder/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/folder/user/**" access="hasRole('USER')" />
+		<security:intercept-url pattern="/folder/actor/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/folder/**" access="permitAll" />
 		
 		<!-- FollowUp -->
@@ -104,9 +108,11 @@
 		<security:intercept-url pattern="/message/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/message/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/message/user/**" access="hasRole('USER')" />
+		<security:intercept-url pattern="/message/actor/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/message/**" access="permitAll" />
 		
 		<!-- Newspaper -->
+		<security:intercept-url pattern="/newspaper/agent/**" access="hasRole('AGENT')" />
 		<security:intercept-url pattern="/newspaper/administrator/**" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/newspaper/customer/**" access="hasRole('CUSTOMER')" />
 		<security:intercept-url pattern="/newspaper/user/**" access="hasRole('USER')" />

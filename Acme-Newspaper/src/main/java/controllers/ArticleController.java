@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.AdministratorService;
 import services.AdvertisementService;
 import services.ArticleService;
 import services.CustomerService;
 import services.NewspaperService;
 import services.NewspaperSubscriptionService;
+import services.UserService;
 import services.VolumeSubscriptionService;
 import domain.Actor;
 import domain.Article;
@@ -52,6 +54,12 @@ public class ArticleController extends AbstractController {
 
 	@Autowired
 	private CustomerService					customerService;
+
+	@Autowired
+	private UserService						userService;
+
+	@Autowired
+	private AdministratorService			administratorService;
 
 
 	//Constructor
@@ -125,6 +133,32 @@ public class ArticleController extends AbstractController {
 	public ModelAndView display(@RequestParam final int articleId) {
 		final ModelAndView result;
 		final Article article = this.articleService.findOne(articleId);
+		Boolean isVisible = true;
+
+		if (article.getNewspaper().getIsPrivate()) {
+			isVisible = false;
+			try {
+				this.customerService.findByPrincipal();
+				final Collection<Article> articles = this.articleService.findArticleByKeyword("");
+				final Collection<Article> articleFromNewspaperSubscriptions = this.articleService.findAllFromNewspaperSubscriptionByKeywordAndCustomerId("");
+				final Collection<Article> articleFromVolumeSubscriptions = this.articleService.findAllFromVolumeSubscriptionByKeywordAndCustomerId("");
+				articles.addAll(articleFromNewspaperSubscriptions);
+				articles.addAll(articleFromVolumeSubscriptions);
+				isVisible = articles.contains(article);
+			} catch (final Throwable e) {
+				// TODO: handle exception
+			}
+
+			try {
+				final User user = this.userService.findByPrincipal();
+				isVisible = user.getNewspapers().contains(article.getNewspaper());
+				isVisible = isVisible || user.getArticles().contains(article);
+			} catch (final Exception e) {
+				// TODO: handle exception
+			}
+		}
+
+		Assert.isTrue(isVisible);
 
 		result = new ModelAndView("article/user/display");
 		result.addObject("article", article);

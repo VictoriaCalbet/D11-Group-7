@@ -37,6 +37,9 @@
 	<spring:message code="message.moment" var="momentHeader" />
 	<display:column property="moment" title="${momentHeader}" sortable="true" />
 	
+	<spring:message code="message.priority" var="priorityHeader" />
+	<display:column property="priority" title="${priorityHeader}" sortable="true" />
+	
 	<spring:message code="message.sender" var="senderHeader" />
 	<display:column property="sender.userAccount.username" title="${senderHeader}" sortable="true" />
 
