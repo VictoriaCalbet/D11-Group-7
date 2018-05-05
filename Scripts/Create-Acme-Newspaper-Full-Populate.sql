@@ -14,7 +14,6 @@ create user 'acme-manager'@'%' identified by password '*FDB8CD304EB2317D10C95D79
 grant select, insert, update, delete on `Acme-Newspaper`.* to 'acme-user'@'%';
 grant select, insert, update, delete, create, drop, references, index, alter, create temporary tables, lock tables, create view, create routine, alter routine, execute, trigger, show view on `Acme-Newspaper`.* to 'acme-manager'@'%';
 
-
 -- MySQL dump 10.13  Distrib 5.5.29, for Win64 (x86)
 --
 -- Host: localhost    Database: Acme-Newspaper
@@ -801,6 +800,6 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-03 17:24:44
+-- Dump completed on 2018-05-05 23:09:42
 
 commit;
