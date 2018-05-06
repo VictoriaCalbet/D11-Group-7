@@ -16,7 +16,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 
 <div>
-	<a href=""><img src="images/logo.png"
+	<a href=""><img src="images/logo.jpg"
 		alt="Acme-Newspaper Co., Inc." height="180"/></a>
 </div>
 
