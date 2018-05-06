@@ -24,8 +24,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
+import domain.Advertisement;
 import domain.Article;
 import domain.Chirp;
+import domain.CreditCard;
 import domain.Newspaper;
 import domain.SystemConfiguration;
 
@@ -45,11 +47,13 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 	private UserService					userService;
 	@Autowired
 	private NewspaperService			newspaperService;
+	@Autowired
+	private AdvertisementService		advertisementService;
 
 
 	// Tests ------------------------------------------------------------------
 	/**
-	 * Acme-Newspaper: Requirement 17.1
+	 * Acme-Newspaper 1.0: Requirement 17.1
 	 * 
 	 * Manage a list of taboo words
 	 * 
@@ -101,7 +105,7 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 	}
 
 	/**
-	 * Acme-Newspaper: Requirement 17.1
+	 * Acme-Newspaper 1.0: Requirement 17.1
 	 * 
 	 * Manage a list of taboo words
 	 * 
@@ -153,7 +157,7 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 		this.checkExceptions(expectedException, caught);
 	}
 	/**
-	 * Acme-Newspaper: Requirement 17.1
+	 * Acme-Newspaper 1.0: Requirement 17.1
 	 * 
 	 * Manage a list of taboo words
 	 * 
@@ -196,7 +200,7 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 		this.checkExceptions(expectedException, caught);
 	}
 	/**
-	 * Acme-Newspaper: Requirement 17.3
+	 * Acme-Newspaper 1.0: Requirement 17.3
 	 * 
 	 * List the newspapers that contain taboo words.
 	 * 
@@ -244,7 +248,7 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 		this.checkExceptions(expectedException, caught);
 	}
 	/**
-	 * Acme-Newspaper: Requirement 17.2
+	 * Acme-Newspaper 1.0: Requirement 17.2
 	 * 
 	 * List the articles that contain taboo words.
 	 * 
@@ -291,7 +295,7 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 		this.checkExceptions(expectedException, caught);
 	}
 	/**
-	 * Acme-Newspaper: Requirement 17.4
+	 * Acme-Newspaper 1.0: Requirement 17.4
 	 * 
 	 * List the chirps that contain taboo words.
 	 * 
@@ -315,7 +319,7 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.testGetTabooArticlesTemplate((String) testingData[i][0], (Class<?>) testingData[i][1]);
+			this.testGetTabooChirpsTemplate((String) testingData[i][0], (Class<?>) testingData[i][1]);
 
 	}
 
@@ -338,7 +342,54 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 
 		this.checkExceptions(expectedException, caught);
 	}
+	/**
+	 * Acme-Newspaper 2.0: Requirement 5.1
+	 * 
+	 * List the advertisements that contain taboo words in its title.
+	 * 
+	 * 
+	 * 
+	 * Positive test1: Admin get taboo Advertisement.
+	 * Negative test2: User1 try to get taboo Advertisement.
+	 * Negative test3: Unregistrered user try to get taboo Advertisement.
+	 */
+	@Test
+	public void testGetTabooAdvertisement() {
+		// actor, exception.
+		final Object[][] testingData = {
+			{
+				"admin", null
+			}, {
+				"user1", IllegalArgumentException.class
+			}, {
+				null, IllegalArgumentException.class
+			}
+		};
 
+		for (int i = 0; i < testingData.length; i++)
+			this.testGetTabooAdvertisementTemplate((String) testingData[i][0], (Class<?>) testingData[i][1]);
+
+	}
+
+	protected void testGetTabooAdvertisementTemplate(final String actor, final Class<?> expectedException) {
+		Class<?> caught = null;
+		try {
+			this.createAdvertisement("Sex");
+			this.authenticate(actor);
+			Collection<Advertisement> tabooAdvertisements;
+
+			tabooAdvertisements = this.systemConfigurationService.getTabooAdvertisements();
+			Assert.isTrue(tabooAdvertisements.size() == 1);
+			this.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		} finally {
+			this.unauthenticate();
+		}
+
+		this.checkExceptions(expectedException, caught);
+	}
 	protected void createNewspaper(final String title, final String description) {
 		this.authenticate("user1");
 		final Newspaper n = this.newspaperService.create();
@@ -364,4 +415,26 @@ public class SystemConfigurationServiceTest extends AbstractTest {
 		this.unauthenticate();
 		this.chirpService.flush();
 	}
+	protected void createAdvertisement(final String title) {
+		this.authenticate("agent1");
+		Advertisement advertisement;
+		advertisement = this.advertisementService.create();
+		advertisement.setBannerURL("http://www.bannerurl.com");
+		advertisement.setTargetPageURL("http://www.targetpage.com");
+		advertisement.setTitle(title);
+		advertisement.setNewspaper(this.newspaperService.findAll().iterator().next());
+		CreditCard creditCard;
+		creditCard = new CreditCard();
+		creditCard.setBrandName("VISA");
+		creditCard.setHolderName("Pepe");
+		creditCard.setExpirationMonth(2);
+		creditCard.setExpirationYear(2020);
+		creditCard.setNumber("4102960866754");
+		creditCard.setCvv(667);
+		advertisement.setCreditCard(creditCard);
+		this.advertisementService.saveFromCreate(advertisement);
+		this.unauthenticate();
+		this.advertisementService.flush();
+	}
+
 }
