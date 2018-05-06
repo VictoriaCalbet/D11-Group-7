@@ -90,10 +90,13 @@ public class VolumeService {
 
 		final Volume result;
 		final User principal = this.userService.findByPrincipal();
-
 		Assert.isTrue(volume.getUser() == principal, "message.error.volume.user.principal");
 
 		Assert.isTrue(principal.getVolumes().contains(volume), "message.error.volume.user.principal");
+
+		final Collection<Newspaper> newspapers = volume.getNewspapers();
+		for (final Newspaper newspaper : newspapers)
+			Assert.isTrue(newspaper.getPublicationDate() != null);
 
 		result = this.save(volume);
 
@@ -103,29 +106,32 @@ public class VolumeService {
 	public void addNewspaperToVolume(final int newspaperId, final int volumeId) {
 		Assert.notNull(newspaperId);
 		Assert.notNull(volumeId);
-		final Newspaper a = this.newspaperService.findOne(newspaperId);
+
+		final Newspaper newspaper = this.newspaperService.findOne(newspaperId);
+		Assert.isTrue(newspaper.getPublicationDate() != null);
 		final Volume v = this.volumeRepository.findOne(volumeId);
 		final User principal = this.userService.findByPrincipal();
 		Assert.isTrue(v.getUser() == principal);
 		final Collection<Newspaper> newspapers = v.getNewspapers();
-		Assert.isTrue(!newspapers.contains(a));
-		newspapers.add(a);
+		Assert.isTrue(!newspapers.contains(newspaper));
+		newspapers.add(newspaper);
 		v.setNewspapers(newspapers);
 		this.save(v);
 	}
 
-	public void deleteNewspaperToVolume(final int newspaperId, final int volumeId) {
+	public void deleteNewspaperFromVolume(final int newspaperId, final int volumeId) {
 
 		Assert.notNull(newspaperId);
 		Assert.notNull(volumeId);
 
-		final Newspaper b = this.newspaperService.findOne(newspaperId);
+		final Newspaper newspaper = this.newspaperService.findOne(newspaperId);
 		final Volume v = this.volumeRepository.findOne(volumeId);
 		final User principal = this.userService.findByPrincipal();
+		Assert.isTrue(newspaper.getPublicationDate() != null);
 		Assert.isTrue(v.getUser() == principal);
 		final Collection<Newspaper> newspapers = v.getNewspapers();
-		Assert.isTrue(newspapers.contains(b));
-		newspapers.remove(b);
+		Assert.isTrue(newspapers.contains(newspaper));
+		newspapers.remove(newspaper);
 		v.setNewspapers(newspapers);
 		this.save(v);
 

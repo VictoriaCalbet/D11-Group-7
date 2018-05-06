@@ -214,7 +214,7 @@ public class NewspaperUserController extends AbstractController {
 	public ModelAndView deleteNewspaper(@RequestParam final int newspaperId, @Param final int volumeId) {
 		ModelAndView result;
 		try {
-			this.volumeService.deleteNewspaperToVolume(newspaperId, volumeId);
+			this.volumeService.deleteNewspaperFromVolume(newspaperId, volumeId);
 			result = new ModelAndView("redirect:/volume/user/listMyVolumes.do");
 		} catch (final Throwable oops) {
 			String messageError = "newspaper.cancel.error";

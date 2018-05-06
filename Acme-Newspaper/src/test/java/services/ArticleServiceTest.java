@@ -150,7 +150,7 @@ public class ArticleServiceTest extends AbstractTest {
 		final Article a3 = this.articleService.findOne(this.getEntityId("article1"));
 		final Object testingData[][] = {
 
-			/** userPrincipal,articulo, periodico, title,summary,body,exception */
+			/** userPrincipal,article, newspaper, title,summary,body,exception */
 			{
 				"user2", a4, n4, "Title of article1", "Summary of article1", "Body of article1", null
 

@@ -45,7 +45,7 @@
 					</jstl:when>
 					<jstl:otherwise>
 						<spring:message code= "volume.noNewspapers" var="volumeNoNewspapers"/>
-							<jstl:out value="${newspaperNoArticles}"/> 
+							<jstl:out value="${volumeNoNewspapers}"/> 
 					</jstl:otherwise>
 				</jstl:choose>
 		</display:column>
