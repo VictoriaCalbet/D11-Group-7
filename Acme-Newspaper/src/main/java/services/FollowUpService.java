@@ -80,8 +80,8 @@ public class FollowUpService {
 
 		// Paso 2: persisto el resto de relaciones a las que el objeto FollowUp está relacionada.
 
-		result.getUser().getFollowUps().add(result);
-		result.getArticle().getFollowUps().add(result);
+		//		result.getUser().getFollowUps().add(result);
+		//		result.getArticle().getFollowUps().add(result);
 
 		return result;
 	}

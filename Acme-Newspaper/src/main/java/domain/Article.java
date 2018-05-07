@@ -20,6 +20,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.SafeHtml.WhiteListType;
@@ -85,6 +87,7 @@ public class Article extends DomainEntity {
 	@NotNull
 	@ElementCollection(fetch = FetchType.EAGER)
 	@EachURL
+	@Fetch(FetchMode.SELECT)
 	public Collection<String> getPictures() {
 		return this.pictures;
 	}
@@ -121,6 +124,7 @@ public class Article extends DomainEntity {
 	@Valid
 	@NotNull
 	@OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SELECT)
 	public Collection<FollowUp> getFollowUps() {
 		return this.followUps;
 	}

@@ -21,7 +21,6 @@
 
 <jsp:useBean id="now" class="java.util.Date"/>
 
-
 <div>
  <b><spring:message code="newspaper.title" />: </b><jstl:out value="${newspaper.title}" />
  <br/>
@@ -30,10 +29,8 @@
  <b><spring:message code="newspaper.picture" />:</b>
  <br/>
 
-		<jstl:if test="${newspaper.picture!=null}">	
-			<spring:url var="bannerURL" value="${newspaper.picture}"/>
-			<spring:message code="newspaper.picture" var="bannerURL2" />
-			<acme:image height="100" imageURL="newspaper.picture" width="100" codeError="newspaper.unspecifiedImage" imageNotFoundLocation="images/fotoNotFound.png"/>
+		<jstl:if test="${newspaper.picture!=null}">
+			<acme:image height="100" imageURL="${newspaper.picture}" width="100" codeError="newspaper.unspecifiedImage" imageNotFoundLocation="images/fotoNotFound.png"/>
 		</jstl:if>
 		<jstl:if test="${newspaper.picture==null}">
 			<spring:message code="newspaper.unspecifiedImage"/>
