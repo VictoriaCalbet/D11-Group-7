@@ -38,8 +38,8 @@
 	<spring:message code="newspaperSubscription.newspaper.description" var="newspaperDescriptionLabel"/>
 	<b><jstl:out value="${newspaperDescriptionLabel}"/>:&nbsp;</b><jstl:out value="${newspaperSubscription.newspaper.description}"/><br/><br/>
 	
-	<spring:message code="newspaperSubscription.newspaper.showArticles" var="newspaperShowArticlesLabel"/>
-	<a href="article/list.do?newspaperId=${newspaperSubscription.newspaper.id}"> <jstl:out value="${newspaperShowArticlesLabel}"/></a>
+<%-- 	<spring:message code="newspaperSubscription.newspaper.showArticles" var="newspaperShowArticlesLabel"/> --%>
+<%-- 	<a href="article/list.do?newspaperId=${newspaperSubscription.newspaper.id}"> <jstl:out value="${newspaperShowArticlesLabel}"/></a> --%>
 </fieldset>
 <br/>
 

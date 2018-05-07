@@ -60,8 +60,8 @@
 						</jstl:choose>
 					</td>
 					<td>
-						<spring:message code="volumeSubscription.volume.newspaper.showArticles" var="volumeSubscriptionVolumeShowArticles"/></b>
-						<a href="article/list.do?newspaperId=${row.id}"><jstl:out value="${volumeSubscriptionVolumeShowArticles}"/></a>
+<%-- 						<spring:message code="volumeSubscription.volume.newspaper.showArticles" var="volumeSubscriptionVolumeShowArticles"/></b> --%>
+<%-- 						<a href="article/list.do?newspaperId=${row.id}"><jstl:out value="${volumeSubscriptionVolumeShowArticles}"/></a> --%>
 					</td>
 				</tr>
 			</jstl:forEach>
