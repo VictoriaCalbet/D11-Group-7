@@ -1,0 +1,15 @@
+Notas sobre la revision final:
+
+-Comentar en el documento por qué se produce el pico en edit articles y list own articles.
+
+-Cuando le das a more info, siempre aparece la imagen por defecto cuando el enlace no existe, aun si metes una imagen con una URL que existe.
+
+-El ratio de newspaper con al menos un newspaper no se muestra; se ve con un hueco vacio.
+
+-Los follow-ups se crean dobles (en lugar de crear uno, se crean dos iguales)
+
+-Cuando pones dos imagenes seguidas, te salen 4 imagenes O_O O bien se guardan 2 veces, o bien se recuperan de la base de datos 2 veces.
+
+-Volumesuscripction/customer/display.do en el enlace de show articles no funciona. Al ser article/list.do, se muestra la barra de busqueda y devuelve todos los articles que puede ver, en lugar de los articles del periodico que deberian aparecer.
+
+-Ctrl+F al proyecto buscando newspaper.picture
