@@ -35,6 +35,12 @@
 	<spring:message code="chirp.description" var="descrip" />
 	<display:column title="${descrip}"><jstl:out value="${row.description}"></jstl:out></display:column>
 	
+	<spring:message code="chirp.publicationMoment" var="chirpPublicationMomentHeader"/>
+	<spring:message code="chirp.publicationMoment.pattern" var="datePattern"/>
+	<display:column title="${chirpPublicationMomentHeader}">
+		<fmt:formatDate value="${row.publicationMoment}" pattern="${datePattern}"/>
+	</display:column>
+	
 	<spring:message code="chirp.user" var="user" />
 	<display:column title="${user}"><jstl:out value="${row.user.name}"></jstl:out></display:column>
 
